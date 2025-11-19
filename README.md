@@ -1,39 +1,45 @@
-# Dezitech Engineering – Hero Scaffold
+# Dezitech Engineering – CRA + Tailwind
 
-Production-focused, minimal Vite + React + Tailwind starter for the Dezitech Engineering hero experience.
+This project is a Create React App rebuild of the Dezitech landing experience, fully wired with Tailwind CSS and Framer Motion.
 
-## Run locally
-1. `npm install`
-2. `npm run dev`
-3. Open the Vite dev server URL shown in the terminal.
+## Getting Started
 
-## Tech decisions
-- Vite + React for instant hydration and HMR.
-- Tailwind CSS for the shared design tokens (Dezitech red + grayscale palette).
-- Framer Motion for staged hero, CTA, and illustration motion with `prefers-reduced-motion` support.
+1. Install dependencies
+   ```bash
+   npm install
+   ```
+2. Start the development server
+   ```bash
+   npm start
+   ```
 
-## Asset mapping
-- The hero references `/assets/uploaded_screenshot.png`. Copy the provided screenshot from `/mnt/data/673882fb-e478-403d-b063-c6ef7d3d5bdd.png` into `public/assets/uploaded_screenshot.png` if it is not already present.
+The app runs at http://localhost:3000.
 
-## Structured data starter
-```jsonc
-// JSON-LD seed using contact & location data from https://www.dezitechengineering.com/contact.html
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Dezitech Engineering Pvt. Ltd.",
-  "email": "info@dezitechengineering.com",
-  "address": [
-    {
-      "@type": "PostalAddress",
-      "addressLocality": "Karad",
-      "addressCountry": "IN"
-    },
-    {
-      "@type": "PostalAddress",
-      "addressLocality": "Bristol",
-      "addressCountry": "UK"
-    }
-  ]
-}
+## Tailwind CSS
+- Tailwind is configured via `tailwind.config.js` with `./src/**/*.{js,jsx}` content scanning.
+- PostCSS integrates Tailwind and Autoprefixer through `postcss.config.js`.
+- Base directives live in `src/index.css`.
+
+## Available Scripts
+- `npm start` – launches the development server.
+- `npm run build` – builds the production bundle.
+- `npm test` – runs the Jest test runner.
+- `npm run eject` – exposes the CRA configuration (irreversible).
+
+## Project Structure
 ```
+public/
+  index.html
+  favicon.ico
+src/
+  index.js
+  App.js
+  App.css
+  index.css
+  components/
+    DezitechHero.jsx
+```
+
+## Notes
+- Dezitech marketing copy is annotated with inline comments referencing its source URLs.
+- Framer Motion powers subtle hero micro-interactions.
