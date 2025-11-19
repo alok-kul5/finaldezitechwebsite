@@ -1,12 +1,8 @@
-import './App.css';
-import DezitechHero from './components/DezitechHero';
+import "./App.css";
+import DezitechHome from "./components/DezitechHome";
 
 function App() {
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <DezitechHero />
-    </div>
-  );
+  return <DezitechHome />;
 }
 
 export default App;
