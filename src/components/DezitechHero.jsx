@@ -97,6 +97,7 @@ function DezitechHero() {
 
   return (
     <section
+      id="hero"
       ref={heroRef}
       className="relative isolate overflow-hidden bg-dezitech-frost pb-16 pt-12 text-slate-900 dark:bg-dezitech-slate dark:text-white"
     >
@@ -160,7 +161,7 @@ function DezitechHero() {
 
           <motion.div className="flex flex-wrap gap-4 pt-4" variants={ctaVariants}>
             <motion.a
-              href="#services"
+                href="https://www.dezitechengineering.com/engineeringdesign.html"
               className="inline-flex items-center justify-center rounded-full bg-dezitech-red px-6 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow-lg shadow-dezitech-red/40 transition hover:drop-shadow-glow"
               variants={ctaVariants}
               whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
