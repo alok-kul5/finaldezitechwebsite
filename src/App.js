@@ -1,14 +1,20 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './App.css';
-import DezitechHome from './components/DezitechHome';
+import Nav from './components/Nav';
+import Hero from './components/Hero';
+import Services from './components/Services';
+import CaseStudies from './components/CaseStudies';
+import IndustriesStrip from './components/IndustriesStrip';
+import ContactForm from './components/ContactForm';
+import Footer from './components/Footer';
 import SiteLoader from './components/SiteLoader';
+import Section from './components/Section';
 import usePrefersReducedMotion from './hooks/usePrefersReducedMotion';
 
 const metaTitle = 'Dezitech Engineering'; // Taken from https://dezitechengineering.com/
 const metaDescription = 'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!'; // Taken from https://dezitechengineering.com/
 const ACCENT_INTERVAL_MS = 9000; // Alternates the hero/nav accent roughly every 9 seconds (configurable to stay within the 8–12s spec).
-const LOADER_DURATION_MS = 2000; // Keeps the entry loader within the 1.4s–2.2s target window.
+const LOADER_DURATION_MS = 2300; // Premium loader lengthened to meet the 1.8s–2.4s brief.
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -59,21 +65,25 @@ function App() {
         onComplete={handleLoaderComplete}
         prefersReducedMotion={prefersReducedMotion}
         duration={LOADER_DURATION_MS}
+        skipAnimation={prefersReducedMotion}
       />
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <DezitechHome
-                accentMode={accentMode}
-                accentInterval={ACCENT_INTERVAL_MS}
-                prefersReducedMotion={prefersReducedMotion}
-              />
-            }
+      <div className="app-shell">
+        <Nav accentMode={accentMode} />
+        <main>
+          <Hero
+            accentMode={accentMode}
+            accentInterval={ACCENT_INTERVAL_MS}
+            prefersReducedMotion={prefersReducedMotion}
           />
-        </Routes>
-      </BrowserRouter>
+          <Services />
+          <CaseStudies />
+          <IndustriesStrip />
+          <Section id="contact" variant="dark" as="footer" className="contact-section">
+            <ContactForm />
+            <Footer />
+          </Section>
+        </main>
+      </div>
     </>
   );
 }

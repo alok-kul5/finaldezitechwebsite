@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { cardVariants, heroVariants } from '../lib/framerVariants';
+import { cardVariants, sectionStagger } from '../lib/framerVariants';
 import useStaggered from '../hooks/useStaggered';
+import Section from './Section';
 
 const services = [
   {
@@ -87,46 +88,37 @@ const Services = () => {
   const { ref, controls } = useStaggered({ threshold: 0.3 });
 
   return (
-    <section id="services" className="relative bg-charcoalSoft/40 py-24">
+    <Section id="services" variant="light">
       <motion.div
         ref={ref}
-        variants={heroVariants.section}
+        variants={sectionStagger}
         initial="hidden"
         animate={controls}
-        className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6"
+        className="section-shell"
       >
-        <header className="max-w-3xl space-y-4">
-          <p className="text-sm uppercase tracking-[0.4em] text-neutral-400">
+        <div className="section-header">
+          <p className="section-eyebrow">
             Engineering / Design Services {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
           </p>
-          <h2 className="text-3xl font-semibold leading-tight text-mist">
+          <h2 className="section-title">
             We solve technical challenges and provide resources to get new products faster to the market. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
           </h2>
-          <p className="text-base text-neutral-300">
+          <p className="section-description">
             New products need to be introduced ahead of the competition. Any delay means loosing business and money. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
           </p>
-        </header>
-        <div
-          role="list"
-          className="grid gap-6 md:grid-cols-2"
-        >
+        </div>
+        <div role="list" className="service-grid">
           {services.map((service) => (
-            <motion.article
-              key={service.key}
-              role="listitem"
-              tabIndex={0}
-              variants={cardVariants}
-              className="group rounded-3xl border border-white/10 bg-charcoal/60 p-6 transition duration-500 hover:-translate-y-2 hover:border-dezired/80 hover:shadow-card-hover focus:outline-none focus-visible:border-dezired"
-            >
-              <div className="flex flex-col gap-3">
-                <h3 className="text-xl font-semibold text-mist">{service.titleNode}</h3>
-                <p className="text-sm text-neutral-300">{service.descriptionNode}</p>
+            <motion.article key={service.key} role="listitem" variants={cardVariants} className="service-card">
+              <div className="service-card__body">
+                <h3>{service.titleNode}</h3>
+                <p>{service.descriptionNode}</p>
               </div>
             </motion.article>
           ))}
         </div>
       </motion.div>
-    </section>
+    </Section>
   );
 };
 

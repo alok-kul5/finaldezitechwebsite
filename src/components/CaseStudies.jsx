@@ -1,25 +1,26 @@
 import { motion } from 'framer-motion';
 import { fadeInUp } from '../lib/framerVariants';
 import useStaggered from '../hooks/useStaggered';
+import Section from './Section';
 
 const studies = [
   {
     title: 'Cryogenic Test Loop Digitization',
-    summary: 'Deployed IoT / Remote controller with two way communication for precision temperature systems.',
-    badge: 'Process Cooling',
-    tag: 'AI-enabled telemetry'
+    summary: 'Deployed IoT / Remote controller with two way communication for precision temperature systems.', // UX POLISH: generated
+    badge: 'Process Cooling', // UX POLISH: generated
+    tag: 'AI-enabled telemetry' // UX POLISH: generated
   },
   {
     title: 'EV Thermal Module Rapid Design',
-    summary: 'Blended mechanical and electrical resources to bridge skill gaps for an automotive launch.',
-    badge: 'Automotive',
-    tag: 'Hybrid resources'
+    summary: 'Blended mechanical and electrical resources to bridge skill gaps for an automotive launch.', // UX POLISH: generated
+    badge: 'Automotive', // UX POLISH: generated
+    tag: 'Hybrid resources' // UX POLISH: generated
   },
   {
     title: 'Natural Refrigerant Retrofit',
-    summary: 'Converted condensing units to CO2 / propane stacks to meet sustainability goals.',
-    badge: 'Sustainability',
-    tag: 'Natural refrigerants'
+    summary: 'Converted condensing units to CO2 / propane stacks to meet sustainability goals.', // UX POLISH: generated
+    badge: 'Sustainability', // UX POLISH: generated
+    tag: 'Natural refrigerants' // UX POLISH: generated
   }
 ];
 
@@ -27,7 +28,7 @@ const CaseStudies = () => {
   const { ref, controls } = useStaggered({ threshold: 0.25 });
 
   return (
-    <section id="solutions" className="bg-charcoalSoft/30 py-24">
+    <Section id="solutions" variant="dark">
       <div id="about" className="sr-only">
         Dezitech Engineering works as an extension of customers engineering team with 20+ years of experience across global programs. {/* Taken from https://dezitechengineering.com/about.html */}
       </div>
@@ -36,40 +37,31 @@ const CaseStudies = () => {
         variants={fadeInUp}
         initial="hidden"
         animate={controls}
-        className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6"
+        className="section-shell"
       >
-        <p className="text-sm uppercase tracking-[0.4em] text-neutral-400">
-          Solutions in motion {/* UX POLISH: generated — short */}
-        </p>
-        <h2 className="text-3xl font-semibold text-mist">
-          Continuous Innovation and technology development keeps organisations profitable and ahead of the competition. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
-        </h2>
-        <p className="max-w-3xl text-base text-neutral-300">
-          Without access all the resources, it is inevitable delaying product launch. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
-        </p>
-        <div className="overflow-x-auto pb-6">
-          <div className="flex snap-x snap-mandatory gap-6">
-            {studies.map((study) => (
-              <article
-                key={study.title}
-                className="min-w-[280px] max-w-sm snap-center rounded-3xl border border-white/10 bg-charcoal/60 p-6 shadow-card-hover"
-              >
-                <span className="text-xs font-semibold uppercase tracking-wide text-dezired">{study.badge} {/* UX POLISH: generated — short */}</span>
-                <h3 className="mt-4 text-2xl font-semibold text-mist">
-                  {study.title} {/* UX POLISH: generated — short */}
-                </h3>
-                <p className="mt-3 text-sm text-neutral-300">
-                  {study.summary} {/* UX POLISH: generated — short */}
-                </p>
-                <p className="mt-6 text-xs uppercase tracking-[0.3em] text-neutral-500">
-                  {study.tag} {/* UX POLISH: generated — short */}
-                </p>
-              </article>
-            ))}
-          </div>
+        <div className="section-header">
+          <p className="section-eyebrow">
+            Solutions in motion {/* UX POLISH: generated */}
+          </p>
+          <h2 className="section-title">
+            Continuous Innovation and technology development keeps organisations profitable and ahead of the competition. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
+          </h2>
+          <p className="section-description">
+            Without access all the resources, it is inevitable delaying product launch. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
+          </p>
+        </div>
+        <div className="case-carousel">
+          {studies.map((study) => (
+            <article key={study.title} className="case-card">
+              <span className="case-card__badge">{study.badge}</span>
+              <h3>{study.title}</h3>
+              <p>{study.summary}</p>
+              <p className="case-card__tag">{study.tag}</p>
+            </article>
+          ))}
         </div>
       </motion.div>
-    </section>
+    </Section>
   );
 };
 

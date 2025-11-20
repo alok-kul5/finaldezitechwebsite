@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { linkHoverVariants, navDrawerVariants, navVariants } from '../lib/framerVariants';
+import { navLinkVariants, navMenuItem, navMenuVariants, navShellVariants } from '../lib/framerVariants';
 
 const navLinks = [
   {
     href: '#home',
-    label: 'Home',
-    element: (
+    label: (
       <>
         Home {/* Taken from https://dezitechengineering.com/ */}
       </>
@@ -14,8 +13,7 @@ const navLinks = [
   },
   {
     href: '#services',
-    label: 'Services',
-    element: (
+    label: (
       <>
         Services {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
       </>
@@ -23,30 +21,23 @@ const navLinks = [
   },
   {
     href: '#solutions',
-    label: 'Solutions',
-    element: (
+    label: (
       <>
-        Solutions {/* Taken from https://dezitechengineering.com/ */}
+        Solutions {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
       </>
     )
   },
   {
     href: '#industries',
-    label: 'Industries',
-    element: (
+    label: (
       <>
         Industries {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
       </>
     )
-  }
-];
-
-const extendedNavLinks = [
-  ...navLinks,
+  },
   {
     href: '#about',
-    label: 'About',
-    element: (
+    label: (
       <>
         About {/* Taken from https://dezitechengineering.com/about.html */}
       </>
@@ -54,8 +45,7 @@ const extendedNavLinks = [
   },
   {
     href: '#contact',
-    label: 'Contact',
-    element: (
+    label: (
       <>
         Contact {/* Taken from https://dezitechengineering.com/contact.html */}
       </>
@@ -65,124 +55,93 @@ const extendedNavLinks = [
 
 const Nav = ({ accentMode = 'primary' }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    if (!open) return undefined;
-    document.body.style.setProperty('overflow', 'hidden');
-    return () => {
-      document.body.style.removeProperty('overflow');
+    if (!menuOpen) return undefined;
+    const close = (event) => {
+      if (event.key === 'Escape') {
+        setMenuOpen(false);
+      }
     };
-  }, [open]);
+    window.addEventListener('keydown', close);
+    return () => window.removeEventListener('keydown', close);
+  }, [menuOpen]);
 
   return (
     <motion.header
-      id="dezitech-nav"
-      aria-label="Main"
-      className={`nav-shell ${scrolled ? 'nav-shell--scrolled' : ''}`}
+      className={`dz-nav ${scrolled ? 'dz-nav--scrolled' : ''}`}
+      aria-label="Primary"
+      data-accent={accentMode}
       initial="hidden"
       animate="visible"
-      variants={navVariants}
+      variants={navShellVariants}
     >
-      <div className="nav-shell__inner">
-        <a href="#home" className="nav-shell__brand">
+      <div className="dz-nav__inner">
+        <a href="#home" className="dz-nav__brand" aria-label="Dezitech Engineering home">
           Dezitech Engineering {/* Taken from https://dezitechengineering.com/ */}
         </a>
-        <nav className="nav-shell__links" aria-label="Primary">
-          {extendedNavLinks.map((link) => (
+        <nav className="dz-nav__links" aria-label="Global">
+          {navLinks.map((link) => (
             <motion.a
-              key={link.label}
+              key={link.href}
               href={link.href}
-              className="nav-link"
-              variants={linkHoverVariants}
+              className="dz-nav__link"
+              variants={navLinkVariants}
               initial="rest"
               whileHover="hover"
               whileFocus="hover"
               whileTap="tap"
             >
-              <span>{link.element}</span>
-              <span className="nav-link__underline" aria-hidden="true" />
+              <span className="dz-nav__label">{link.label}</span>
+              <span className="dz-nav__underline" aria-hidden="true" />
             </motion.a>
           ))}
         </nav>
-        <div className="nav-shell__cta">
-          <a
-            href="mailto:info@dezitechengineering.com"
-            className="contact-pill"
-            data-accent={accentMode}
-          >
-            Contact Sales {/* Taken from https://dezitechengineering.com/contact.html */}
-          </a>
-        </div>
         <button
           type="button"
-          aria-controls="dezitech-menu"
-          aria-expanded={open}
-          onClick={() => setOpen((prev) => !prev)}
-          className="nav-shell__burger"
+          className="dz-nav__menu-trigger"
+          aria-expanded={menuOpen}
+          aria-controls="nav-flyout"
+          onClick={() => setMenuOpen((prev) => !prev)}
         >
-          <span className="sr-only">Open navigation {/* UX POLISH: generated — short */}</span>
-          <span />
-          <span />
+          <span className="dz-nav__menu-dot" aria-hidden="true" />
+          <span className="dz-nav__menu-dot" aria-hidden="true" />
+          <span className="dz-nav__menu-label">Menu {/* UX POLISH: generated */}</span>
         </button>
       </div>
       <AnimatePresence>
-        {open && (
-          <>
-            <motion.div
-              className="nav-shell__backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-              onClick={() => setOpen(false)}
-            />
-            <motion.aside
-              id="dezitech-menu"
-              className="nav-drawer"
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={navDrawerVariants}
-            >
-              <div className="nav-drawer__header">
-                <span>Menu</span>
-                <button type="button" onClick={() => setOpen(false)} className="nav-drawer__close">
-                  <span className="sr-only">Close menu {/* UX POLISH: generated — short */}</span>
-                  <span />
-                  <span />
-                </button>
-              </div>
-              <div className="nav-drawer__links">
-                {extendedNavLinks.map((link) => (
-                  <a
-                    key={`drawer-${link.label}`}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                  >
-                    {link.element}
-                  </a>
-                ))}
-              </div>
-              <a
-                href="mailto:info@dezitechengineering.com"
-                className="contact-pill contact-pill--drawer"
-                data-accent={accentMode}
-                onClick={() => setOpen(false)}
+        {menuOpen && (
+          <motion.div
+            id="nav-flyout"
+            className="dz-nav__flyout"
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={navMenuVariants}
+          >
+            {navLinks.map((link) => (
+              <motion.a
+                key={`flyout-${link.href}`}
+                href={link.href}
+                className="dz-nav__flyout-link"
+                variants={navMenuItem}
+                onClick={() => setMenuOpen(false)}
               >
-                Contact Sales {/* Taken from https://dezitechengineering.com/contact.html */}
-              </a>
-            </motion.aside>
-          </>
+                {link.label}
+              </motion.a>
+            ))}
+          </motion.div>
         )}
       </AnimatePresence>
+      {/* Nav built to match Meridian/Vantor feel; no contact CTA; source content from Dezitech pages when applicable */}
     </motion.header>
   );
 };
