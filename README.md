@@ -18,10 +18,10 @@ Create React App + Tailwind scaffold delivering the Dezitech Engineering site wi
 
 ## Stack & Structure
 - **React 18 + CRA** for zero-config DX.
-- **Tailwind CSS** (`tailwind.config.js`, `postcss.config.js`) for the deep charcoal palette, marquee animation, and focus rings.
-- **Framer Motion** (`src/lib/framerVariants.js`) paired with `src/hooks/useStaggered.js` + `src/hooks/usePrefersReducedMotion.js` keeps all motion on transforms/opacity and respects `prefers-reduced-motion`.
-- **Components** live in `src/components/` – highlights include the production `Nav`, alternating-accent `Hero`, GPU-only `SiteLoader`, lazy `Image` wrapper, and the existing content sections (`Services`, `IndustriesStrip`, `CaseStudies`, `ContactForm`, `Footer`, `DezitechHome`). Inline comments continue to cite Dezitech’s source URLs or mark custom copy as `// UX POLISH`.
-- **Assets** – `src/assets/uploaded_screenshot.png` maps to the user-supplied screenshot (`// Local test image: /mnt/data/6cbfb618-563c-43b5-8812-e5ad682f882b.png`). Drop in the production render or video poster there and the hero will update automatically.
+- **Tailwind CSS + custom CSS** (`src/index.css`) set the Dezitech Red / charcoal rhythm, the light/dark section alternation, backdrop blurs, and marquee animation.
+- **Framer Motion** (`src/lib/framerVariants.js`) + hooks (`src/hooks/useStaggered.js`, `src/hooks/useParallax.js`, `src/hooks/usePrefersReducedMotion.js`) keep all motion on transforms/opacity, slow the easings to cinematic tempos, and honor `prefers-reduced-motion`.
+- **Components** live in `src/components/` – highlights include the Meridian-style `Nav`, the red-panel `Hero`, a layered `SiteLoader`, the reusable `Section` wrapper (controls red/light/dark backgrounds), and an upgraded lazy `Image`.
+- **Assets** – `src/assets/uploaded_screenshot.png` maps to the user-supplied screenshot (`// Local test image: /mnt/data/6cbfb618-563c-43b5-8812-e5ad682f882b.png`). Swap the hero render by overwriting that file; the `Hero` imports it directly and documents the local path inline for reference.
 
 ```
 src/
@@ -44,26 +44,26 @@ src/
 ├── context/ThemeContext.js
 ├── hooks/
 │   ├── usePrefersReducedMotion.js
+│   ├── useParallax.js
 │   └── useStaggered.js
 └── lib/framerVariants.js
 ```
 
 ## Motion & Accent Controls
-- `ACCENT_INTERVAL_MS` inside `src/App.js` sets the hero/nav accent cadence (default ~9s). Set it to `0` to lock the brand in Dezitech red; values between 8000–12000 keep the premium alternating pulse.
-- `LOADER_DURATION_MS` controls how long `SiteLoader` stays on screen (default 2000ms to stay inside the 1.4s–2.2s brief).
-- The loader, hero, nav, and CTA animations all reuse variants from `src/lib/framerVariants.js` to keep micro-interactions consistent.
-- `SiteLoader` automatically skips when `prefers-reduced-motion` is enabled; the hero also halts its accent swap and parallax in that mode.
+- `ACCENT_INTERVAL_MS` inside `src/App.js` sets the subtle hero/nav accent cadence (default ~9 s). Set it to `0` to lock the scene in Dezitech red.
+- `LOADER_DURATION_MS` controls how long the layered `SiteLoader` runs (default 2300 ms to stay inside the 1.8 s–2.4 s cinematic brief). Shorten or extend it as needed.
+- `SiteLoader` accepts a `skipAnimation` prop (wired in `App.js`) so users with `prefers-reduced-motion` bypass the reveal instantly.
+- The nav, hero, loader, CTAs, and cards all pull from `src/lib/framerVariants.js`, which now ships the slower cubic-bezier curves requested in the brief.
+- `useParallax` keeps the hero visual floating only when motion is allowed; `useStaggered` (IntersectionObserver) still gates section reveals for performance.
 
 ## Imagery & Advanced Visuals
-- `src/components/Image.jsx` wraps `<picture>` / `<img>` with LQIP placeholders, lazy-loading (`loading="lazy"`), and graceful fallbacks. Use it anywhere you need a blurred placeholder by passing `src`, `alt`, and optional `sources`.
-- The hero visual layers use only `translate3d` parallax and `rotate` transforms. To bring in a heavier Lottie/GLTF asset, lazy-load it near the `<Image />` comment inside `Hero.jsx`:
-  ```jsx
-  const Visual = React.lazy(() => import('../visuals/AdvancedScene'));
-  <Suspense fallback={<div className="hero-visual__image-frame" />}>
-    <Visual />
-  </Suspense>
-  ```
-- Update `src/assets/uploaded_screenshot.png` with your production render (PNG/WEBP) to refresh the hero immediately. The comment in `Hero.jsx` also references the local `/mnt/data/6cbfb618-563c-43b5-8812-e5ad682f882b.png` path for quick testing.
+- `src/components/Image.jsx` now adds a warm tint/vignette treatment on top of its SVG LQIP placeholder and lazy-loading. Pass `sources` if you need art-directed breakpoints.
+- The hero visual’s `<Image />` still sits beside a comment showing exactly where to drop in a Lottie/GLTF scene if you want to switch from the placeholder screenshot.
+- Update `src/assets/uploaded_screenshot.png` with your production render (PNG/WEBP). Because the hero imports it directly, `npm start` will immediately show the new frame without code changes.
+
+## Loader & Section Rhythm
+- `src/components/SiteLoader.jsx` contains the new layered SVG stroke + geometric planes. Comments at the bottom explain how to swap the motif or fine-tune durations.
+- Top-level regions (`Hero`, `Services`, `CaseStudies`, `Industries`, `Contact/Foot`) are wrapped by `src/components/Section.jsx`, which enforces the red → light → dark → light → dark palette rhythm via a simple `variant` prop.
 
 ## Accessibility & SEO
 - Semantic regions (`<nav aria-label="Main">`, `<main>`, `<section>`), high-contrast focus outlines, and keyboard-friendly cards.

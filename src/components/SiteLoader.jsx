@@ -1,26 +1,36 @@
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { loaderVariants } from '../lib/framerVariants';
+import { loaderMotion } from '../lib/framerVariants';
 
-const DEFAULT_LOADER_DURATION = 1900; // Adjust this to lengthen/shorten the entry sequence.
+const DEFAULT_LOADER_DURATION = 2200;
 
-const SiteLoader = ({ active, onComplete, prefersReducedMotion, duration = DEFAULT_LOADER_DURATION }) => {
+const planes = [
+  { id: 'alpha', width: '42%', delay: 0 },
+  { id: 'beta', width: '26%', delay: 0.08 },
+  { id: 'gamma', width: '58%', delay: 0.16 }
+];
+
+const SiteLoader = ({
+  active,
+  onComplete,
+  prefersReducedMotion,
+  duration = DEFAULT_LOADER_DURATION,
+  skipAnimation = false
+}) => {
+  const shouldSkip = prefersReducedMotion || skipAnimation;
+
   useEffect(() => {
     if (!active) return undefined;
-
-    if (prefersReducedMotion) {
+    if (shouldSkip) {
       onComplete?.();
       return undefined;
     }
 
-    const timeout = window.setTimeout(() => {
-      onComplete?.();
-    }, duration);
-
+    const timeout = window.setTimeout(() => onComplete?.(), duration);
     return () => window.clearTimeout(timeout);
-  }, [active, duration, prefersReducedMotion, onComplete]);
+  }, [active, duration, onComplete, shouldSkip]);
 
-  if (!active || prefersReducedMotion) {
+  if (!active || shouldSkip) {
     return null;
   }
 
@@ -28,44 +38,56 @@ const SiteLoader = ({ active, onComplete, prefersReducedMotion, duration = DEFAU
     <AnimatePresence>
       {active && (
         <motion.div
-          className="site-loader"
+          className="cinematic-loader"
           role="status"
-          aria-label="Calibrating Dezitech experience"
+          aria-live="polite"
+          aria-label="Preparing Dezitech experience"
           initial="hidden"
           animate="visible"
           exit="exit"
-          variants={loaderVariants.backdrop}
+          variants={loaderMotion.backdrop}
         >
-          <motion.div className="site-loader__motif" variants={loaderVariants.motif}>
+          <div className="cinematic-loader__noise" aria-hidden="true" />
+          <motion.div className="cinematic-loader__motif" variants={loaderMotion.planes}>
             <motion.svg
-              width="260"
-              height="120"
-              viewBox="0 0 260 120"
-              fill="none"
+              className="cinematic-loader__mark"
+              viewBox="0 0 320 140"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
             >
-              {/* Swap the motif by replacing this stroke or swap the SVG entirely for a Lottie clip. */}
               <motion.path
-                d="M20 90V30H90C140 30 190 60 190 90C190 115 150 90 110 90H20Z"
-                stroke="var(--accent-active, #E10600)"
-                strokeWidth="4"
+                d="M30 100V40H140C210 40 275 70 275 100C275 120 230 100 175 100H30Z"
+                stroke="var(--color-loader-stroke)"
+                strokeWidth="5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                initial={{ opacity: 0, scaleX: 0.6 }}
-                animate={{ opacity: 1, scaleX: 1 }}
-                exit={{ opacity: 0, scaleX: 1.08 }}
-                style={{ transformOrigin: 'left center' }}
-                transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
+                variants={loaderMotion.stroke}
               />
             </motion.svg>
-            <motion.span className="site-loader__wordmark" variants={loaderVariants.wordmark}>
+            <div className="cinematic-loader__planes">
+              {planes.map((plane) => (
+                <motion.span
+                  key={plane.id}
+                  className="cinematic-loader__plane"
+                  style={{ width: plane.width }}
+                  variants={loaderMotion.plane}
+                  transition={{ delay: plane.delay }}
+                />
+              ))}
+            </div>
+            <motion.p className="cinematic-loader__label" variants={loaderMotion.wordmark}>
               Dezitech Engineering {/* Taken from https://dezitechengineering.com/ */}
-            </motion.span>
-            <p className="site-loader__hint">
-              Precision systems // human collaboration {/* UX POLISH: generated — short */}
-            </p>
+            </motion.p>
+            <motion.p className="cinematic-loader__tagline" variants={loaderMotion.wordmark}>
+              Longer reveal to set the premium tone {/* UX POLISH: generated */}
+            </motion.p>
+            <motion.div
+              className="cinematic-loader__reveal-mask"
+              variants={loaderMotion.revealMask}
+              aria-hidden="true"
+            />
           </motion.div>
+          {/* To swap timing or motif: adjust DEFAULT_LOADER_DURATION above, update planes[], or replace <motion.path>. */}
         </motion.div>
       )}
     </AnimatePresence>
