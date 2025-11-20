@@ -6,11 +6,15 @@ import CaseStudies from './CaseStudies';
 import ContactForm from './ContactForm';
 import Footer from './Footer';
 
-const DezitechHome = () => (
+const DezitechHome = ({ accentMode, prefersReducedMotion, accentInterval }) => (
   <div className="bg-charcoal text-mist">
-    <Nav />
+    <Nav accentMode={accentMode} />
     <main>
-      <Hero />
+      <Hero
+        accentMode={accentMode}
+        accentInterval={accentInterval}
+        prefersReducedMotion={prefersReducedMotion}
+      />
       <Services />
       {/* TODO: Dedicated Services/Products detail pages mount here when multi-page routing is introduced */}
       <IndustriesStrip />

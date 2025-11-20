@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import ThemeContext from '../context/ThemeContext';
-import { navVariants } from '../lib/framerVariants';
+import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { linkHoverVariants, navDrawerVariants, navVariants } from '../lib/framerVariants';
 
 const navLinks = [
   {
@@ -39,6 +38,19 @@ const navLinks = [
         Industries {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
       </>
     )
+  }
+];
+
+const extendedNavLinks = [
+  ...navLinks,
+  {
+    href: '#about',
+    label: 'About',
+    element: (
+      <>
+        About {/* Taken from https://dezitechengineering.com/about.html */}
+      </>
+    )
   },
   {
     href: '#contact',
@@ -51,8 +63,7 @@ const navLinks = [
   }
 ];
 
-const Nav = () => {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+const Nav = ({ accentMode = 'primary' }) => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -65,96 +76,113 @@ const Nav = () => {
 
   useEffect(() => {
     if (!open) return undefined;
-    const close = (event) => {
-      if (event.target.closest?.('#dezitech-nav')) return;
-      setOpen(false);
+    document.body.style.setProperty('overflow', 'hidden');
+    return () => {
+      document.body.style.removeProperty('overflow');
     };
-    window.addEventListener('click', close);
-    return () => window.removeEventListener('click', close);
   }, [open]);
 
   return (
     <motion.header
       id="dezitech-nav"
       aria-label="Main"
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'nav-blur' : 'bg-transparent'}`}
+      className={`nav-shell ${scrolled ? 'nav-shell--scrolled' : ''}`}
       initial="hidden"
       animate="visible"
       variants={navVariants}
     >
-      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
-        <a href="#home" className="text-lg font-semibold tracking-tight text-mist">
+      <div className="nav-shell__inner">
+        <a href="#home" className="nav-shell__brand">
           Dezitech Engineering {/* Taken from https://dezitechengineering.com/ */}
         </a>
-        <nav className="hidden lg:flex items-center gap-8 text-sm">
-          {navLinks.map((link) => (
-            <a
+        <nav className="nav-shell__links" aria-label="Primary">
+          {extendedNavLinks.map((link) => (
+            <motion.a
               key={link.label}
               href={link.href}
-              className="group relative font-medium text-neutral-300 transition hover:text-mist focus-visible:text-mist"
+              className="nav-link"
+              variants={linkHoverVariants}
+              initial="rest"
+              whileHover="hover"
+              whileFocus="hover"
+              whileTap="tap"
             >
-              {link.element}
-              <span className="absolute left-0 -bottom-1 h-0.5 w-full origin-left scale-x-0 bg-dezired transition-transform duration-300 group-hover:scale-x-100" />
-            </a>
+              <span>{link.element}</span>
+              <span className="nav-link__underline" aria-hidden="true" />
+            </motion.a>
           ))}
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className="px-3 py-2 rounded-full border border-white/10 text-xs uppercase tracking-wide text-neutral-300 hover:text-mist hover:border-dezired/60"
-          >
-            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'} {/* UX POLISH: generated — short */}
-          </button>
-          <a
-            href="#contact"
-            className="px-4 py-2 rounded-full bg-dezired text-mist font-semibold shadow-border-glow focus-visible:focus-ring"
-          >
-            Contact Sales {/* UX POLISH: generated — short */}
-          </a>
         </nav>
+        <div className="nav-shell__cta">
+          <a
+            href="mailto:info@dezitechengineering.com"
+            className="contact-pill"
+            data-accent={accentMode}
+          >
+            Contact Sales {/* Taken from https://dezitechengineering.com/contact.html */}
+          </a>
+        </div>
         <button
           type="button"
           aria-controls="dezitech-menu"
           aria-expanded={open}
           onClick={() => setOpen((prev) => !prev)}
-          className="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full border border-white/10 text-mist"
+          className="nav-shell__burger"
         >
-          <span className="sr-only">Toggle navigation {/* UX POLISH: generated — short */}</span>
-          <span className="w-5 h-0.5 bg-mist block mb-1"></span>
-          <span className="w-5 h-0.5 bg-mist block mb-1"></span>
-          <span className="w-5 h-0.5 bg-mist block"></span>
+          <span className="sr-only">Open navigation {/* UX POLISH: generated — short */}</span>
+          <span />
+          <span />
         </button>
       </div>
-      <div
-        id="dezitech-menu"
-        className={`lg:hidden grid gap-4 px-6 pb-6 transition-[max-height,opacity] duration-500 overflow-hidden ${
-          open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        {navLinks.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            onClick={() => setOpen(false)}
-            className="text-base font-medium text-neutral-200"
-          >
-            {link.element}
-          </a>
-        ))}
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className="justify-self-start px-4 py-2 rounded-full border border-white/10 text-neutral-200"
-        >
-          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'} {/* UX POLISH: generated — short */}
-        </button>
-        <a
-          href="#contact"
-          onClick={() => setOpen(false)}
-          className="inline-flex items-center justify-center rounded-full bg-dezired px-4 py-2 text-mist font-semibold"
-        >
-          Contact Sales {/* UX POLISH: generated — short */}
-        </a>
-      </div>
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              className="nav-shell__backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              onClick={() => setOpen(false)}
+            />
+            <motion.aside
+              id="dezitech-menu"
+              className="nav-drawer"
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={navDrawerVariants}
+            >
+              <div className="nav-drawer__header">
+                <span>Menu</span>
+                <button type="button" onClick={() => setOpen(false)} className="nav-drawer__close">
+                  <span className="sr-only">Close menu {/* UX POLISH: generated — short */}</span>
+                  <span />
+                  <span />
+                </button>
+              </div>
+              <div className="nav-drawer__links">
+                {extendedNavLinks.map((link) => (
+                  <a
+                    key={`drawer-${link.label}`}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.element}
+                  </a>
+                ))}
+              </div>
+              <a
+                href="mailto:info@dezitechengineering.com"
+                className="contact-pill contact-pill--drawer"
+                data-accent={accentMode}
+                onClick={() => setOpen(false)}
+              >
+                Contact Sales {/* Taken from https://dezitechengineering.com/contact.html */}
+              </a>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };

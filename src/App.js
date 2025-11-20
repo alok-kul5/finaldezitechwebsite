@@ -1,18 +1,19 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-import ThemeContext from './context/ThemeContext';
 import DezitechHome from './components/DezitechHome';
+import SiteLoader from './components/SiteLoader';
+import usePrefersReducedMotion from './hooks/usePrefersReducedMotion';
 
 const metaTitle = 'Dezitech Engineering'; // Taken from https://dezitechengineering.com/
 const metaDescription = 'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!'; // Taken from https://dezitechengineering.com/
+const ACCENT_INTERVAL_MS = 9000; // Alternates the hero/nav accent roughly every 9 seconds (configurable to stay within the 8–12s spec).
+const LOADER_DURATION_MS = 2000; // Keeps the entry loader within the 1.4s–2.2s target window.
 
 function App() {
-  const [theme, setTheme] = useState('dark');
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [accentMode, setAccentMode] = useState('primary');
+  const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
     document.title = metaTitle;
@@ -26,22 +27,54 @@ function App() {
     descriptionTag.setAttribute('content', metaDescription);
   }, []);
 
-  const value = useMemo(
-    () => ({
-      theme,
-      toggleTheme: () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
-    }),
-    [theme]
-  );
+  useEffect(() => {
+    document.documentElement.dataset.heroAccent = accentMode;
+  }, [accentMode]);
+
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setAccentMode('primary');
+      setShowLoader(false);
+      return undefined;
+    }
+
+    if (ACCENT_INTERVAL_MS <= 0) {
+      setAccentMode('primary');
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setAccentMode((prev) => (prev === 'primary' ? 'alt' : 'primary'));
+    }, ACCENT_INTERVAL_MS);
+
+    return () => window.clearInterval(intervalId);
+  }, [prefersReducedMotion]);
+
+  const handleLoaderComplete = () => setShowLoader(false);
 
   return (
-    <ThemeContext.Provider value={value}>
+    <>
+      <SiteLoader
+        active={showLoader}
+        onComplete={handleLoaderComplete}
+        prefersReducedMotion={prefersReducedMotion}
+        duration={LOADER_DURATION_MS}
+      />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<DezitechHome />} />
+          <Route
+            path="/"
+            element={
+              <DezitechHome
+                accentMode={accentMode}
+                accentInterval={ACCENT_INTERVAL_MS}
+                prefersReducedMotion={prefersReducedMotion}
+              />
+            }
+          />
         </Routes>
       </BrowserRouter>
-    </ThemeContext.Provider>
+    </>
   );
 }
 
