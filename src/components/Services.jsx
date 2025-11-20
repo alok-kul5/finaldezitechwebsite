@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { cardVariants, heroContainer } from '../lib/framerVariants';
+import { cardVariants, heroVariants } from '../lib/framerVariants';
 import useStaggered from '../hooks/useStaggered';
 
 const services = [
@@ -90,7 +90,7 @@ const Services = () => {
     <section id="services" className="relative bg-charcoalSoft/40 py-24">
       <motion.div
         ref={ref}
-        variants={heroContainer}
+        variants={heroVariants.section}
         initial="hidden"
         animate={controls}
         className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6"

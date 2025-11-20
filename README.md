@@ -18,10 +18,10 @@ Create React App + Tailwind scaffold delivering the Dezitech Engineering site wi
 
 ## Stack & Structure
 - **React 18 + CRA** for zero-config DX.
-- **Tailwind CSS** (`tailwind.config.js`, `postcss.config.js`) for the dark system palette, marquee animation, and focus rings.
-- **Framer Motion** (`src/lib/framerVariants.js`) paired with `src/hooks/useStaggered.js` + `src/hooks/usePrefersReducedMotion.js` for GPU-only transitions that respect `prefers-reduced-motion`.
-- **Components** live in `src/components/` (`Nav`, `Hero`, `Services`, `IndustriesStrip`, `CaseStudies`, `ContactForm`, `Footer`, `DezitechHome`). Inline comments tag every line of visible copy with its Dezitech source URL or `// UX POLISH` where bespoke microcopy was required.
-- **Assets** – `src/assets/uploaded_screenshot.png` references the user-supplied screenshot (`// local screenshot asset: /mnt/data/6cbfb618-563c-43b5-8812-e5ad682f882b.png`). Replace this file with the original image if available.
+- **Tailwind CSS** (`tailwind.config.js`, `postcss.config.js`) for the deep charcoal palette, marquee animation, and focus rings.
+- **Framer Motion** (`src/lib/framerVariants.js`) paired with `src/hooks/useStaggered.js` + `src/hooks/usePrefersReducedMotion.js` keeps all motion on transforms/opacity and respects `prefers-reduced-motion`.
+- **Components** live in `src/components/` – highlights include the production `Nav`, alternating-accent `Hero`, GPU-only `SiteLoader`, lazy `Image` wrapper, and the existing content sections (`Services`, `IndustriesStrip`, `CaseStudies`, `ContactForm`, `Footer`, `DezitechHome`). Inline comments continue to cite Dezitech’s source URLs or mark custom copy as `// UX POLISH`.
+- **Assets** – `src/assets/uploaded_screenshot.png` maps to the user-supplied screenshot (`// Local test image: /mnt/data/6cbfb618-563c-43b5-8812-e5ad682f882b.png`). Drop in the production render or video poster there and the hero will update automatically.
 
 ```
 src/
@@ -32,6 +32,8 @@ src/
 ├── assets/uploaded_screenshot.png
 ├── components/
 │   ├── Nav.jsx
+│   ├── SiteLoader.jsx
+│   ├── Image.jsx
 │   ├── Hero.jsx
 │   ├── Services.jsx
 │   ├── IndustriesStrip.jsx
@@ -46,13 +48,22 @@ src/
 └── lib/framerVariants.js
 ```
 
-## Advanced Visuals
-- The hero illustration uses layered parallax transforms only (`translate3d`). Swap in Lottie/GLTF by lazy-loading a heavy asset inside `HeroIllustration`:
+## Motion & Accent Controls
+- `ACCENT_INTERVAL_MS` inside `src/App.js` sets the hero/nav accent cadence (default ~9s). Set it to `0` to lock the brand in Dezitech red; values between 8000–12000 keep the premium alternating pulse.
+- `LOADER_DURATION_MS` controls how long `SiteLoader` stays on screen (default 2000ms to stay inside the 1.4s–2.2s brief).
+- The loader, hero, nav, and CTA animations all reuse variants from `src/lib/framerVariants.js` to keep micro-interactions consistent.
+- `SiteLoader` automatically skips when `prefers-reduced-motion` is enabled; the hero also halts its accent swap and parallax in that mode.
+
+## Imagery & Advanced Visuals
+- `src/components/Image.jsx` wraps `<picture>` / `<img>` with LQIP placeholders, lazy-loading (`loading="lazy"`), and graceful fallbacks. Use it anywhere you need a blurred placeholder by passing `src`, `alt`, and optional `sources`.
+- The hero visual layers use only `translate3d` parallax and `rotate` transforms. To bring in a heavier Lottie/GLTF asset, lazy-load it near the `<Image />` comment inside `Hero.jsx`:
   ```jsx
-  const Scene = React.lazy(() => import('../visuals/AdvancedScene'));
-  <Suspense fallback={<div className="h-full w-full bg-charcoal" />}> <Scene /> </Suspense>
+  const Visual = React.lazy(() => import('../visuals/AdvancedScene'));
+  <Suspense fallback={<div className="hero-visual__image-frame" />}>
+    <Visual />
+  </Suspense>
   ```
-- Keep replacements wrapped in `React.Suspense` and gate them behind `prefersReducedMotion` if they add non-trivial motion.
+- Update `src/assets/uploaded_screenshot.png` with your production render (PNG/WEBP) to refresh the hero immediately. The comment in `Hero.jsx` also references the local `/mnt/data/6cbfb618-563c-43b5-8812-e5ad682f882b.png` path for quick testing.
 
 ## Accessibility & SEO
 - Semantic regions (`<nav aria-label="Main">`, `<main>`, `<section>`), high-contrast focus outlines, and keyboard-friendly cards.

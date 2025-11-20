@@ -28,6 +28,9 @@ const CaseStudies = () => {
 
   return (
     <section id="solutions" className="bg-charcoalSoft/30 py-24">
+      <div id="about" className="sr-only">
+        Dezitech Engineering works as an extension of customers engineering team with 20+ years of experience across global programs. {/* Taken from https://dezitechengineering.com/about.html */}
+      </div>
       <motion.div
         ref={ref}
         variants={fadeInUp}
