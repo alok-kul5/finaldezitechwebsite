@@ -2,12 +2,12 @@
 import { motion } from 'framer-motion';
 import { heroVariants, textRevealVariants } from '../lib/framerVariants';
 import useStaggered from '../hooks/useStaggered';
-import useParallax from '../hooks/useParallax';
+import useParallax from '../animations/useParallax';
 import Section from './Section';
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 
 // Chunked text reveal for headline (word-by-word with mask)
-const ChunkedHeadline = ({ text, prefersReducedMotion }) => {
+const StaggeredHeadline = ({ text, prefersReducedMotion }) => {
   const words = text.split(' ');
   const { ref, controls } = useStaggered({ threshold: 0.2 });
 
@@ -50,8 +50,9 @@ const HeroVisual = ({ prefersReducedMotion }) => {
           className="hero-visual__image"
           loading="eager"
         />
-        {/* Placeholder: file:///mnt/data/07e1802d-75c4-4ea5-bbf4-0f9236852a9f.png */}
-        {/* TODO: Replace with hero video (16:9 mp4 loop) or high-res engineering renders */}
+        {/* Local placeholder: file:///mnt/data/07e1802d-75c4-4ea5-bbf4-0f9236852a9f.png (copied to public/assets/hero-placeholder.png) */}
+        {/* TODO: Replace with hero video (16:9 mp4 loop) or high-res engineering renders from Unsplash/Pexels */}
+        {/* Suggested queries: "industrial gearbox", "precision manufacturing", "industrial refrigeration" */}
         <div className="hero-visual__overlay" aria-hidden="true" />
         <svg className="hero-visual__decorative" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <motion.circle
@@ -93,7 +94,7 @@ const Hero = ({ prefersReducedMotion: prefersReducedMotionProp }) => {
             Engineering outsourcing solutions {/* Taken from https://dezitechengineering.com/ */}
           </motion.p>
           <motion.h1 className="dez-hero__title">
-            <ChunkedHeadline text={heroTitle} prefersReducedMotion={prefersReducedMotion} />
+            <StaggeredHeadline text={heroTitle} prefersReducedMotion={prefersReducedMotion} />
           </motion.h1>
           <motion.p className="dez-hero__subhead" variants={heroVariants.subhead}>
             {heroSubhead}

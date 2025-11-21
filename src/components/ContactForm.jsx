@@ -178,12 +178,12 @@ const ContactForm = () => {
             />
           </div>
           {submitStatus === 'success' && (
-            <div className="dez-contact__success" role="alert">
+            <div className="dez-contact__success" role="alert" aria-live="polite">
               Thank you! Your message has been sent.
             </div>
           )}
           {submitStatus === 'error' && Object.keys(errors).length > 0 && (
-            <div className="dez-contact__error-message" role="alert">
+            <div className="dez-contact__error-message" role="alert" aria-live="polite">
               Please correct the errors above.
             </div>
           )}
