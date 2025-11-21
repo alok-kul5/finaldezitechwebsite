@@ -1,9 +1,10 @@
+// src/components/Section.jsx
 import { forwardRef } from 'react';
 
 const Section = forwardRef(
   ({ as: Tag = 'section', variant = 'dark', padded = true, className = '', children, ...rest }, ref) => {
-    const classes = ['dz-section', `dz-section--${variant}`];
-    if (padded) classes.push('dz-section--padded');
+    const classes = ['dez-section', `dez-section--${variant}`];
+    if (padded) classes.push('dez-section--padded');
     if (className) classes.push(className);
 
     return (
@@ -13,5 +14,7 @@ const Section = forwardRef(
     );
   }
 );
+
+Section.displayName = 'Section';
 
 export default Section;

@@ -68,6 +68,7 @@ const Image = ({
         aria-hidden="true"
         style={{ opacity: isLoaded ? 0 : 1, backgroundImage: `url(${placeholderSrc})` }}
       />
+      {vignette && <span className="cinematic-image__vignette" aria-hidden="true" />}
       {vignette && <span className="cinematic-image__grade" aria-hidden="true" />}
     </figure>
   );

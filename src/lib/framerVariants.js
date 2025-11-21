@@ -1,7 +1,53 @@
+// Premium easing curves
 const cinematicEase = [0.22, 1, 0.36, 1];
 const floatEase = [0.16, 1, 0.3, 1];
 const microEase = [0.4, 0, 0.2, 1];
 
+// Text reveal variants for chunked word animations
+export const textRevealVariants = {
+  container: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1
+      }
+    }
+  },
+  word: {
+    hidden: {
+      opacity: 0,
+      y: 24,
+      clipPath: 'inset(0 0 100% 0)'
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      clipPath: 'inset(0 0 0% 0)',
+      transition: {
+        duration: 0.8,
+        ease: cinematicEase
+      }
+    }
+  },
+  char: {
+    hidden: {
+      opacity: 0,
+      y: 20
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: cinematicEase
+      }
+    }
+  }
+};
+
+// Nav variants
 export const navShellVariants = {
   hidden: { opacity: 0, y: -24 },
   visible: {
@@ -25,23 +71,8 @@ export const navLinkVariants = {
   }
 };
 
-export const navMenuVariants = {
-  hidden: { opacity: 0, y: -8, pointerEvents: 'none' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    pointerEvents: 'auto',
-    transition: { duration: 0.45, ease: cinematicEase, staggerChildren: 0.06 }
-  },
-  exit: { opacity: 0, y: -8, transition: { duration: 0.3, ease: cinematicEase } }
-};
-
-export const navMenuItem = {
-  hidden: { opacity: 0, y: 8 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: cinematicEase } }
-};
-
-export const heroMotion = {
+// Hero variants with text reveal support
+export const heroVariants = {
   container: {
     hidden: { opacity: 0, y: 36 },
     visible: {
@@ -55,8 +86,56 @@ export const heroMotion = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.65, ease: cinematicEase } }
   },
   headline: {
-    hidden: { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: cinematicEase } }
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.06,
+        delayChildren: 0.2
+      }
+    }
+  },
+  headlineContainer: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.3
+      }
+    }
+  },
+  headlineLine: {
+    hidden: {
+      opacity: 0,
+      y: 24,
+      clipPath: 'inset(0 0 100% 0)'
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      clipPath: 'inset(0 0 0% 0)',
+      transition: {
+        duration: 0.8,
+        ease: cinematicEase
+      }
+    }
+  },
+  headlineWord: {
+    hidden: {
+      opacity: 0,
+      y: 32,
+      clipPath: 'inset(0 0 100% 0)'
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      clipPath: 'inset(0 0 0% 0)',
+      transition: {
+        duration: 0.9,
+        ease: cinematicEase
+      }
+    }
   },
   subhead: {
     hidden: { opacity: 0, y: 28 },
@@ -89,6 +168,10 @@ export const heroMotion = {
   }
 };
 
+// Legacy heroMotion for backward compatibility
+export const heroMotion = heroVariants;
+
+// Section stagger
 export const sectionStagger = {
   hidden: { opacity: 0, y: 36 },
   visible: {
@@ -98,18 +181,45 @@ export const sectionStagger = {
   }
 };
 
+// Card variants with entry animation
 export const cardVariants = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: cinematicEase } }
+  hidden: {
+    opacity: 0,
+    y: 28,
+    scale: 0.98
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.9,
+      ease: cinematicEase
+    }
+  },
+  hover: {
+    y: -8,
+    scale: 1.02,
+    transition: {
+      duration: 0.5,
+      ease: cinematicEase
+    }
+  }
 };
 
+// Fade in up
 export const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: cinematicEase } }
 };
 
+// Image reveal
 export const imageReveal = {
-  hidden: { opacity: 0, scale: 1.035, filter: 'blur(6px)' },
+  hidden: {
+    opacity: 0,
+    scale: 1.035,
+    filter: 'blur(6px)'
+  },
   visible: {
     opacity: 1,
     scale: 1,
@@ -118,11 +228,15 @@ export const imageReveal = {
   }
 };
 
-export const loaderMotion = {
+// Loader variants
+export const loaderVariants = {
   backdrop: {
     hidden: { opacity: 1 },
     visible: { opacity: 1 },
-    exit: { opacity: 0, transition: { duration: 0.6, ease: cinematicEase } }
+    exit: {
+      opacity: 0,
+      transition: { duration: 0.6, ease: cinematicEase }
+    }
   },
   stroke: {
     hidden: { pathLength: 0, opacity: 0 },
@@ -142,11 +256,20 @@ export const loaderMotion = {
   },
   plane: {
     hidden: { opacity: 0, y: 24, scale: 0.96 },
-    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: cinematicEase } }
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.7, ease: cinematicEase }
+    }
   },
   wordmark: {
     hidden: { opacity: 0, y: 12 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: cinematicEase, delay: 0.9 } }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: cinematicEase, delay: 0.9 }
+    }
   },
   revealMask: {
     hidden: { scaleY: 1 },
@@ -156,3 +279,6 @@ export const loaderMotion = {
     }
   }
 };
+
+// Legacy loaderMotion for backward compatibility
+export const loaderMotion = loaderVariants;

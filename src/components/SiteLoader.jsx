@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { loaderMotion } from '../lib/framerVariants';
+import { loaderVariants } from '../lib/framerVariants';
 
-const DEFAULT_LOADER_DURATION = 2200;
+const DEFAULT_LOADER_DURATION = 2000;
 
 const planes = [
   { id: 'alpha', width: '42%', delay: 0 },
@@ -45,10 +45,11 @@ const SiteLoader = ({
           initial="hidden"
           animate="visible"
           exit="exit"
-          variants={loaderMotion.backdrop}
+          variants={loaderVariants.backdrop}
         >
+          <div className="cinematic-loader__overlay" aria-hidden="true" />
           <div className="cinematic-loader__noise" aria-hidden="true" />
-          <motion.div className="cinematic-loader__motif" variants={loaderMotion.planes}>
+          <motion.div className="cinematic-loader__motif" variants={loaderVariants.planes}>
             <motion.svg
               className="cinematic-loader__mark"
               viewBox="0 0 320 140"
@@ -61,7 +62,8 @@ const SiteLoader = ({
                 strokeWidth="5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                variants={loaderMotion.stroke}
+                fill="none"
+                variants={loaderVariants.stroke}
               />
             </motion.svg>
             <div className="cinematic-loader__planes">
@@ -70,24 +72,23 @@ const SiteLoader = ({
                   key={plane.id}
                   className="cinematic-loader__plane"
                   style={{ width: plane.width }}
-                  variants={loaderMotion.plane}
+                  variants={loaderVariants.plane}
                   transition={{ delay: plane.delay }}
                 />
               ))}
             </div>
-            <motion.p className="cinematic-loader__label" variants={loaderMotion.wordmark}>
-              Dezitech Engineering {/* Taken from https://dezitechengineering.com/ */}
+            <motion.p className="cinematic-loader__label" variants={loaderVariants.wordmark}>
+              Dezitech Engineering {/* Source: https://dezitechengineering.com/ */}
             </motion.p>
-            <motion.p className="cinematic-loader__tagline" variants={loaderMotion.wordmark}>
-              Longer reveal to set the premium tone {/* UX POLISH: generated */}
+            <motion.p className="cinematic-loader__tagline" variants={loaderVariants.wordmark}>
+              Engineering Excellence {/* Source: https://dezitechengineering.com/ */}
             </motion.p>
             <motion.div
               className="cinematic-loader__reveal-mask"
-              variants={loaderMotion.revealMask}
+              variants={loaderVariants.revealMask}
               aria-hidden="true"
             />
           </motion.div>
-          {/* To swap timing or motif: adjust DEFAULT_LOADER_DURATION above, update planes[], or replace <motion.path>. */}
         </motion.div>
       )}
     </AnimatePresence>
