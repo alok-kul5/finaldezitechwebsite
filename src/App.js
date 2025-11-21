@@ -12,10 +12,10 @@ import SiteLoader from './components/SiteLoader';
 import Section from './components/Section';
 import usePrefersReducedMotion from './hooks/usePrefersReducedMotion';
 
-const metaTitle = 'Dezitech Engineering'; // Source: https://dezitechengineering.com/
+/* Taken from Dezitech homepage: https://dezitechengineering.com/ */
+const metaTitle = 'Dezitech Engineering';
 const metaDescription =
-  'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!'; // Source: https://dezitechengineering.com/
-/* Loader duration: configurable via REACT_APP_LOADER_MS (default 6000ms) */
+  'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!';
 /* Loader duration: configurable via REACT_APP_LOADER_MS (default 10000ms - 10 seconds) */
 const LOADER_DURATION_MS = parseInt(process.env.REACT_APP_LOADER_MS || '10000', 10);
 
