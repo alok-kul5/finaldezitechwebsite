@@ -3,38 +3,39 @@ import { motion } from 'framer-motion';
 import Section from './Section';
 import useStaggered from '../hooks/useStaggered';
 import { sectionStagger } from '../lib/framerVariants';
-import useParallax from '../hooks/useParallax';
-import Image from './Image';
+import ImageWithPlaceholder from './ImageWithPlaceholder';
 
 const industries = [
   {
     name: 'Automotive', // Taken from https://dezitechengineering.com/engineeringdesign.html
     image: '/assets/hero-placeholder.png'
+    // TODO: Replace with curated Unsplash/Pexels image (query: "automotive engineering", "car manufacturing")
   },
   {
     name: 'Industrial', // Taken from https://dezitechengineering.com/engineeringdesign.html
     image: '/assets/hero-placeholder.png'
+    // TODO: Replace with curated Unsplash/Pexels image (query: "industrial machinery", "manufacturing equipment")
   },
   {
     name: 'HVAC & R', // Taken from https://dezitechengineering.com/engineeringdesign.html
     image: '/assets/hero-placeholder.png'
+    // TODO: Replace with curated Unsplash/Pexels image (query: "HVAC system", "refrigeration unit")
   },
   {
     name: 'Oil & Gas', // Taken from https://dezitechengineering.com/engineeringdesign.html
     image: '/assets/hero-placeholder.png'
+    // TODO: Replace with curated Unsplash/Pexels image (query: "oil and gas industry", "petroleum engineering")
   },
   {
     name: 'Aviation', // Taken from https://dezitechengineering.com/engineeringdesign.html
     image: '/assets/hero-placeholder.png'
+    // TODO: Replace with curated Unsplash/Pexels image (query: "aviation engineering", "aircraft manufacturing")
   }
 ];
 
 const IndustrySlide = ({ industry, index }) => {
-  const parallaxRef = useParallax({ strength: 8, scrollStrength: 0.04 });
-
   return (
     <motion.div
-      ref={parallaxRef}
       className="dez-industry-slide"
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
@@ -42,7 +43,7 @@ const IndustrySlide = ({ industry, index }) => {
       transition={{ duration: 0.6, delay: index * 0.1 }}
     >
       <div className="dez-industry-slide__image-wrapper">
-        <Image
+        <ImageWithPlaceholder
           src={industry.image}
           alt={`${industry.name} industry`}
           className="dez-industry-slide__image"
