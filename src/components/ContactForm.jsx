@@ -6,6 +6,7 @@ import { fadeInUp } from '../lib/framerVariants';
 const ContactForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', tel: '', message: '' });
   const [errors, setErrors] = useState({});
+  const [submitStatus, setSubmitStatus] = useState(null);
 
   const organizationJsonLd = useMemo(
     () => ({
@@ -44,6 +45,9 @@ const ContactForm = () => {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
+    if (submitStatus) {
+      setSubmitStatus(null);
+    }
   };
 
   const validate = () => {
@@ -62,10 +66,13 @@ const ContactForm = () => {
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setSubmitStatus('error');
       return;
     }
     // TODO: Implement form submission
     console.log('Form submitted:', formData);
+    setSubmitStatus('success');
+    setFormData({ name: '', email: '', tel: '', message: '' });
   };
 
   return (
@@ -98,48 +105,50 @@ const ContactForm = () => {
             components. {/* Taken from https://dezitechengineering.com/about.html */}
           </p>
         </div>
-        <form className="dez-contact__form" onSubmit={handleSubmit} noValidate>
-          <div className="dez-contact__field">
-            <label htmlFor="name">
-              Name {/* Taken from https://dezitechengineering.com/contact.html */}
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Enter your name"
-              required
-              aria-invalid={errors.name ? 'true' : 'false'}
-              aria-describedby={errors.name ? 'name-error' : undefined}
-            />
-            {errors.name && (
-              <span id="name-error" className="dez-contact__error" role="alert">
-                {errors.name}
-              </span>
-            )}
-          </div>
-          <div className="dez-contact__field">
-            <label htmlFor="email">
-              Email {/* Taken from https://dezitechengineering.com/contact.html */}
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              required
-              aria-invalid={errors.email ? 'true' : 'false'}
-              aria-describedby={errors.email ? 'email-error' : undefined}
-            />
-            {errors.email && (
-              <span id="email-error" className="dez-contact__error" role="alert">
-                {errors.email}
-              </span>
-            )}
+        <form className="dez-contact__form" onSubmit={handleSubmit} noValidate aria-live="polite">
+          <div className="dez-contact__form-row">
+            <div className="dez-contact__field">
+              <label htmlFor="name">
+                Name {/* Taken from https://dezitechengineering.com/contact.html */}
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter your name"
+                required
+                aria-invalid={errors.name ? 'true' : 'false'}
+                aria-describedby={errors.name ? 'name-error' : undefined}
+              />
+              {errors.name && (
+                <span id="name-error" className="dez-contact__error" role="alert">
+                  {errors.name}
+                </span>
+              )}
+            </div>
+            <div className="dez-contact__field">
+              <label htmlFor="email">
+                Email {/* Taken from https://dezitechengineering.com/contact.html */}
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                required
+                aria-invalid={errors.email ? 'true' : 'false'}
+                aria-describedby={errors.email ? 'email-error' : undefined}
+              />
+              {errors.email && (
+                <span id="email-error" className="dez-contact__error" role="alert">
+                  {errors.email}
+                </span>
+              )}
+            </div>
           </div>
           <div className="dez-contact__field">
             <label htmlFor="tel">
@@ -168,11 +177,22 @@ const ContactForm = () => {
               placeholder="Enter your message"
             />
           </div>
+          {submitStatus === 'success' && (
+            <div className="dez-contact__success" role="alert">
+              Thank you! Your message has been sent.
+            </div>
+          )}
+          {submitStatus === 'error' && Object.keys(errors).length > 0 && (
+            <div className="dez-contact__error-message" role="alert">
+              Please correct the errors above.
+            </div>
+          )}
           <button type="submit" className="dez-btn dez-btn--primary dez-contact__submit">
             Submit {/* Taken from https://dezitechengineering.com/contact.html */}
           </button>
         </form>
       </div>
+      {/* JSON-LD Organization snippet */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
     </motion.div>
   );

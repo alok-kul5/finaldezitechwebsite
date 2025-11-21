@@ -3,13 +3,13 @@ import { useEffect, useRef } from 'react';
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 
 const defaultConfig = {
-  strength: 12,
-  scrollStrength: 0.06,
+  strength: 10,
+  scrollStrength: 0.05,
   axis: 'both'
 };
 
 /**
- * Custom hook for parallax effect
+ * Custom hook for parallax effect (transform-only, pointer-based)
  * @param {Object} config - Configuration options
  * @param {number} config.strength - Mouse parallax strength
  * @param {number} config.scrollStrength - Scroll parallax strength
@@ -22,12 +22,13 @@ const useParallax = (config = {}) => {
   const frameRef = useRef(null);
   const vectorRef = useRef({ x: 0, y: 0, scroll: 0 });
   const prefersReducedMotion = usePrefersReducedMotion();
+  const isTouch = typeof window !== 'undefined' && 'ontouchstart' in window;
 
   useEffect(() => {
     const layer = layerRef.current;
     if (!layer) return undefined;
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || isTouch) {
       layer.style.transform = 'translate3d(0, 0, 0)';
       return undefined;
     }
@@ -76,10 +77,9 @@ const useParallax = (config = {}) => {
         window.cancelAnimationFrame(frameRef.current);
       }
     };
-  }, [axis, prefersReducedMotion, scrollStrength, strength]);
+  }, [axis, prefersReducedMotion, scrollStrength, strength, isTouch]);
 
   return layerRef;
 };
 
 export default useParallax;
-

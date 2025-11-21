@@ -1,156 +1,152 @@
-# CHANGES LOG - Dezitech Homepage UX/UI Overhaul
+# CHANGES LOG - Dezitech Homepage Premium Redesign
 
 ## Summary
-Complete redesign of Dezitech Engineering homepage to Awwwards-grade quality with restrained Dezitech red accents, alternating section backgrounds, premium animations, and improved typography.
+Complete Awwwards-grade redesign with shorter hero, typewriter animations, uniform service cards, horizontal scroll industries, clean contact form, and cinematic loader. All content sourced from official Dezitech pages with inline URL annotations.
 
-## Key Changes
+## Files Modified
 
-### 1. Hero Section
-- **Shortened height**: Changed from 100vh to 80vh for better viewport fit
-- **Wider text**: Max-width 55-60ch on desktop, responsive scaling
-- **Staggered headline**: Lines animate in sequence (typewriter/staggered reveal)
-- **Smaller text**: Reduced font sizes, improved line-height
-- **Image placeholder**: Uses `/public/assets/hero-placeholder.png`
-  - **Manual step required**: Copy the uploaded image (`file:///mnt/data/07e1802d-75c4-4ea5-bbf4-0f9236852a9f.png`) to `/public/assets/hero-placeholder.png`
-- **Background**: Dark maroon gradient instead of bright red
+### Components
+1. **src/components/Hero.jsx**
+   - Shortened to 72vh desktop / 55vh mobile
+   - Chunked word-by-word typewriter reveal for headline
+   - Right column with placeholder image + decorative SVG
+   - Max-width 55-60ch for headline text
+   - Entrance timing: loader → typewriter (~700ms) → subhead → CTAs
+   - Respects prefers-reduced-motion
 
-### 2. Navbar
-- **Centered menu**: Links centered with logo on left
-- **Tight uppercase**: Smaller, refined typography
-- **Subtle underline**: Red underline on hover (Meridian style)
-- **Scroll effects**: Shrinks height + glass blur on scroll
-- **Removed**: Hamburger menu and "Contact Sales" button
+2. **src/components/Navbar.jsx**
+   - Premium inline links (no hamburger, no Contact Sales)
+   - Centered menu with logo on left
+   - Scroll shrink + glass blur effect
+   - Meridian-style hover underline animation
+   - Keyboard focusable with visible focus ring
 
-### 3. Buttons
-- **Primary**: Dark charcoal with subtle dezired border, red glow on hover
-- **Secondary**: White outline on dark backgrounds
-- **Red accent**: Only on micro-interactions (hover borders, underlines)
+3. **src/components/Services.jsx**
+   - 3-column desktop, 2 tablet, 1 mobile grid
+   - Uniform card heights via flex column
+   - All content from engineeringdesign.html + refrigeration.html
 
-### 4. Services Cards
-- **Uniform heights**: CSS grid with equal-height cards
-- **Typewriter titles**: Small typewriter reveal on scroll
-- **Hover effects**: translateY(-8px) + soft shadow + subtle red border
-- **Typography**: Softer geometric font for titles, readable sans for body
-- **Spacing**: Consistent padding and gaps
+4. **src/components/ServiceCard.jsx**
+   - Typewriter reveal on card titles
+   - Hover: translateY(-8px) + scale 1.02 + dezired border
+   - Consistent spacing and typography
 
-### 5. Section Alternation
-- **Hero**: Dark maroon gradient (`#3E0E0B` → `#150808`)
-- **Services**: Clean white (`#F6F6F6`)
-- **Case Studies**: Charcoal (`#111111`)
-- **Industries**: Charcoal (`#111111`)
-- **Contact/Footer**: Charcoal (`#111111`)
+5. **src/components/Industries.jsx**
+   - Horizontal scroll snap with image placeholders
+   - Parallax on images as they scroll into view
+   - Fade overlays at edges
+   - Content from engineeringdesign.html
 
-### 6. Industries Section
-- **Premium marquee**: Horizontal scrolling strip
-- **Slow animation**: 50s linear infinite
-- **Typography**: Large, bold, elegant
+6. **src/components/ContactForm.jsx**
+   - Clean 2-column layout (name/email) on desktop, stacked mobile
+   - Client-side validation with inline error messages
+   - aria-live="polite" for status updates
+   - Neutral dark button with dezired stroke on hover
 
-### 7. Contact Form
-- **Clean layout**: Properly aligned labels and fields
-- **Validation**: Client-side validation with error messages
-- **Styling**: Consistent with design system
-- **Removed**: Odd overflow/ghost text
+7. **src/components/SiteLoader.jsx**
+   - Cinematic loader 1.6-2.0s duration
+   - SVG circle + path reveal with maroon → black wipe
+   - Respects prefers-reduced-motion
 
-### 8. Animations
-- **Slow & fluid**: Premium cinematic timing
-- **Transform + opacity only**: GPU-accelerated
-- **IntersectionObserver**: Heavy animations only in-view
-- **prefers-reduced-motion**: Full support throughout
+8. **src/components/CaseStudies.jsx**
+   - Updated to use new section classes
+   - Removed generated content, uses only Dezitech sources
 
-### 9. Typography
-- **Headlines**: Inter / Plus Jakarta Sans (softer, less condensed)
-- **Body**: Inter / Manrope (readable, medium weight)
-- **Improved line-heights**: Better readability
+### Animation Hooks
+9. **src/animations/typewriter.js**
+   - Chunk-based reveal (word-by-word)
+   - Fallback to instant for reduced-motion
 
-### 10. Spacing
-- **Tightened gaps**: No huge empty vertical spaces
-- **Generous but efficient**: Proper white space without waste
+10. **src/animations/useParallax.js**
+    - Transform-only parallax
+    - Disabled on touch devices and reduced-motion
 
-## Files Created/Modified
+11. **src/hooks/useStaggered.js**
+    - IntersectionObserver triggers animations only in-view
+    - Returns { ref, controls } for Framer Motion
 
-### New Files
-- `src/animations/typewriter.js` - Reusable typewriter hook
-- `src/animations/useParallax.js` - Parallax animation hook (moved from hooks/)
+### Variants & Config
+12. **src/lib/framerVariants.js**
+    - Updated loaderVariants timing (1.6-2.0s range)
+    - All variants use cubic-bezier(0.22, 1, 0.36, 1)
+    - Reduced-motion fallbacks included
 
-### Modified Components
-- `src/components/Navbar.jsx` - Complete redesign
-- `src/components/Hero.jsx` - Shorter, wider text, staggered headline
-- `src/components/Services.jsx` - Updated structure
-- `src/components/ServiceCard.jsx` - Typewriter titles, uniform heights
-- `src/components/Industries.jsx` - Premium marquee
-- `src/components/ContactForm.jsx` - Clean layout, validation
-- `src/components/Footer.jsx` - Updated styling
-- `src/components/Section.jsx` - New variants (maroon, white, charcoal, dark)
+13. **src/index.css**
+    - Hero height: 72vh desktop, 55vh mobile
+    - Industries scroll snap styles
+    - Contact form 2-column layout
+    - Loader overlay styles
+    - Section padding tightened (py-12 standard, py-20 hero)
 
-### Modified Configuration
-- `src/index.css` - Complete rewrite with new design system
-- `tailwind.config.js` - Extended palette with maroon gradients
-- `src/lib/framerVariants.js` - Added headlineContainer and headlineLine variants
-- `src/App.js` - Updated imports, removed accent mode logic
-- `README.md` - Updated documentation
+14. **tailwind.config.js**
+    - Extended colors: dezired, maroon, darkbg, charcoal, softwhite
+    - Added transition utilities and animations
+
+15. **src/App.js**
+    - Loader duration set to 1800ms (1.6-2.0s range)
+    - Meta title/description from Dezitech site
 
 ## Manual Steps Required
 
 1. **Add hero placeholder image**:
    ```bash
-   # Create assets directory if it doesn't exist
    mkdir -p public/assets
-   
-   # Copy the uploaded image to public/assets/hero-placeholder.png
-   # The image is at: file:///mnt/data/07e1802d-75c4-4ea5-bbf4-0f9236852a9f.png
+   # Copy file:///mnt/data/07e1802d-75c4-4ea5-bbf4-0f9236852a9f.png
+   # to public/assets/hero-placeholder.png
    ```
 
-2. **Verify imports**: All components should import correctly. If you see import errors:
-   - Check that `src/animations/typewriter.js` exists
-   - Verify `src/hooks/useParallax.js` still exists (Hero uses this path)
+2. **Install dependencies** (if needed):
+   ```bash
+   npm install
+   ```
 
-3. **Test responsive breakpoints**: 
-   - Navbar menu hides below 991px
-   - Hero grid becomes single column on mobile
-   - Contact form stacks on mobile
+## Commands to Run
 
-## Testing Checklist
+```bash
+# Install dependencies
+npm install
 
-- [ ] Hero loads with placeholder image
-- [ ] Navbar shrinks and blurs on scroll
-- [ ] Headline animates in staggered lines
-- [ ] Service cards have uniform heights
-- [ ] Card titles typewriter on scroll
-- [ ] Industries marquee scrolls smoothly
-- [ ] Contact form validates correctly
-- [ ] All sections alternate backgrounds correctly
-- [ ] Buttons use muted styles (no bright red)
-- [ ] Animations respect prefers-reduced-motion
-- [ ] All content has source URL comments
+# Start development server
+npm start
 
-## Design References Applied
+# Build for production
+npm run build
 
-- Awwwards "Clean" collection styling
-- Meridian.com navigation style
-- Vantor.com premium feel
-- 73-strings.mdxpreview.xyz marquee
-- Vision.avatr.com spacing
-- Monads.ch elegance
-- Styleframe.de energy
-- VistaEnergy.com positive tone
-- IntegratedBiosciences.com layout
+# Preview production build
+npm run build && npm run preview
+```
 
-## Color Usage
+## Design Features Implemented
 
-- **Dezitech Red (#E10600)**: Used sparingly as accent only
-  - Thin strokes on buttons
-  - Hover border glows
-  - Underline animations
-  - Small highlights
-- **Maroon Gradient**: Hero background (subtle, not bright)
-- **Charcoal/Black**: Primary dark backgrounds
-- **White**: Clean section backgrounds
+- **Hero**: Shorter (72vh), wider text (55-60ch), chunked typewriter reveal
+- **Navbar**: Centered links, scroll blur, Meridian-style hover
+- **Buttons**: Muted charcoal primary with dezired stroke (no bright red)
+- **Cards**: Uniform heights, typewriter titles, hover lift with red border
+- **Industries**: Horizontal scroll snap with parallax images
+- **Contact**: Clean 2-column form with validation
+- **Loader**: Cinematic 1.6-2.0s maroon → black reveal
+- **Sections**: Alternating maroon → white → charcoal backgrounds
 
-## Performance Notes
+## Content Sources
 
-- All animations use transform + opacity (GPU-accelerated)
-- IntersectionObserver prevents off-screen animations
+All text content includes inline source URL comments from:
+- https://dezitechengineering.com/
+- https://dezitechengineering.com/about.html
+- https://dezitechengineering.com/engineeringdesign.html
+- https://dezitechengineering.com/refrigeration.html
+- https://dezitechengineering.com/contact.html
+
+## Accessibility
+
+- Semantic HTML with proper ARIA labels
+- Keyboard navigation support
+- Focus states with dezired outline
+- prefers-reduced-motion support throughout
+- aria-live regions for dynamic content
+
+## Performance
+
+- Transform + opacity animations only (GPU-accelerated)
+- IntersectionObserver for scroll-triggered animations
 - Lazy loading for images
-- Reduced motion support throughout
-- Optimized bundle size
-
+- Reduced motion support

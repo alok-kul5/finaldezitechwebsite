@@ -235,7 +235,7 @@ export const loaderVariants = {
     visible: { opacity: 1 },
     exit: {
       opacity: 0,
-      transition: { duration: 0.6, ease: cinematicEase }
+      transition: { duration: 0.5, ease: cinematicEase }
     }
   },
   stroke: {
@@ -243,39 +243,39 @@ export const loaderVariants = {
     visible: {
       pathLength: 1,
       opacity: 1,
-      transition: { duration: 1.2, ease: cinematicEase }
+      transition: { duration: 1.0, ease: cinematicEase }
     }
   },
   planes: {
-    hidden: { opacity: 0, scale: 1.1 },
+    hidden: { opacity: 0, scale: 1.05 },
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.8, ease: cinematicEase, delay: 0.4, staggerChildren: 0.08 }
+      transition: { duration: 0.7, ease: cinematicEase, delay: 0.3, staggerChildren: 0.06 }
     }
   },
   plane: {
-    hidden: { opacity: 0, y: 24, scale: 0.96 },
+    hidden: { opacity: 0, y: 20, scale: 0.96 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 0.7, ease: cinematicEase }
+      transition: { duration: 0.6, ease: cinematicEase }
     }
   },
   wordmark: {
-    hidden: { opacity: 0, y: 12 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: cinematicEase, delay: 0.9 }
+      transition: { duration: 0.5, ease: cinematicEase, delay: 0.7 }
     }
   },
   revealMask: {
     hidden: { scaleY: 1 },
     visible: {
       scaleY: 0,
-      transition: { duration: 0.6, ease: cinematicEase, delay: 1.4 }
+      transition: { duration: 0.5, ease: cinematicEase, delay: 1.2 }
     }
   }
 };

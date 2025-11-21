@@ -14,6 +14,7 @@ module.exports = {
         deziredLight: '#FF1A0D',
         maroon: '#3E0E0B',
         maroonDark: '#150808',
+        darkbg: '#0A0A0A',
         white: '#F6F6F6',
         black: '#0A0A0A',
         charcoal: '#0A0A0A',
@@ -22,6 +23,7 @@ module.exports = {
         grey2: '#222222',
         grey3: '#333333',
         greyLight: '#EDEDED',
+        softwhite: '#F6F6F6',
         mist: '#F6F6F6',
         graphite: '#808080'
       },

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 
 /**
- * Custom hook for typewriter effect
+ * Custom hook for chunk-based typewriter effect
  * @param {string} text - Text to type out
  * @param {Object} options - Configuration options
  * @param {number} options.speed - Typing speed in ms per character
@@ -15,7 +15,7 @@ const useTypewriter = (text = '', options = {}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (!enabled) {
+    if (!enabled || !text) {
       setDisplayedText(text);
       setCurrentIndex(text.length);
       return;
@@ -32,12 +32,13 @@ const useTypewriter = (text = '', options = {}) => {
 
   // Reset when text changes
   useEffect(() => {
-    setDisplayedText('');
-    setCurrentIndex(0);
+    if (text) {
+      setDisplayedText('');
+      setCurrentIndex(0);
+    }
   }, [text]);
 
   return displayedText;
 };
 
 export default useTypewriter;
-

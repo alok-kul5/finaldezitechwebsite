@@ -1,14 +1,9 @@
+// src/components/SiteLoader.jsx
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { loaderVariants } from '../lib/framerVariants';
 
-const DEFAULT_LOADER_DURATION = 2000;
-
-const planes = [
-  { id: 'alpha', width: '42%', delay: 0 },
-  { id: 'beta', width: '26%', delay: 0.08 },
-  { id: 'gamma', width: '58%', delay: 0.16 }
-];
+const DEFAULT_LOADER_DURATION = 1800; // 1.6-2.0s range
 
 const SiteLoader = ({
   active,
@@ -41,47 +36,40 @@ const SiteLoader = ({
           className="cinematic-loader"
           role="status"
           aria-live="polite"
-          aria-label="Preparing Dezitech experience"
+          aria-label="Loading Dezitech Engineering"
           initial="hidden"
           animate="visible"
           exit="exit"
           variants={loaderVariants.backdrop}
         >
           <div className="cinematic-loader__overlay" aria-hidden="true" />
-          <div className="cinematic-loader__noise" aria-hidden="true" />
           <motion.div className="cinematic-loader__motif" variants={loaderVariants.planes}>
             <motion.svg
               className="cinematic-loader__mark"
-              viewBox="0 0 320 140"
+              viewBox="0 0 200 200"
               xmlns="http://www.w3.org/2000/svg"
               aria-hidden="true"
             >
-              <motion.path
-                d="M30 100V40H140C210 40 275 70 275 100C275 120 230 100 175 100H30Z"
-                stroke="var(--color-loader-stroke)"
-                strokeWidth="5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+              <motion.circle
+                cx="100"
+                cy="100"
+                r="80"
                 fill="none"
+                stroke="var(--clr-mist)"
+                strokeWidth="2"
+                variants={loaderVariants.stroke}
+              />
+              <motion.path
+                d="M100 20 L100 100 L180 100"
+                fill="none"
+                stroke="var(--clr-dezired)"
+                strokeWidth="2"
+                strokeLinecap="round"
                 variants={loaderVariants.stroke}
               />
             </motion.svg>
-            <div className="cinematic-loader__planes">
-              {planes.map((plane) => (
-                <motion.span
-                  key={plane.id}
-                  className="cinematic-loader__plane"
-                  style={{ width: plane.width }}
-                  variants={loaderVariants.plane}
-                  transition={{ delay: plane.delay }}
-                />
-              ))}
-            </div>
             <motion.p className="cinematic-loader__label" variants={loaderVariants.wordmark}>
-              Dezitech Engineering {/* Source: https://dezitechengineering.com/ */}
-            </motion.p>
-            <motion.p className="cinematic-loader__tagline" variants={loaderVariants.wordmark}>
-              Engineering Excellence {/* Source: https://dezitechengineering.com/ */}
+              Dezitech Engineering {/* Taken from https://dezitechengineering.com/ */}
             </motion.p>
             <motion.div
               className="cinematic-loader__reveal-mask"

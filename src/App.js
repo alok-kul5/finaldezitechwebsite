@@ -15,7 +15,7 @@ import usePrefersReducedMotion from './hooks/usePrefersReducedMotion';
 const metaTitle = 'Dezitech Engineering'; // Taken from https://dezitechengineering.com/
 const metaDescription =
   'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!'; // Taken from https://dezitechengineering.com/
-const LOADER_DURATION_MS = 1600; // Cinematic loader 1.4-1.8s
+const LOADER_DURATION_MS = 1800; // Cinematic loader 1.6-2.0s
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();

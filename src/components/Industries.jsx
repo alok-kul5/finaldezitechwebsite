@@ -3,17 +3,57 @@ import { motion } from 'framer-motion';
 import Section from './Section';
 import useStaggered from '../hooks/useStaggered';
 import { sectionStagger } from '../lib/framerVariants';
+import useParallax from '../hooks/useParallax';
+import Image from './Image';
 
 const industries = [
-  'Automotive', // Taken from https://dezitechengineering.com/engineeringdesign.html
-  'Industrial', // Taken from https://dezitechengineering.com/engineeringdesign.html
-  'HVAC & R', // Taken from https://dezitechengineering.com/engineeringdesign.html
-  'Oil & Gas', // Taken from https://dezitechengineering.com/engineeringdesign.html
-  'Aviation', // Taken from https://dezitechengineering.com/engineeringdesign.html
-  'Marine', // Taken from https://dezitechengineering.com/engineeringdesign.html
-  'Energy', // Taken from https://dezitechengineering.com/engineeringdesign.html
-  'Manufacturing' // Taken from https://dezitechengineering.com/engineeringdesign.html
+  {
+    name: 'Automotive', // Taken from https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/hero-placeholder.png'
+  },
+  {
+    name: 'Industrial', // Taken from https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/hero-placeholder.png'
+  },
+  {
+    name: 'HVAC & R', // Taken from https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/hero-placeholder.png'
+  },
+  {
+    name: 'Oil & Gas', // Taken from https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/hero-placeholder.png'
+  },
+  {
+    name: 'Aviation', // Taken from https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/hero-placeholder.png'
+  }
 ];
+
+const IndustrySlide = ({ industry, index }) => {
+  const parallaxRef = useParallax({ strength: 8, scrollStrength: 0.04 });
+
+  return (
+    <motion.div
+      ref={parallaxRef}
+      className="dez-industry-slide"
+      initial={{ opacity: 0, x: 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
+    >
+      <div className="dez-industry-slide__image-wrapper">
+        <Image
+          src={industry.image}
+          alt={`${industry.name} industry`}
+          className="dez-industry-slide__image"
+          loading="lazy"
+          vignette={true}
+        />
+      </div>
+      <div className="dez-industry-slide__tag">{industry.name}</div>
+    </motion.div>
+  );
+};
 
 const Industries = () => {
   const { ref, controls } = useStaggered({ threshold: 0.15 });
@@ -36,16 +76,16 @@ const Industries = () => {
             Industries. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
           </motion.h2>
         </div>
-        <div className="dez-industries__marquee-wrapper">
-          <div className="dez-industries__marquee" aria-label="Industries marquee">
+        <div className="dez-industries__scroll-wrapper">
+          <div className="dez-industries__scroll" aria-label="Industries scroll">
             <div className="dez-industries__track">
-              {[...industries, ...industries, ...industries].map((industry, index) => (
-                <span key={`${industry}-${index}`} className="dez-industries__item">
-                  {industry}
-                </span>
+              {[...industries, ...industries].map((industry, index) => (
+                <IndustrySlide key={`${industry.name}-${index}`} industry={industry} index={index} />
               ))}
             </div>
           </div>
+          <div className="dez-industries__fade-left" aria-hidden="true" />
+          <div className="dez-industries__fade-right" aria-hidden="true" />
         </div>
       </motion.div>
     </Section>

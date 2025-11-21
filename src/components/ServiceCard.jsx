@@ -6,7 +6,7 @@ import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 
 const ServiceCard = ({ title, description, sourceUrl, index = 0 }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const displayTitle = useTypewriter(title, { speed: 30, enabled: !prefersReducedMotion });
+  const displayTitle = useTypewriter(title, { speed: 35, enabled: !prefersReducedMotion });
 
   return (
     <motion.article
