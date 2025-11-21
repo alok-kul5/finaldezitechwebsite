@@ -1,75 +1,41 @@
-# Production Redo - Dezitech Engineering Homepage
+# Production Redo – Dezitech Engineering Homepage
 
-## Overview
-Complete production rebuild of the Dezitech Engineering homepage to Awwwards-grade standards with premium design, animations, and content sourced from official Dezitech pages.
+Premium rebuild delivering the Awwwards-grade homepage requirements: cinematic loader, alternating light/dark sections, real imagery, and strictly sourced Dezitech copy.
 
-## Files Modified/Created
+## Highlights
 
-### Components
-- **src/components/Navbar.jsx** - Updated with centered links, scroll blur, premium styling, and Meridian-style underline hover effects
-- **src/components/Hero.jsx** - Rebuilt with shorter height (72vh desktop, 56-60vh mobile), chunked text reveal animation, and proper visual placeholder
-- **src/components/Services.jsx** - Updated with uniform service cards and proper content annotations
-- **src/components/ServiceCard.jsx** - Updated with soft hover (translateY only, no tilt), typewriter animation for titles
-- **src/components/Industries.jsx** - Rebuilt with horizontal snap scroll, proper image lazy loading
-- **src/components/ContactForm.jsx** - Updated with two-column layout, labels above fields, proper validation, and aria-live success messages
-- **src/components/SiteLoader.jsx** - Updated with cinematic intro animation (1.6-2.0s duration)
-- **src/components/ImageWithPlaceholder.jsx** - NEW: Lazy-loaded image component with blur-up placeholder support
+- **Cinematic Loader** – `SiteLoader` now runs a 5 s (configurable) intro with layered sweeps and logo strokes, skipping instantly for `prefers-reduced-motion`.
+- **Navbar** – Centered link bar with Meridian-style underline, scroll blur, and subtle mailto chip only.
+- **Hero** – 70 vh split hero, chunked headline reveal, Dezitech-sourced subhead, parallax visual using `public/assets/hero-industrial.jpg`, plus `.hero--center` utility that automatically kicks in sub-900 px.
+- **Services & Cards** – Uniform grid (3/2/1), inline icons, `aria-describedby`, and verbatim copy from engineeringdesign/refrigeration pages.
+- **Industries Carousel** – Horizontal snap scroll with fade masks and locally cached Unsplash photography.
+- **Contact** – Two-column layout, inline validation (name/email/message), aria-live status block, and JSON-LD Organization schema.
+- **Image Pipeline** – `ImageWithPlaceholder` now uses IntersectionObserver + blur-up placeholder to lazy load transform-only `motion.img` elements.
+- **Variants & Hooks** – `heroVariants`, card hover, loader sweeps, and `useStaggered` all tuned for cinematic pacing with reduced-motion fallbacks.
 
-### Styles
-- **src/index.css** - Updated with proper CSS variables, Dezitech color palette, Awwwards-grade styles, and ImageWithPlaceholder component styles
+## New / Updated Assets (stored under `public/assets/`)
 
-### Configuration
-- **tailwind.config.js** - Extended with Dezitech color palette (dezired, maroon, charcoal, etc.), custom shadows, animations, and keyframes
+| File | Source |
+| --- | --- |
+| `hero-industrial.jpg` | https://images.unsplash.com/photo-1469474968028-56623f02e42e |
+| `industry-gearbox.jpg` | https://images.unsplash.com/photo-1503387762-592deb58ef4e |
+| `industry-refrigeration.jpg` | https://images.unsplash.com/photo-1520607162513-77705c0f0d4a |
+| `industry-control.jpg` | https://images.unsplash.com/photo-1506126613408-eca07ce68773 |
+| `industry-aviation.jpg` | https://images.unsplash.com/photo-1502877338535-766e1452684a |
 
-### Animations & Hooks
-- **src/lib/framerVariants.js** - Centralized Framer Motion variants with cinematic easing
-- **src/hooks/useStaggered.js** - IntersectionObserver hook for scroll-triggered animations
-- **src/animations/typewriter.js** - Chunk-based typewriter effect hook
-- **src/animations/useParallax.js** - Transform-only parallax hook (pointer-based, disabled on touch/reduced-motion)
+(Sources listed inline in components + README.)
 
-## Key Features
+## Testing
 
-### Design System
-- **Color Palette**: Dezitech red (#E10600) used sparingly as accent only
-- **Backgrounds**: Alternating sections (maroon/charcoal → white → charcoal → white → black)
-- **Typography**: Inter / Plus Jakarta Sans / Manrope with responsive clamp() sizing
-- **Spacing**: Tight, premium spacing throughout
+- `npm run build` (CRA) – ✅
+- Hero height verified at 70 vh desktop / ~58 vh mobile
+- Navbar blur + center alignment, no CTA clutter
+- Services/Industries cards respect hover translate only (no tilt)
+- Contact form validation + aria-live success/error messaging
+- Loader respects reduced-motion preference
 
-### Animations
-- **Hero**: Chunked word-by-word text reveal with staggered animation
-- **Cards**: Soft hover (translateY -8px, no tilt/3D transforms)
-- **Navbar**: Scroll-triggered blur and height reduction
-- **Loader**: Cinematic intro with maroon wipe/line sweep (1.6-2.0s)
-- **All animations**: Respect `prefers-reduced-motion`, transform + opacity only
+## Follow-ups
 
-### Content
-- All visible content sourced from Dezitech official pages with inline source URL comments
-- Missing content annotated with `// MISSING_ON_SITE: <field>` comments
-- Proper semantic HTML and ARIA attributes for accessibility
-
-### Images
-- Hero placeholder: `/assets/hero-placeholder.png` (copied from uploaded screenshot)
-- Industries: Placeholder images with TODO comments for Unsplash/Pexels replacements
-- Lazy loading with blur-up placeholders via ImageWithPlaceholder component
-
-### Performance
-- IntersectionObserver for scroll-triggered animations
-- Lazy loading for images
-- Transform + opacity-only animations
-- Proper `prefers-reduced-motion` support
-
-## Testing Checklist
-- [x] Hero fits with no overflow, uses placeholder image
-- [x] Sections alternate dark/white/charcoal as specified
-- [x] Cards are uniform, hover is soft only (no tilt)
-- [x] Loader plays then hero animations
-- [x] Contact form works with aria-live success message
-- [x] Build contains no CSS parse errors
-- [x] All content properly annotated with source URLs
-
-## Next Steps
-1. Replace placeholder images with curated Unsplash/Pexels images (queries provided in code comments)
-2. Implement form submission backend integration
-3. Add hero video (16:9 mp4 loop) as alternative to static image
-4. Test on various devices and browsers
-5. Performance audit and optimization
+1. Wire contact form to backend (Netlify Forms or custom API).
+2. Optional: swap hero image for branded mp4 loop.
+3. Extend industries carousel with CMS data when available.

@@ -2,7 +2,7 @@ import { useAnimation } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 import usePrefersReducedMotion from './usePrefersReducedMotion';
 
-const useStaggered = ({ threshold = 0.35, once = true } = {}) => {
+const useStaggered = ({ threshold = 0.35, once = true, rootMargin = '0px' } = {}) => {
   const controls = useAnimation();
   const ref = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -24,7 +24,7 @@ const useStaggered = ({ threshold = 0.35, once = true } = {}) => {
           }
         });
       },
-      { threshold }
+      { threshold, rootMargin }
     );
 
     if (ref.current) {
@@ -32,7 +32,7 @@ const useStaggered = ({ threshold = 0.35, once = true } = {}) => {
     }
 
     return () => observer.disconnect();
-  }, [controls, threshold, once, prefersReducedMotion]);
+  }, [controls, threshold, rootMargin, once, prefersReducedMotion]);
 
   return { ref, controls };
 };

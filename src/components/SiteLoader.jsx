@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { loaderVariants } from '../lib/framerVariants';
 
-const DEFAULT_LOADER_DURATION = 1800; // 1.6-2.0s range
+const DEFAULT_LOADER_DURATION = 5000; // 5s cinematic window — adjust to taste
 
 const SiteLoader = ({
   active,
@@ -43,6 +43,8 @@ const SiteLoader = ({
           variants={loaderVariants.backdrop}
         >
           <div className="cinematic-loader__overlay" aria-hidden="true" />
+          <motion.div className="cinematic-loader__sweep cinematic-loader__sweep--one" variants={loaderVariants.sweep} />
+          <motion.div className="cinematic-loader__sweep cinematic-loader__sweep--two" variants={loaderVariants.sweepDelayed} />
           <motion.div className="cinematic-loader__motif" variants={loaderVariants.planes}>
             <motion.svg
               className="cinematic-loader__mark"
@@ -69,7 +71,7 @@ const SiteLoader = ({
               />
             </motion.svg>
             <motion.p className="cinematic-loader__label" variants={loaderVariants.wordmark}>
-              Dezitech Engineering {/* Taken from https://dezitechengineering.com/ */}
+              Dezitech Engineering {/* Source: https://dezitechengineering.com/ */}
             </motion.p>
             <motion.div
               className="cinematic-loader__reveal-mask"

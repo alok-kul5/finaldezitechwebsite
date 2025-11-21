@@ -1,110 +1,70 @@
 # Dezitech Engineering – Premium Homepage
 
-Awwwards-grade React homepage for Dezitech Engineering with premium animations, restrained Dezitech red accents, and alternating section backgrounds.
+Awwwards-grade React homepage for Dezitech Engineering with cinematic motion, alternating dark/white sections, and sourced copy pulled verbatim from Dezitech’s official pages.
 
 ## Quickstart
 
-1. **Install dependencies** – `npm install`
-2. **Start development server** – `npm start`
-3. **Build for production** – `npm run build`
-4. **Preview production build** – `npm run build && npm run preview`
+1. `npm install`
+2. `npm run dev` *(alias for CRA start)*
+3. `npm run build`
 
-> The dev server runs on http://localhost:3000
+> Dev server: http://localhost:3000
 
 ## Scripts
 
-- `npm start` – Start CRA development server with hot reload
-- `npm run build` – Create production-optimized bundle
-- `npm run preview` – Serve the `build` folder locally
-- `npm test` – Run Jest test suite
-- `npm run eject` – Eject from CRA (irreversible)
+- `npm start` – CRA dev server
+- `npm run dev` – Convenience alias for `npm start`
+- `npm run build` – Production bundle (used for deployments)
+- `npm test` – CRA/Jest smoke tests
+- `npm run eject` – CRA eject (irreversible)
 
 ## Stack & Structure
 
-- **React 18 + CRA** – Zero-config development experience
-- **Tailwind CSS + Custom CSS** – Dezitech brand palette with restrained red accents
-- **Framer Motion** – Premium, slow animations (transform + opacity only)
-- **Custom Hooks** – `useStaggered`, `useParallax`, `useTypewriter` for reusable animations
+- **React 18 + CRA**
+- **Tailwind CSS + handcrafted CSS** (Dezitech palette baked into variables)
+- **Framer Motion** for transform + opacity animations only
+- **Custom hooks**: `useStaggered`, `useParallax`, `useTypewriter`, `usePrefersReducedMotion`
+- **Lazy imagery**: `ImageWithPlaceholder` uses IntersectionObserver blur-up
 
 ```
 src/
-├── App.js
-├── index.css
-├── components/
-│   ├── Navbar.jsx
-│   ├── Hero.jsx
-│   ├── Services.jsx
-│   ├── ServiceCard.jsx
-│   ├── Industries.jsx
-│   ├── CaseStudies.jsx
-│   ├── ContactForm.jsx
-│   ├── Footer.jsx
-│   └── Section.jsx
-├── animations/
-│   ├── typewriter.js
-│   └── useParallax.js
-├── hooks/
-│   ├── useStaggered.js
-│   └── usePrefersReducedMotion.js
-└── lib/
-    └── framerVariants.js
+├── components/ (Navbar, Hero, Services, Industries, Contact, etc.)
+├── animations/ (typewriter, useParallax)
+├── hooks/ (useStaggered, usePrefersReducedMotion)
+└── lib/framerVariants.js
 ```
 
 ## Design System
 
-### Colors
-- **Dezitech Red** (accent only): `#E10600`
-- **Maroon Gradient**: `#3E0E0B` → `#150808`
-- **Charcoal/Black**: `#0A0A0A`, `#111111`
-- **White**: `#F6F6F6`
-- **Grey Light**: `#EDEDED`
+- Palette: Dezitech Red `#E10600` (accent only), deep charcoals `#0A0A0A/#111111`, clean whites `#FFFFFF/#F6F6F6`, light divider grey `#EDEDED`
+- Typography: Inter / Plus Jakarta Sans / Manrope via Google Fonts
+- Sections alternate: Hero (maroon gradient) → Services (white) → Industries (charcoal) → About/Solutions (white) → Contact + Footer (charcoal)
+- Buttons: Dark fill with subtle Dezitech-red stroke and glow on hover
 
-### Typography
-- **Headlines**: Inter / Plus Jakarta Sans (geometric, softer weights)
-- **Body**: Inter / Manrope (readable, medium weight)
+## Motion
 
-### Section Alternation
-1. Hero: Dark maroon gradient
-2. Services: Clean white
-3. Case Studies: Charcoal
-4. Industries: Charcoal
-5. Contact/Footer: Charcoal
+- **Cinematic loader**: 5 s sweeps + marquees, skips automatically for `prefers-reduced-motion`
+- **Hero**: Chunked headline reveal (~1.8 s), parallax visual, center-aligned option via `.hero--center`
+- **Cards**: Uniform height grid, translateY hover (no tilt), accent underline
+- **Industries**: Horizontal snap carousel with fade masks
+- **All animations** gated by IntersectionObserver + reduced-motion checks
 
-## Motion & Animations
+## Content & Assets
 
-- **Global loader**: 1.4–1.8s cinematic sweep
-- **Hero**: Staggered headline lines, typewriter effect
-- **Cards**: Uniform heights, hover lift with subtle red border glow
-- **Marquee**: Slow, fluid industries strip
-- **IntersectionObserver**: Heavy animations only trigger in-view
-- **prefers-reduced-motion**: All animations respect user preference
+All visible copy is sourced from official Dezitech pages and annotated inline:
 
-## Content Sources
-
-All text content is sourced from official Dezitech pages with inline URL comments:
 - https://dezitechengineering.com/
 - https://dezitechengineering.com/about.html
 - https://dezitechengineering.com/engineeringdesign.html
 - https://dezitechengineering.com/refrigeration.html
 - https://dezitechengineering.com/contact.html
 
-## Assets
+High-quality royalty-free imagery (Unsplash) is cached locally under `public/assets/` and cited in code/CHANGES.
 
-- Hero placeholder: `/public/assets/hero-placeholder.png`
-  - Replace with production hero video (16:9 mp4 loop) or high-res engineering renders
-  - TODO comments mark where to swap real photos/videos
+## Accessibility & Performance
 
-## Accessibility
-
-- Semantic HTML with proper ARIA labels
-- Keyboard navigation support
-- Focus states with Dezitech red outline
-- Color contrast compliance
-- `prefers-reduced-motion` support throughout
-
-## Performance
-
-- Transform + opacity animations only (GPU-accelerated)
-- Lazy loading for images
-- IntersectionObserver for scroll-triggered animations
-- Optimized bundle size
+- Semantic HTML, ARIA labels, visible focus outlines
+- `prefers-reduced-motion` respected everywhere
+- Transform + opacity-only animations for GPU friendliness
+- `ImageWithPlaceholder` + IntersectionObserver for lazy blur-up loading
+- JSON-LD Organization schema embedded in the contact form

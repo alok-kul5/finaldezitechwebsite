@@ -78,7 +78,7 @@ export const heroVariants = {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 1.1, ease: cinematicEase, when: 'beforeChildren', staggerChildren: 0.14 }
+      transition: { duration: 1.4, ease: cinematicEase, when: 'beforeChildren', staggerChildren: 0.16 }
     }
   },
   eyebrow: {
@@ -139,7 +139,7 @@ export const heroVariants = {
   },
   subhead: {
     hidden: { opacity: 0, y: 28 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.9, ease: cinematicEase, delay: 0.1 } }
+    visible: { opacity: 1, y: 0, transition: { duration: 1.1, ease: cinematicEase, delay: 0.2 } }
   },
   paragraph: {
     hidden: { opacity: 0, y: 28 },
@@ -151,7 +151,7 @@ export const heroVariants = {
   },
   cta: {
     hidden: { opacity: 0, y: 30, scale: 0.98 },
-    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 1.1, ease: cinematicEase, delay: 0.22 } }
+    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 1.2, ease: cinematicEase, delay: 0.3 } }
   },
   visual: {
     hidden: { opacity: 0, y: 32, scale: 1.04 },
@@ -159,7 +159,7 @@ export const heroVariants = {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 1.3, ease: cinematicEase, delay: 0.18 }
+      transition: { duration: 1.6, ease: cinematicEase, delay: 0.25 }
     }
   },
   accent: {
@@ -198,8 +198,8 @@ export const cardVariants = {
     }
   },
   hover: {
-    y: -8,
-    scale: 1.02,
+    y: -6,
+    scale: 1.015,
     transition: {
       duration: 0.5,
       ease: cinematicEase
@@ -236,6 +236,22 @@ export const loaderVariants = {
     exit: {
       opacity: 0,
       transition: { duration: 0.5, ease: cinematicEase }
+    }
+  },
+  sweep: {
+    hidden: { x: '-100%', opacity: 0.4 },
+    visible: {
+      x: '120%',
+      opacity: 0,
+      transition: { duration: 2.6, ease: cinematicEase, repeat: Infinity, repeatDelay: 0.5 }
+    }
+  },
+  sweepDelayed: {
+    hidden: { x: '-120%', opacity: 0.2 },
+    visible: {
+      x: '110%',
+      opacity: 0,
+      transition: { duration: 3.2, ease: cinematicEase, repeat: Infinity, repeatDelay: 0.8, delay: 0.6 }
     }
   },
   stroke: {

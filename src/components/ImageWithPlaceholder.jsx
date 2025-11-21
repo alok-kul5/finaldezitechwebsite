@@ -1,5 +1,5 @@
 // src/components/ImageWithPlaceholder.jsx
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { imageReveal } from '../lib/framerVariants';
 
@@ -22,6 +22,8 @@ const ImageWithPlaceholder = ({
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(loading === 'eager');
+  const imgRef = useRef(null);
 
   // Default placeholder: subtle gradient matching Dezitech palette
   const defaultPlaceholder =
@@ -31,18 +33,49 @@ const ImageWithPlaceholder = ({
   const resolvedSrc = useMemo(() => (hasError ? resolvedPlaceholder : src), [hasError, resolvedPlaceholder, src]);
 
   const handleLoad = useCallback(() => {
+    if (!shouldLoad) return;
     setIsLoaded(true);
-  }, []);
+  }, [shouldLoad]);
 
   const handleError = useCallback(() => {
+    if (!shouldLoad) return;
     setHasError(true);
     setIsLoaded(true);
-  }, []);
+  }, [shouldLoad]);
+
+  useEffect(() => {
+    if (loading === 'eager' || shouldLoad) {
+      if (!shouldLoad) {
+        setShouldLoad(true);
+      }
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoad(true);
+            obs.disconnect();
+          }
+        });
+      },
+      { rootMargin: '200px 0px 200px 0px', threshold: 0.01 }
+    );
+
+    const node = imgRef.current;
+    if (node) {
+      observer.observe(node);
+    }
+
+    return () => observer.disconnect();
+  }, [loading, shouldLoad]);
 
   const imgElement = (
     <motion.img
       {...props}
-      src={resolvedSrc}
+      ref={imgRef}
+      src={shouldLoad ? resolvedSrc : resolvedPlaceholder}
       alt={alt}
       loading={loading}
       decoding={decoding}

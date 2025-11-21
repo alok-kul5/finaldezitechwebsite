@@ -7,57 +7,58 @@ import ImageWithPlaceholder from './ImageWithPlaceholder';
 
 const industries = [
   {
-    name: 'Automotive', // Taken from https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/hero-placeholder.png'
-    // TODO: Replace with curated Unsplash/Pexels image (query: "automotive engineering", "car manufacturing")
+    name: 'Automotive', // Source: https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/industry-gearbox.jpg',
+    credit: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e'
   },
   {
-    name: 'Industrial', // Taken from https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/hero-placeholder.png'
-    // TODO: Replace with curated Unsplash/Pexels image (query: "industrial machinery", "manufacturing equipment")
+    name: 'Industrial Equipment', // Source: https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/hero-industrial.jpg',
+    credit: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e'
   },
   {
-    name: 'HVAC & R', // Taken from https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/hero-placeholder.png'
-    // TODO: Replace with curated Unsplash/Pexels image (query: "HVAC system", "refrigeration unit")
+    name: 'HVAC & Refrigeration', // Source: https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/industry-refrigeration.jpg',
+    credit: 'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a'
   },
   {
-    name: 'Oil & Gas', // Taken from https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/hero-placeholder.png'
-    // TODO: Replace with curated Unsplash/Pexels image (query: "oil and gas industry", "petroleum engineering")
+    name: 'Oil & Gas', // Source: https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/industry-control.jpg',
+    credit: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773'
   },
   {
-    name: 'Aviation', // Taken from https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/hero-placeholder.png'
-    // TODO: Replace with curated Unsplash/Pexels image (query: "aviation engineering", "aircraft manufacturing")
+    name: 'Aviation', // Source: https://dezitechengineering.com/engineeringdesign.html
+    image: '/assets/industry-aviation.jpg',
+    credit: 'https://images.unsplash.com/photo-1502877338535-766e1452684a'
   }
 ];
 
-const IndustrySlide = ({ industry, index }) => {
-  return (
-    <motion.div
-      className="dez-industry-slide"
-      initial={{ opacity: 0, x: 20 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-    >
-      <div className="dez-industry-slide__image-wrapper">
-        <ImageWithPlaceholder
-          src={industry.image}
-          alt={`${industry.name} industry`}
-          className="dez-industry-slide__image"
-          loading="lazy"
-          vignette={true}
-        />
-      </div>
-      <div className="dez-industry-slide__tag">{industry.name}</div>
-    </motion.div>
-  );
-};
+const IndustrySlide = ({ industry, index }) => (
+  <motion.div
+    className="dez-industry-slide"
+    initial={{ opacity: 0, x: 30 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true, margin: '-40px' }}
+    transition={{ duration: 0.7, delay: index * 0.08 }}
+  >
+    <div className="dez-industry-slide__image-wrapper">
+      <ImageWithPlaceholder
+        src={industry.image}
+        alt={`${industry.name} programs`}
+        loading="lazy"
+        imgClassName="dez-industry-slide__image"
+        tone="steel"
+      />
+    </div>
+    <div className="dez-industry-slide__tag">
+      {industry.name}
+      <span className="sr-only">Image credit {industry.credit}</span>
+    </div>
+  </motion.div>
+);
 
 const Industries = () => {
-  const { ref, controls } = useStaggered({ threshold: 0.15 });
+  const { ref, controls } = useStaggered({ threshold: 0.15, rootMargin: '-10% 0px' });
 
   return (
     <Section id="industries" variant="charcoal">
@@ -70,11 +71,11 @@ const Industries = () => {
       >
         <div className="dez-section__header">
           <motion.p className="dez-section__eyebrow" variants={sectionStagger}>
-            Industries served {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
+            Industries served {/* Source: https://dezitechengineering.com/engineeringdesign.html */}
           </motion.p>
           <motion.h2 className="dez-section__title" variants={sectionStagger}>
-            We provide end to end service or tailored individual needs world wide to diverse and multidiciplinary
-            Industries. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
+            We provide end to end service or tailored individual needs worldwide to diverse and multidisciplinary
+            industries. {/* Source: https://dezitechengineering.com/engineeringdesign.html */}
           </motion.h2>
         </div>
         <div className="dez-industries__scroll-wrapper">

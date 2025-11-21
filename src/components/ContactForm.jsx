@@ -13,25 +13,25 @@ const ContactForm = () => {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'Dezitech Engineering',
-      email: 'info@dezitechengineering.com', // Taken from https://dezitechengineering.com/contact.html
+      email: 'info@dezitechengineering.com', // Source: https://dezitechengineering.com/contact.html
       url: 'https://dezitechengineering.com/',
       contactPoint: [
         {
           '@type': 'ContactPoint',
           contactType: 'Sales',
-          email: 'info@dezitechengineering.com', // Taken from https://dezitechengineering.com/contact.html
+          email: 'info@dezitechengineering.com', // Source: https://dezitechengineering.com/contact.html
           areaServed: 'Global'
         }
       ],
       address: [
         {
           '@type': 'PostalAddress',
-          addressLocality: 'Karad', // Taken from https://dezitechengineering.com/contact.html
+          addressLocality: 'Karad', // Source: https://dezitechengineering.com/contact.html
           addressCountry: 'IN'
         },
         {
           '@type': 'PostalAddress',
-          addressLocality: 'Bristol', // Taken from https://dezitechengineering.com/about.html
+          addressLocality: 'Bristol', // Source: https://dezitechengineering.com/about.html
           addressCountry: 'GB'
         }
       ]
@@ -58,6 +58,9 @@ const ContactForm = () => {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email';
     }
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    }
     return newErrors;
   };
 
@@ -69,7 +72,11 @@ const ContactForm = () => {
       setSubmitStatus('error');
       return;
     }
-    // TODO: Implement form submission
+    /**
+     * TODO: Hook up to backend transport
+     * - Netlify Forms: add data-netlify="true" and hidden input 'form-name' then POST directly.
+     * - Node/Express API: replace console.log with fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) }).
+     */
     console.log('Form submitted:', formData);
     setSubmitStatus('success');
     setFormData({ name: '', email: '', tel: '', message: '' });
@@ -86,30 +93,30 @@ const ContactForm = () => {
       <div className="dez-contact__container">
         <div className="dez-contact__copy">
           <p className="dez-section__eyebrow">Contact us</p>
-          {/* Taken from https://dezitechengineering.com/contact.html */}
+          {/* Source: https://dezitechengineering.com/contact.html */}
           <h2 className="dez-section__title">
             Please do contact us for any further details such as work samples, quotation or discus how we can help you.{' '}
-            {/* Taken from https://dezitechengineering.com/contact.html */}
+            {/* Source: https://dezitechengineering.com/contact.html */}
           </h2>
           <div className="dez-contact__details">
             <p>
               <a href="mailto:info@dezitechengineering.com">info@dezitechengineering.com</a>
-              {/* Taken from https://dezitechengineering.com/contact.html */}
+              {/* Source: https://dezitechengineering.com/contact.html */}
             </p>
             <p>
-              Karad, India · Bristol, UK {/* Taken from https://dezitechengineering.com/about.html */}
+              Karad, India · Bristol, UK {/* Source: https://dezitechengineering.com/about.html */}
             </p>
           </div>
           <p className="dez-contact__support">
             We manage the entire process from finding suitable manufacturers to continuous supply of products /
-            components. {/* Taken from https://dezitechengineering.com/about.html */}
+            components. {/* Source: https://dezitechengineering.com/about.html */}
           </p>
         </div>
-        <form className="dez-contact__form" onSubmit={handleSubmit} noValidate aria-live="polite">
+        <form className="dez-contact__form" onSubmit={handleSubmit} noValidate>
           <div className="dez-contact__form-row">
             <div className="dez-contact__field">
               <label htmlFor="name">
-                Name {/* Taken from https://dezitechengineering.com/contact.html */}
+                Name {/* Source: https://dezitechengineering.com/contact.html */}
               </label>
               <input
                 id="name"
@@ -130,7 +137,7 @@ const ContactForm = () => {
             </div>
             <div className="dez-contact__field">
               <label htmlFor="email">
-                Email {/* Taken from https://dezitechengineering.com/contact.html */}
+                Email {/* Source: https://dezitechengineering.com/contact.html */}
               </label>
               <input
                 id="email"
@@ -152,7 +159,7 @@ const ContactForm = () => {
           </div>
           <div className="dez-contact__field">
             <label htmlFor="tel">
-              Phone {/* Taken from https://dezitechengineering.com/contact.html */}
+              Phone {/* Source: https://dezitechengineering.com/contact.html */}
             </label>
             <input
               id="tel"
@@ -166,7 +173,7 @@ const ContactForm = () => {
           </div>
           <div className="dez-contact__field">
             <label htmlFor="message">
-              Message {/* Taken from https://dezitechengineering.com/contact.html */}
+              Message {/* Source: https://dezitechengineering.com/contact.html */}
             </label>
             <textarea
               id="message"
@@ -175,20 +182,28 @@ const ContactForm = () => {
               value={formData.message}
               onChange={handleChange}
               placeholder="Enter your message"
+              required
+              aria-invalid={errors.message ? 'true' : 'false'}
+              aria-describedby={errors.message ? 'message-error' : undefined}
             />
+            {errors.message && (
+              <span id="message-error" className="dez-contact__error" role="alert">
+                {errors.message}
+              </span>
+            )}
           </div>
-          {submitStatus === 'success' && (
-            <div className="dez-contact__success" role="alert" aria-live="polite">
-              Thank you! Your message has been sent.
-            </div>
-          )}
-          {submitStatus === 'error' && Object.keys(errors).length > 0 && (
-            <div className="dez-contact__error-message" role="alert" aria-live="polite">
-              Please correct the errors above.
-            </div>
-          )}
+          <div className="dez-contact__status" aria-live="polite" role="status">
+            {submitStatus === 'success' && (
+              <div className="dez-contact__success">
+                Thank you! Your message has been sent.
+              </div>
+            )}
+            {submitStatus === 'error' && Object.keys(errors).length > 0 && (
+              <div className="dez-contact__error-message">Please correct the errors above.</div>
+            )}
+          </div>
           <button type="submit" className="dez-btn dez-btn--primary dez-contact__submit">
-            Submit {/* Taken from https://dezitechengineering.com/contact.html */}
+            Submit {/* Source: https://dezitechengineering.com/contact.html */}
           </button>
         </form>
       </div>

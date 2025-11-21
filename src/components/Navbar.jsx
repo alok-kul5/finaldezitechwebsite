@@ -6,27 +6,27 @@ import { navLinkVariants, navShellVariants } from '../lib/framerVariants';
 const navLinks = [
   {
     href: '#home',
-    label: 'Home' // Taken from https://dezitechengineering.com/
+    label: 'Home' // Source: https://dezitechengineering.com/
   },
   {
     href: '#services',
-    label: 'Services' // Taken from https://dezitechengineering.com/engineeringdesign.html
+    label: 'Services' // Source: https://dezitechengineering.com/engineeringdesign.html
   },
   {
     href: '#solutions',
-    label: 'Solutions' // Taken from https://dezitechengineering.com/engineeringdesign.html
+    label: 'Solutions' // Source: https://dezitechengineering.com/engineeringdesign.html
   },
   {
     href: '#industries',
-    label: 'Industries' // Taken from https://dezitechengineering.com/engineeringdesign.html
+    label: 'Industries' // Source: https://dezitechengineering.com/engineeringdesign.html
   },
   {
     href: '#about',
-    label: 'About' // Taken from https://dezitechengineering.com/about.html
+    label: 'About' // Source: https://dezitechengineering.com/about.html
   },
   {
     href: '#contact',
-    label: 'Contact' // Taken from https://dezitechengineering.com/contact.html
+    label: 'Contact' // Source: https://dezitechengineering.com/contact.html
   }
 ];
 
@@ -50,7 +50,7 @@ const Navbar = () => {
     >
       <div className="dez-nav__container">
         <a href="#home" className="dez-nav__logo" aria-label="Dezitech Engineering home">
-          Dezitech Engineering {/* Taken from https://dezitechengineering.com/ */}
+          Dezitech Engineering {/* Source: https://dezitechengineering.com/ */}
         </a>
         <nav className="dez-nav__menu" aria-label="Main">
           {navLinks.map((link) => (
@@ -75,6 +75,13 @@ const Navbar = () => {
             </motion.a>
           ))}
         </nav>
+        <a
+          href="mailto:info@dezitechengineering.com"
+          className="dez-nav__contact-link"
+          aria-label="Email Dezitech Engineering"
+        >
+          info@dezitechengineering.com {/* Source: https://dezitechengineering.com/contact.html */}
+        </a>
       </div>
     </motion.header>
   );
