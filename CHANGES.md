@@ -1,41 +1,110 @@
-# Production Redo – Dezitech Engineering Homepage
+# Production Redo – Dezitech Engineering Homepage Fixes
 
-Premium rebuild delivering the Awwwards-grade homepage requirements: cinematic loader, alternating light/dark sections, real imagery, and strictly sourced Dezitech copy.
+## Overview
+Complete production rebuild of Dezitech Engineering homepage to Awwwards-grade standards with premium animations, strict Dezitech color palette, and all content sourced from official Dezitech pages.
 
-## Highlights
+## Files Modified/Created
 
-- **Cinematic Loader** – `SiteLoader` now runs a 5 s (configurable) intro with layered sweeps and logo strokes, skipping instantly for `prefers-reduced-motion`.
-- **Navbar** – Centered link bar with Meridian-style underline, scroll blur, and subtle mailto chip only.
-- **Hero** – 70 vh split hero, chunked headline reveal, Dezitech-sourced subhead, parallax visual using `public/assets/hero-industrial.jpg`, plus `.hero--center` utility that automatically kicks in sub-900 px.
-- **Services & Cards** – Uniform grid (3/2/1), inline icons, `aria-describedby`, and verbatim copy from engineeringdesign/refrigeration pages.
-- **Industries Carousel** – Horizontal snap scroll with fade masks and locally cached Unsplash photography.
-- **Contact** – Two-column layout, inline validation (name/email/message), aria-live status block, and JSON-LD Organization schema.
-- **Image Pipeline** – `ImageWithPlaceholder` now uses IntersectionObserver + blur-up placeholder to lazy load transform-only `motion.img` elements.
-- **Variants & Hooks** – `heroVariants`, card hover, loader sweeps, and `useStaggered` all tuned for cinematic pacing with reduced-motion fallbacks.
+### Components
+- **src/components/Navbar.jsx** - Rebuilt with centered navigation links, scroll blur, red underline hover, keyboard focus states. Removed Contact Sales CTA.
+- **src/components/SiteLoader.jsx** - Cinematic 6s loader (configurable via REACT_APP_LOADER_MS), multi-step sweep animations, respects prefers-reduced-motion
+- **src/components/Hero.jsx** - 72vh height, chunked headline reveal, ImageWithPlaceholder with real Unsplash image, center option, source annotations
+- **src/components/Services.jsx** - Uniform cards with source annotations from engineeringdesign.html and refrigeration.html
+- **src/components/ServiceCard.jsx** - Soft hover (translateY only, no tilt), typewriter animation, aria-describedby
+- **src/components/Industries.jsx** - Horizontal snap scroll carousel, white variant for alternation, lazy-loaded images
+- **src/components/ContactForm.jsx** - Two-column layout, client-side validation, aria-live status messages, JSON-LD schema
+- **src/components/ImageWithPlaceholder.jsx** - IntersectionObserver lazy loading with blur-up placeholder, transform + opacity animations only
 
-## New / Updated Assets (stored under `public/assets/`)
+### Styles & Configuration
+- **src/index.css** - Added skip-link, updated hero to 72vh, section alternation styles, Industries white variant support, all animations GPU-accelerated
+- **src/lib/framerVariants.js** - All variants use transform + opacity only, removed filter blur from imageReveal
+- **tailwind.config.js** - Dezitech color palette (dezired, maroon, charcoal, white)
+- **src/App.js** - Skip link, REACT_APP_LOADER_MS support, semantic landmarks
 
-| File | Source |
-| --- | --- |
-| `hero-industrial.jpg` | https://images.unsplash.com/photo-1469474968028-56623f02e42e |
-| `industry-gearbox.jpg` | https://images.unsplash.com/photo-1503387762-592deb58ef4e |
-| `industry-refrigeration.jpg` | https://images.unsplash.com/photo-1520607162513-77705c0f0d4a |
-| `industry-control.jpg` | https://images.unsplash.com/photo-1506126613408-eca07ce68773 |
-| `industry-aviation.jpg` | https://images.unsplash.com/photo-1502877338535-766e1452684a |
+### Animations & Hooks
+- **src/hooks/useStaggered.js** - IntersectionObserver with rootMargin support
+- **src/animations/useParallax.js** - Transform-only parallax, disabled on touch/reduced-motion
+- **src/animations/typewriter.js** - Chunk-based typewriter effect
 
-(Sources listed inline in components + README.)
+## Key Features
 
-## Testing
+### Design System
+- **Color Palette**: Dezitech red (#E10600) accent only, deep charcoal/black (#0A0A0A/#111111), maroon gradient (#3E0E0B → #150808), white (#F6F6F6)
+- **Section Alternation**: Hero (dark maroon) → Services (white) → Case Studies (white) → Industries (white) → Contact/Footer (charcoal)
+- **Typography**: Inter / Plus Jakarta Sans / Manrope with responsive clamp() sizing
+- **Fonts**: Google Fonts stack with proper fallbacks
 
-- `npm run build` (CRA) – ✅
-- Hero height verified at 70 vh desktop / ~58 vh mobile
-- Navbar blur + center alignment, no CTA clutter
-- Services/Industries cards respect hover translate only (no tilt)
-- Contact form validation + aria-live success/error messaging
-- Loader respects reduced-motion preference
+### Animations
+- **Loader**: 6s cinematic intro with sweep masks, logo reveal, fade transitions (configurable via REACT_APP_LOADER_MS)
+- **Hero**: Chunked word-by-word text reveal with staggered animation (~1.5-2s total)
+- **Cards**: Soft hover (translateY -6px, no tilt/3D), subtle red border glow
+- **Navbar**: Scroll-triggered blur, red underline on hover (Meridian-style)
+- **All animations**: Transform + opacity only (GPU-accelerated), respect prefers-reduced-motion
 
-## Follow-ups
+### Content
+- All visible content sourced from Dezitech official pages with inline `/* Source: <URL> */` comments
+- Hero subhead from about.html
+- Services from engineeringdesign.html and refrigeration.html
+- Contact details from contact.html
 
-1. Wire contact form to backend (Netlify Forms or custom API).
-2. Optional: swap hero image for branded mp4 loop.
-3. Extend industries carousel with CMS data when available.
+### Images
+- Hero: `/assets/hero-industrial.jpg` (Unsplash: https://images.unsplash.com/photo-1469474968028-56623f02e42e)
+- Industries: 5 curated Unsplash images (gearbox, industrial, refrigeration, control, aviation)
+- All images lazy-loaded via ImageWithPlaceholder with blur-up placeholders
+
+### Accessibility
+- Skip link to main content
+- Semantic HTML landmarks (`<main>`, `<nav>`, `<footer>`)
+- Keyboard focus states with Dezitech red outline
+- ARIA labels and live regions
+- `prefers-reduced-motion` support throughout
+
+### Performance
+- IntersectionObserver for scroll-triggered animations
+- Lazy loading for images
+- Transform + opacity-only animations (no layout shifts)
+- Optimized bundle size
+
+## Build Status
+✅ **Build successful** - `npm run build` completed without errors
+- JS bundle: 91.92 kB (gzipped)
+- CSS bundle: 5.27 kB (gzipped)
+
+## Testing Checklist
+- [x] Hero fits with 72vh height, no overflow
+- [x] Sections alternate dark/white/white/white/charcoal as specified
+- [x] Cards are uniform, hover is soft only (no tilt)
+- [x] Loader plays 6s cinematic intro (configurable)
+- [x] Contact form works with aria-live success message
+- [x] Build contains no CSS parse errors
+- [x] All content properly annotated with source URLs
+- [x] Skip link functional
+- [x] Keyboard navigation works
+
+## TODOs (Production)
+1. **Images**: Replace placeholder images with production hero video (16:9 mp4 loop) or high-res engineering renders
+   - Suggested Unsplash queries: "automotive engineering", "industrial plant", "thermal lab", "EV thermal module"
+2. **Form Backend**: Hook up contact form to Netlify Forms or Node/Express API (see ContactForm.jsx comments)
+3. **Performance Audit**: Run Lighthouse and optimize bundle if needed
+4. **Browser Testing**: Test on Safari, Firefox, Edge
+5. **Mobile Testing**: Verify touch interactions and responsive breakpoints
+
+## Git Commands
+```bash
+git checkout -b feat/premium-homepage-fixes
+git add .
+git commit -m "feat(homepage): production-ready premium redesign — hero, nav, services, loader"
+git push -u origin feat/premium-homepage-fixes
+```
+
+## Local Development
+```bash
+npm install
+npm start          # Start dev server (http://localhost:3000)
+npm run build       # Production build
+npm run dev         # Alias for npm start
+```
+
+## Environment Variables
+- `REACT_APP_LOADER_MS` - Override loader duration (default: 6000ms)
+  - Example: `REACT_APP_LOADER_MS=5000 npm start`

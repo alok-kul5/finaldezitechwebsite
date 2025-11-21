@@ -213,17 +213,15 @@ export const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: cinematicEase } }
 };
 
-// Image reveal
+// Image reveal (transform + opacity only for GPU acceleration)
 export const imageReveal = {
   hidden: {
     opacity: 0,
-    scale: 1.035,
-    filter: 'blur(6px)'
+    scale: 1.035
   },
   visible: {
     opacity: 1,
     scale: 1,
-    filter: 'blur(0px)',
     transition: { duration: 0.95, ease: cinematicEase }
   }
 };

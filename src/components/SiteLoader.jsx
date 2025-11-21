@@ -3,7 +3,11 @@ import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { loaderVariants } from '../lib/framerVariants';
 
-const DEFAULT_LOADER_DURATION = 5000; // 5s cinematic window — adjust to taste
+/* Default loader duration: 6 seconds (6000ms)
+ * Override via REACT_APP_LOADER_MS environment variable
+ * Example: REACT_APP_LOADER_MS=5000 npm start
+ */
+const DEFAULT_LOADER_DURATION = parseInt(process.env.REACT_APP_LOADER_MS || '6000', 10);
 
 const SiteLoader = ({
   active,

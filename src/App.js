@@ -15,7 +15,8 @@ import usePrefersReducedMotion from './hooks/usePrefersReducedMotion';
 const metaTitle = 'Dezitech Engineering'; // Source: https://dezitechengineering.com/
 const metaDescription =
   'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!'; // Source: https://dezitechengineering.com/
-const LOADER_DURATION_MS = 5000; // Cinematic loader 4-6s window
+/* Loader duration: configurable via REACT_APP_LOADER_MS (default 6000ms) */
+const LOADER_DURATION_MS = parseInt(process.env.REACT_APP_LOADER_MS || '6000', 10);
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -37,6 +38,9 @@ function App() {
 
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <SiteLoader
         active={showLoader}
         onComplete={handleLoaderComplete}
@@ -46,7 +50,7 @@ function App() {
       />
       <div className="app-shell">
         <Navbar />
-        <main>
+        <main id="main-content">
           <Hero prefersReducedMotion={prefersReducedMotion} />
           <Services />
           <CaseStudies />

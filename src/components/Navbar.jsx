@@ -75,13 +75,6 @@ const Navbar = () => {
             </motion.a>
           ))}
         </nav>
-        <a
-          href="mailto:info@dezitechengineering.com"
-          className="dez-nav__contact-link"
-          aria-label="Email Dezitech Engineering"
-        >
-          info@dezitechengineering.com {/* Source: https://dezitechengineering.com/contact.html */}
-        </a>
       </div>
     </motion.header>
   );

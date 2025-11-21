@@ -61,7 +61,7 @@ const Industries = () => {
   const { ref, controls } = useStaggered({ threshold: 0.15, rootMargin: '-10% 0px' });
 
   return (
-    <Section id="industries" variant="charcoal">
+    <Section id="industries" variant="white">
       <motion.div
         ref={ref}
         variants={sectionStagger}
