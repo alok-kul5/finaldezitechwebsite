@@ -6,7 +6,7 @@ import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 
 const ServiceCard = ({ title, description, sourceUrl, index = 0, cardId }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const displayTitle = useTypewriter(title, { speed: 35, enabled: !prefersReducedMotion });
+  const displayTitle = useTypewriter(title, { speed: 40, enabled: !prefersReducedMotion });
   const descriptionId = `${cardId || 'service-card'}-description`;
 
   return (
@@ -17,7 +17,6 @@ const ServiceCard = ({ title, description, sourceUrl, index = 0, cardId }) => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-80px' }}
-      whileHover="hover"
       className="dez-service-card"
       style={{ transitionDelay: `${index * 0.08}s` }}
     >
@@ -46,7 +45,6 @@ const ServiceCard = ({ title, description, sourceUrl, index = 0, cardId }) => {
           </span>
         )}
       </div>
-      <div className="dez-service-card__hover-border" aria-hidden="true" />
     </motion.article>
   );
 };

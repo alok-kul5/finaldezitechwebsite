@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { loaderVariants } from '../lib/framerVariants';
 
-/* Default loader duration: 6 seconds (6000ms)
+/* Default loader duration: 12 seconds (12000ms) - cinematic and noticeably long
  * Override via REACT_APP_LOADER_MS environment variable
- * Example: REACT_APP_LOADER_MS=5000 npm start
+ * Example: REACT_APP_LOADER_MS=8000 npm start
  */
-const DEFAULT_LOADER_DURATION = parseInt(process.env.REACT_APP_LOADER_MS || '6000', 10);
+const DEFAULT_LOADER_DURATION = parseInt(process.env.REACT_APP_LOADER_MS || '12000', 10);
 
 const SiteLoader = ({
   active,
@@ -25,7 +25,17 @@ const SiteLoader = ({
       return undefined;
     }
 
-    const timeout = window.setTimeout(() => onComplete?.(), duration);
+    const timeout = window.setTimeout(() => {
+      onComplete?.();
+      /* Announce completion for screen readers */
+      const announcement = document.createElement('div');
+      announcement.setAttribute('role', 'status');
+      announcement.setAttribute('aria-live', 'polite');
+      announcement.className = 'sr-only';
+      announcement.textContent = 'Site loaded';
+      document.body.appendChild(announcement);
+      setTimeout(() => document.body.removeChild(announcement), 1000);
+    }, duration);
     return () => window.clearTimeout(timeout);
   }, [active, duration, onComplete, shouldSkip]);
 
@@ -61,14 +71,14 @@ const SiteLoader = ({
                 cy="100"
                 r="80"
                 fill="none"
-                stroke="var(--clr-mist)"
+                stroke="var(--text-light)"
                 strokeWidth="2"
                 variants={loaderVariants.stroke}
               />
               <motion.path
                 d="M100 20 L100 100 L180 100"
                 fill="none"
-                stroke="var(--clr-dezired)"
+                stroke="var(--dezired)"
                 strokeWidth="2"
                 strokeLinecap="round"
                 variants={loaderVariants.stroke}

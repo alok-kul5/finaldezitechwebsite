@@ -4,34 +4,41 @@ import { motion } from 'framer-motion';
 import { navLinkVariants, navShellVariants } from '../lib/framerVariants';
 
 const navLinks = [
-  {
-    href: '#home',
-    label: 'Home' // Source: https://dezitechengineering.com/
-  },
-  {
-    href: '#services',
-    label: 'Services' // Source: https://dezitechengineering.com/engineeringdesign.html
-  },
-  {
-    href: '#solutions',
-    label: 'Solutions' // Source: https://dezitechengineering.com/engineeringdesign.html
-  },
-  {
-    href: '#industries',
-    label: 'Industries' // Source: https://dezitechengineering.com/engineeringdesign.html
-  },
-  {
-    href: '#about',
-    label: 'About' // Source: https://dezitechengineering.com/about.html
-  },
-  {
-    href: '#contact',
-    label: 'Contact' // Source: https://dezitechengineering.com/contact.html
-  }
+  { href: '#home', label: 'Home' }, /* Source: https://dezitechengineering.com/ */
+  { href: '#services', label: 'Services' }, /* Source: https://dezitechengineering.com/engineeringdesign.html */
+  { href: '#solutions', label: 'Solutions' }, /* Source: https://dezitechengineering.com/engineeringdesign.html */
+  { href: '#industries', label: 'Industries' }, /* Source: https://dezitechengineering.com/engineeringdesign.html */
+  { href: '#case-studies', label: 'Case Studies' },
+  { href: '#products', label: 'Products' },
+  { href: '#about', label: 'About' }, /* Source: https://dezitechengineering.com/about.html */
+  { href: '#team', label: 'Team' },
+  { href: '#careers', label: 'Careers' },
+  { href: '#capabilities', label: 'Capabilities' },
+  { href: '#r-d', label: 'R&D' },
+  { href: '#manufacturing', label: 'Manufacturing' },
+  { href: '#iot', label: 'IoT' },
+  { href: '#atlas-edge', label: 'AtlasEdge' },
+  { href: '#atlas-predict', label: 'AtlasPredict' },
+  { href: '#atlas-sense', label: 'AtlasSense' },
+  { href: '#atlas-view', label: 'AtlasView' },
+  { href: '#resources', label: 'Resources' },
+  { href: '#blog', label: 'Blog' },
+  { href: '#events', label: 'Events' },
+  { href: '#investors', label: 'Investors' },
+  { href: '#partners', label: 'Partners' },
+  { href: '#sustainability', label: 'Sustainability' },
+  { href: '#certifications', label: 'Certifications' },
+  { href: '#news', label: 'News' },
+  { href: '#support', label: 'Support' },
+  { href: '#documentation', label: 'Documentation' },
+  { href: '#api', label: 'API' },
+  { href: '#legal', label: 'Legal' },
+  { href: '#contact', label: 'Contact' } /* Source: https://dezitechengineering.com/contact.html */
 ];
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -65,16 +72,31 @@ const Navbar = () => {
               whileTap="tap"
             >
               <span className="dez-nav__link-text">{link.label}</span>
-              <motion.span
-                className="dez-nav__underline"
-                aria-hidden="true"
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: 1 }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              />
+              <span className="dez-nav__underline" aria-hidden="true" />
             </motion.a>
           ))}
         </nav>
+        <a
+          href="#contact"
+          className="dez-nav__contact-cta"
+          aria-label="Contact Dezitech Engineering"
+        >
+          Contact
+        </a>
+        <button
+          className="dez-nav__mobile-toggle"
+          aria-label="Toggle mobile menu"
+          aria-expanded={mobileOpen}
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            {mobileOpen ? (
+              <path d="M18 6L6 18M6 6l12 12" />
+            ) : (
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            )}
+          </svg>
+        </button>
       </div>
     </motion.header>
   );

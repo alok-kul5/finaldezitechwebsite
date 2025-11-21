@@ -8,7 +8,7 @@ const CaseStudies = () => {
   const { ref, controls } = useStaggered({ threshold: 0.25 });
 
   return (
-    <Section id="solutions" variant="white">
+    <Section id="solutions" variant="dark">
       <div id="about" className="sr-only">
         Dezitech Engineering works as an extension of customers engineering team with 20+ years of experience across
         global programs. {/* Source: https://dezitechengineering.com/about.html */}

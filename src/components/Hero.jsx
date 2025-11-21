@@ -1,5 +1,5 @@
 // src/components/Hero.jsx
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { heroVariants, textRevealVariants } from '../lib/framerVariants';
 import useStaggered from '../hooks/useStaggered';
@@ -8,11 +8,15 @@ import Section from './Section';
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 import ImageWithPlaceholder from './ImageWithPlaceholder';
 
-const heroImage = '/assets/hero-industrial.jpg';
-const heroImageSource = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e'; // Image credit
+/* Placeholder for hero video or high-res engineering renders
+ * Local asset: /mnt/data/cd2e0d22-07a3-4e6f-aa63-9b6eb0df7d28.png
+ * TODO: Replace with production hero video (16:9 mp4 loop) or high-res engineering renders
+ * Suggested Unsplash queries: "automotive engineering", "industrial factory interior", "ev thermal module"
+ */
+const heroImage = '/assets/hero-placeholder.png';
 
 const StaggeredHeadline = ({ text, prefersReducedMotion }) => {
-  const words = text.split(' ');
+  const lines = text.split(',').map((line) => line.trim()).filter(Boolean);
   const { ref, controls } = useStaggered({ threshold: 0.2, rootMargin: '-10% 0px' });
 
   if (prefersReducedMotion) {
@@ -21,13 +25,13 @@ const StaggeredHeadline = ({ text, prefersReducedMotion }) => {
 
   return (
     <motion.span ref={ref} variants={textRevealVariants.container} initial="hidden" animate={controls}>
-      {words.map((word, index) => (
+      {lines.map((line, lineIndex) => (
         <motion.span
-          key={`${word}-${index}`}
-          variants={textRevealVariants.word}
-          style={{ display: 'inline-block', marginRight: '0.25em', overflow: 'hidden' }}
+          key={`line-${lineIndex}`}
+          variants={textRevealVariants.line}
+          style={{ display: 'block', overflow: 'hidden', marginBottom: lineIndex < lines.length - 1 ? '0.5em' : '0' }}
         >
-          {word}
+          {line}
         </motion.span>
       ))}
     </motion.span>
@@ -35,7 +39,7 @@ const StaggeredHeadline = ({ text, prefersReducedMotion }) => {
 };
 
 const HeroVisual = ({ prefersReducedMotion }) => {
-  const visualRef = useParallax({ strength: 12, scrollStrength: 0.04 });
+  const visualRef = useParallax({ strength: 8, scrollStrength: 0.03 });
   const heroSources = useMemo(
     () => [
       {
@@ -51,60 +55,39 @@ const HeroVisual = ({ prefersReducedMotion }) => {
       <div className="hero-visual__container" data-reduced={prefersReducedMotion ? 'true' : 'false'}>
         <ImageWithPlaceholder
           src={heroImage}
-          alt="Precision manufacturing floor"
+          alt="Dezitech Engineering solutions"
           loading="eager"
           decoding="async"
           sources={heroSources}
           imgClassName="hero-visual__image"
           tone="warm"
         />
-        {/* Image source: https://images.unsplash.com/photo-1469474968028-56623f02e42e */}
         <div className="hero-visual__overlay" aria-hidden="true" />
         <svg className="hero-visual__decorative" viewBox="0 0 200 200" aria-hidden="true">
-          <motion.circle
-            cx="100"
-            cy="100"
-            r="60"
+          <motion.polygon
+            points="100,20 180,100 100,180 20,100"
             fill="none"
-            stroke="rgba(225, 6, 0, 0.2)"
+            stroke="rgba(225, 6, 0, 0.15)"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1], delay: 0.6 }}
+            transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
           />
         </svg>
       </div>
-      <span className="hero-visual__credit" aria-label="Image credit">
-        Image credit:{' '}
-        <a href={heroImageSource} target="_blank" rel="noreferrer">
-          Unsplash
-        </a>
-      </span>
     </motion.div>
   );
 };
 
-const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = false }) => {
+const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = true }) => {
   const prefersReducedMotion = usePrefersReducedMotion() || prefersReducedMotionProp;
   const { ref, controls } = useStaggered({ threshold: 0.25 });
-  const [matchesCenterBreakpoint, setMatchesCenterBreakpoint] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-    const mediaQuery = window.matchMedia('(max-width: 900px)');
-    const handleChange = (event) => setMatchesCenterBreakpoint(event.matches);
-    handleChange(mediaQuery);
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  const heroTitle = 'Engineering outsourcing solutions in design and product manufacturing'; // Source: https://dezitechengineering.com/
-  const heroSubhead = 'Dezitech is your solutions provider in engineering design, products and supply chain.'; // Source: https://dezitechengineering.com/about.html
-  const shouldCenter = centered || matchesCenterBreakpoint;
+  const heroTitle = 'Engineering outsourcing solutions in design and product manufacturing'; /* Source: https://dezitechengineering.com/ */
+  const heroSubhead = 'Dezitech is your solutions provider in engineering design, products and supply chain.'; /* Source: https://dezitechengineering.com/about.html */
 
   return (
-    <Section id="home" variant="maroon" padded={false} className={`dez-hero ${shouldCenter ? 'hero--center' : ''}`}>
-      <div className="dez-hero__bg-gradient" aria-hidden="true" />
+    <Section id="home" variant="white" padded={false} className={`dez-hero ${centered ? 'hero--center' : ''}`}>
       <motion.div
         ref={ref}
         variants={heroVariants.container}
@@ -127,8 +110,8 @@ const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = false
             <motion.a
               href="#services"
               className="dez-btn dez-btn--primary"
-              whileHover={{ y: -2, scale: 1.01 }}
-              whileFocus={{ y: -1 }}
+              whileHover={{ scale: 1.02 }}
+              whileFocus={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
             >
               Explore Services
@@ -136,9 +119,8 @@ const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = false
             <motion.a
               href="mailto:info@dezitechengineering.com"
               className="dez-btn dez-btn--secondary"
-              whileHover={{ y: -2, scale: 1.01 }}
-              whileFocus={{ y: -1 }}
-              whileTap={{ scale: 0.99 }}
+              whileHover={{ opacity: 0.8 }}
+              whileFocus={{ opacity: 0.8 }}
             >
               Contact Us {/* Source: https://dezitechengineering.com/contact.html */}
             </motion.a>

@@ -3,15 +3,15 @@ const cinematicEase = [0.22, 1, 0.36, 1];
 const floatEase = [0.16, 1, 0.3, 1];
 const microEase = [0.4, 0, 0.2, 1];
 
-// Text reveal variants for chunked word animations
+// Text reveal variants for chunked word/line animations
 export const textRevealVariants = {
   container: {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.1
+        staggerChildren: 0.12,
+        delayChildren: 0.2
       }
     }
   },
@@ -27,6 +27,22 @@ export const textRevealVariants = {
       clipPath: 'inset(0 0 0% 0)',
       transition: {
         duration: 0.8,
+        ease: cinematicEase
+      }
+    }
+  },
+  line: {
+    hidden: {
+      opacity: 0,
+      y: 28,
+      clipPath: 'inset(0 0 100% 0)'
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      clipPath: 'inset(0 0 0% 0)',
+      transition: {
+        duration: 0.9,
         ease: cinematicEase
       }
     }
@@ -181,27 +197,17 @@ export const sectionStagger = {
   }
 };
 
-// Card variants with entry animation
+// Card variants with entry animation (static premium cards - no hover transforms)
 export const cardVariants = {
   hidden: {
     opacity: 0,
-    y: 28,
-    scale: 0.98
+    y: 28
   },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
       duration: 0.9,
-      ease: cinematicEase
-    }
-  },
-  hover: {
-    y: -6,
-    scale: 1.015,
-    transition: {
-      duration: 0.5,
       ease: cinematicEase
     }
   }
@@ -237,19 +243,19 @@ export const loaderVariants = {
     }
   },
   sweep: {
-    hidden: { x: '-100%', opacity: 0.4 },
+    hidden: { x: '-100%', opacity: 0 },
     visible: {
       x: '120%',
-      opacity: 0,
-      transition: { duration: 2.6, ease: cinematicEase, repeat: Infinity, repeatDelay: 0.5 }
+      opacity: [0, 0.4, 0.4, 0],
+      transition: { duration: 4, ease: cinematicEase, repeat: Infinity, repeatDelay: 1 }
     }
   },
   sweepDelayed: {
-    hidden: { x: '-120%', opacity: 0.2 },
+    hidden: { x: '-120%', opacity: 0 },
     visible: {
       x: '110%',
-      opacity: 0,
-      transition: { duration: 3.2, ease: cinematicEase, repeat: Infinity, repeatDelay: 0.8, delay: 0.6 }
+      opacity: [0, 0.2, 0.2, 0],
+      transition: { duration: 5, ease: cinematicEase, repeat: Infinity, repeatDelay: 1.5, delay: 1 }
     }
   },
   stroke: {
@@ -282,14 +288,14 @@ export const loaderVariants = {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: cinematicEase, delay: 0.7 }
+      transition: { duration: 1.2, ease: cinematicEase, delay: 1.8 }
     }
   },
   revealMask: {
     hidden: { scaleY: 1 },
     visible: {
       scaleY: 0,
-      transition: { duration: 0.5, ease: cinematicEase, delay: 1.2 }
+      transition: { duration: 0.8, ease: cinematicEase, delay: 2.5 }
     }
   }
 };

@@ -15,7 +15,7 @@ module.exports = {
         maroon: '#3E0E0B',
         maroonDark: '#150808',
         darkbg: '#0A0A0A',
-        white: '#F6F6F6',
+        white: '#FFFFFF',
         black: '#0A0A0A',
         charcoal: '#0A0A0A',
         charcoalSoft: '#111111',
