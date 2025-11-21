@@ -13,25 +13,25 @@ const ContactForm = () => {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'Dezitech Engineering',
-      email: 'info@dezitechengineering.com', // Source: https://dezitechengineering.com/contact.html
+      email: 'info@dezitechengineering.com', /* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */
       url: 'https://dezitechengineering.com/',
       contactPoint: [
         {
           '@type': 'ContactPoint',
           contactType: 'Sales',
-          email: 'info@dezitechengineering.com', // Source: https://dezitechengineering.com/contact.html
+          email: 'info@dezitechengineering.com', /* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */
           areaServed: 'Global'
         }
       ],
       address: [
         {
           '@type': 'PostalAddress',
-          addressLocality: 'Karad', // Source: https://dezitechengineering.com/contact.html
+          addressLocality: 'Karad', /* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */
           addressCountry: 'IN'
         },
         {
           '@type': 'PostalAddress',
-          addressLocality: 'Bristol', // Source: https://dezitechengineering.com/about.html
+          addressLocality: 'Bristol', /* Taken from Dezitech About page: https://dezitechengineering.com/about.html */
           addressCountry: 'GB'
         }
       ]
@@ -93,30 +93,29 @@ const ContactForm = () => {
       <div className="dez-contact__container">
         <div className="dez-contact__copy">
           <p className="dez-section__eyebrow">Contact us</p>
-          {/* Source: https://dezitechengineering.com/contact.html */}
           <h2 className="dez-section__title">
             Please do contact us for any further details such as work samples, quotation or discus how we can help you.{' '}
-            {/* Source: https://dezitechengineering.com/contact.html */}
+            {/* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */}
           </h2>
           <div className="dez-contact__details">
             <p>
               <a href="mailto:info@dezitechengineering.com">info@dezitechengineering.com</a>
-              {/* Source: https://dezitechengineering.com/contact.html */}
+              {/* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */}
             </p>
             <p>
-              Karad, India · Bristol, UK {/* Source: https://dezitechengineering.com/about.html */}
+              Karad, India · Bristol, UK {/* Taken from Dezitech About page: https://dezitechengineering.com/about.html */}
             </p>
           </div>
           <p className="dez-contact__support">
             We manage the entire process from finding suitable manufacturers to continuous supply of products /
-            components. {/* Source: https://dezitechengineering.com/about.html */}
+            components. {/* Taken from Dezitech About page: https://dezitechengineering.com/about.html */}
           </p>
         </div>
         <form className="dez-contact__form" onSubmit={handleSubmit} noValidate>
           <div className="dez-contact__form-row">
             <div className="dez-contact__field">
               <label htmlFor="name">
-                Name {/* Source: https://dezitechengineering.com/contact.html */}
+                Name {/* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */}
               </label>
               <input
                 id="name"
@@ -137,7 +136,7 @@ const ContactForm = () => {
             </div>
             <div className="dez-contact__field">
               <label htmlFor="email">
-                Email {/* Source: https://dezitechengineering.com/contact.html */}
+                Email {/* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */}
               </label>
               <input
                 id="email"
@@ -159,7 +158,7 @@ const ContactForm = () => {
           </div>
           <div className="dez-contact__field">
             <label htmlFor="tel">
-              Phone {/* Source: https://dezitechengineering.com/contact.html */}
+              Phone {/* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */}
             </label>
             <input
               id="tel"
@@ -173,7 +172,7 @@ const ContactForm = () => {
           </div>
           <div className="dez-contact__field">
             <label htmlFor="message">
-              Message {/* Source: https://dezitechengineering.com/contact.html */}
+              Message {/* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */}
             </label>
             <textarea
               id="message"
@@ -203,7 +202,7 @@ const ContactForm = () => {
             )}
           </div>
           <button type="submit" className="dez-btn dez-btn--primary dez-contact__submit">
-            Submit {/* Source: https://dezitechengineering.com/contact.html */}
+            Submit {/* Taken from Dezitech Contact page: https://dezitechengineering.com/contact.html */}
           </button>
         </form>
       </div>

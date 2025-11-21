@@ -3,11 +3,12 @@ import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { loaderVariants } from '../lib/framerVariants';
 
-/* Default loader duration: 12 seconds (12000ms) - cinematic and noticeably long
+/* Default loader duration: 10 seconds (10000ms) - cinematic and noticeably long
  * Override via REACT_APP_LOADER_MS environment variable
  * Example: REACT_APP_LOADER_MS=8000 npm start
+ * If prefers-reduced-motion is set, reduces to 500ms
  */
-const DEFAULT_LOADER_DURATION = parseInt(process.env.REACT_APP_LOADER_MS || '12000', 10);
+const DEFAULT_LOADER_DURATION = parseInt(process.env.REACT_APP_LOADER_MS || '10000', 10);
 
 const SiteLoader = ({
   active,
@@ -17,6 +18,7 @@ const SiteLoader = ({
   skipAnimation = false
 }) => {
   const shouldSkip = prefersReducedMotion || skipAnimation;
+  const finalDuration = prefersReducedMotion ? 500 : duration;
 
   useEffect(() => {
     if (!active) return undefined;
@@ -34,10 +36,14 @@ const SiteLoader = ({
       announcement.className = 'sr-only';
       announcement.textContent = 'Site loaded';
       document.body.appendChild(announcement);
-      setTimeout(() => document.body.removeChild(announcement), 1000);
-    }, duration);
+      setTimeout(() => {
+        if (document.body.contains(announcement)) {
+          document.body.removeChild(announcement);
+        }
+      }, 1000);
+    }, finalDuration);
     return () => window.clearTimeout(timeout);
-  }, [active, duration, onComplete, shouldSkip]);
+  }, [active, finalDuration, onComplete, shouldSkip]);
 
   if (!active || shouldSkip) {
     return null;
@@ -85,7 +91,7 @@ const SiteLoader = ({
               />
             </motion.svg>
             <motion.p className="cinematic-loader__label" variants={loaderVariants.wordmark}>
-              Dezitech Engineering {/* Source: https://dezitechengineering.com/ */}
+              Dezitech Engineering {/* Taken from Dezitech homepage: https://dezitechengineering.com/ */}
             </motion.p>
             <motion.div
               className="cinematic-loader__reveal-mask"

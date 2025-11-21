@@ -16,8 +16,8 @@ const metaTitle = 'Dezitech Engineering'; // Source: https://dezitechengineering
 const metaDescription =
   'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!'; // Source: https://dezitechengineering.com/
 /* Loader duration: configurable via REACT_APP_LOADER_MS (default 6000ms) */
-/* Loader duration: configurable via REACT_APP_LOADER_MS (default 12000ms - 12 seconds) */
-const LOADER_DURATION_MS = parseInt(process.env.REACT_APP_LOADER_MS || '12000', 10);
+/* Loader duration: configurable via REACT_APP_LOADER_MS (default 10000ms - 10 seconds) */
+const LOADER_DURATION_MS = parseInt(process.env.REACT_APP_LOADER_MS || '10000', 10);
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();

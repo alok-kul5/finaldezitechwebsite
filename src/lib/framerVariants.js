@@ -3,6 +3,12 @@ const cinematicEase = [0.22, 1, 0.36, 1];
 const floatEase = [0.16, 1, 0.3, 1];
 const microEase = [0.4, 0, 0.2, 1];
 
+/* Loader duration constant - 10 seconds default */
+export const LOADER_MS = parseInt(process.env.REACT_APP_LOADER_MS || '10000', 10);
+
+/* Stagger delay constant for animations */
+export const STAGGER_DELAY = 0.08;
+
 // Text reveal variants for chunked word/line animations
 export const textRevealVariants = {
   container: {

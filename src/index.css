@@ -565,7 +565,7 @@
 
   .dez-service-card {
     position: relative;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 2.25rem;
     background: var(--bg-white);
     border: 1px solid rgba(0, 0, 0, 0.06);
@@ -575,11 +575,24 @@
     display: flex;
     flex-direction: column;
     min-height: 100%;
+    height: 100%;
+  }
+
+  .dez-section--dark .dez-service-card,
+  .dez-section--charcoal .dez-service-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .dez-service-card:focus-within {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    border-color: rgba(225, 6, 0, 0.2);
+    outline: 2px solid rgba(225, 6, 0, 0.3);
+    outline-offset: 2px;
+  }
+
+  .dez-section--dark .dez-service-card:focus-within,
+  .dez-section--charcoal .dez-service-card:focus-within {
+    outline-color: rgba(225, 6, 0, 0.5);
   }
 
   .dez-service-card__icon {
@@ -612,6 +625,11 @@
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   }
 
+  .dez-section--dark .dez-service-card__title,
+  .dez-section--charcoal .dez-service-card__title {
+    color: var(--text-light);
+  }
+
   .dez-service-card__title::after {
     content: '';
     display: block;
@@ -626,6 +644,11 @@
     line-height: 1.7;
     color: var(--muted);
     flex: 1;
+  }
+
+  .dez-section--dark .dez-service-card__description,
+  .dez-section--charcoal .dez-service-card__description {
+    color: var(--muted-light);
   }
 
   /* Industries */
