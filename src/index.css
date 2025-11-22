@@ -164,6 +164,105 @@
     background: var(--clr-dezired);
     transform-origin: left center;
     transform: scaleX(0);
+    transition: transform 0.35s var(--ease-cinematic);
+  }
+
+  .dez-nav__link:hover .dez-nav__underline,
+  .dez-nav__link:focus-visible .dez-nav__underline {
+    transform: scaleX(1);
+  }
+
+  .dez-nav__contact-cta {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--clr-mist);
+    border: 1px solid var(--clr-dezired);
+    border-radius: 999px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.4s var(--ease-cinematic);
+    font-weight: 600;
+  }
+
+  .dez-nav__contact-cta:hover,
+  .dez-nav__contact-cta:focus-visible {
+    background: var(--clr-dezired);
+    color: var(--clr-white);
+    border-color: var(--clr-dezired);
+  }
+
+  .dez-nav__resources {
+    position: relative;
+  }
+
+  .dez-nav__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.5rem;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    min-width: 200px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    z-index: 1000;
+  }
+
+  .dez-nav__dropdown-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    color: rgba(246, 246, 246, 0.8);
+    transition: color 0.2s ease;
+  }
+
+  .dez-nav__dropdown-link:hover {
+    color: var(--clr-mist);
+  }
+
+  .dez-nav__mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--clr-mist);
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  @media (max-width: 991px) {
+    .dez-nav__mobile-toggle {
+      display: block;
+    }
+  }
+
+  .dez-nav__mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 1000;
+  }
+
+  .dez-nav__mobile-link {
+    padding: 0.75rem 0;
+    color: rgba(246, 246, 246, 0.8);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .dez-nav__mobile-link:hover {
+    color: var(--clr-mist);
   }
 
   /* Sections */
@@ -254,9 +353,11 @@
     color: rgba(10, 10, 10, 0.7);
   }
 
-  /* Hero */
+  /* Hero - 60-75vh height range (not full 100vh)
+   * Layout inspired by Vista Energy (vistaenergy.com) and Meridian (trymeridian.com)
+   */
   .dez-hero {
-    min-height: 72vh;
+    min-height: 70vh;
     padding-top: var(--nav-height);
     display: flex;
     align-items: center;
@@ -265,7 +366,7 @@
 
   @media (max-width: 768px) {
     .dez-hero {
-      min-height: 55vh;
+      min-height: 60vh;
     }
   }
 
@@ -448,14 +549,18 @@
     }
   }
 
+  /* Service cards - static premium cards (NO TILT)
+   * Hover: translateY(-4px) scale(1.02) + box-shadow
+   * Only if prefers-reduced-motion: no transform
+   */
   .dez-service-card {
     position: relative;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 2.25rem;
     background: var(--clr-white);
     border: 1px solid rgba(0, 0, 0, 0.06);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-    transition: all 0.5s var(--ease-cinematic);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -463,8 +568,14 @@
   }
 
   .dez-service-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-4px) scale(1.02);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dez-service-card:hover {
+      transform: none;
+    }
   }
 
   .dez-service-card__content {
@@ -506,41 +617,38 @@
     opacity: 0.3;
   }
 
-  /* Industries */
-  .dez-industries__scroll-wrapper {
+  /* Industries - horizontal snap scroll marquee
+   * Layout inspired by Yardsale (yardsale.day) and Integrated Biosciences (integratedbiosciences.com)
+   */
+  .dez-industries__marquee-wrapper {
     position: relative;
     margin-top: 3rem;
+    overflow: hidden;
   }
 
-  .dez-industries__scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .dez-industries__scroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  .dez-industries__track {
+  .dez-industries__marquee {
     display: flex;
     gap: 2rem;
     padding: 1rem 0;
+    animation: marquee 50s linear infinite;
+    will-change: transform;
   }
 
-  .dez-industry-slide {
-    scroll-snap-align: start;
+  @media (prefers-reduced-motion: reduce) {
+    .dez-industries__marquee {
+      animation: none;
+    }
+  }
+
+  .dez-industry-item {
     flex: 0 0 320px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    scroll-snap-align: start;
   }
 
-  .dez-industry-slide__image-wrapper {
+  .dez-industry-item__image-wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 10;
@@ -549,17 +657,19 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .dez-industry-slide__image {
+  .dez-industry-item__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  .dez-industry-slide__tag {
+  .dez-industry-item__tag {
     font-size: 1.1rem;
     font-weight: 600;
     color: rgba(246, 246, 246, 0.8);
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   .dez-industries__fade-left,

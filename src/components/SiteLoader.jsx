@@ -3,16 +3,22 @@ import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { loaderVariants } from '../lib/framerVariants';
 
-const DEFAULT_LOADER_DURATION = 1800; // 1.6-2.0s range
+/* LOADER_DURATION_MS - Cinematic loader duration (default: 3200ms / 3.2s)
+ * To make it longer, change this constant (e.g., set to 6000 for 6 seconds)
+ * Or override via REACT_APP_LOADER_MS environment variable
+ * Example: REACT_APP_LOADER_MS=6000 npm start
+ */
+const LOADER_DURATION_MS = parseInt(process.env.REACT_APP_LOADER_MS || '3200', 10);
 
 const SiteLoader = ({
   active,
   onComplete,
   prefersReducedMotion,
-  duration = DEFAULT_LOADER_DURATION,
+  duration = LOADER_DURATION_MS,
   skipAnimation = false
 }) => {
   const shouldSkip = prefersReducedMotion || skipAnimation;
+  const finalDuration = prefersReducedMotion ? 100 : duration;
 
   useEffect(() => {
     if (!active) return undefined;
@@ -21,9 +27,23 @@ const SiteLoader = ({
       return undefined;
     }
 
-    const timeout = window.setTimeout(() => onComplete?.(), duration);
+    const timeout = window.setTimeout(() => {
+      onComplete?.();
+      /* Announce completion for screen readers */
+      const announcement = document.createElement('div');
+      announcement.setAttribute('role', 'status');
+      announcement.setAttribute('aria-live', 'polite');
+      announcement.className = 'sr-only';
+      announcement.textContent = 'Site loaded';
+      document.body.appendChild(announcement);
+      setTimeout(() => {
+        if (document.body.contains(announcement)) {
+          document.body.removeChild(announcement);
+        }
+      }, 1000);
+    }, finalDuration);
     return () => window.clearTimeout(timeout);
-  }, [active, duration, onComplete, shouldSkip]);
+  }, [active, finalDuration, onComplete, shouldSkip]);
 
   if (!active || shouldSkip) {
     return null;
@@ -43,6 +63,8 @@ const SiteLoader = ({
           variants={loaderVariants.backdrop}
         >
           <div className="cinematic-loader__overlay" aria-hidden="true" />
+          <motion.div className="cinematic-loader__sweep cinematic-loader__sweep--one" variants={loaderVariants.sweep} />
+          <motion.div className="cinematic-loader__sweep cinematic-loader__sweep--two" variants={loaderVariants.sweepDelayed} />
           <motion.div className="cinematic-loader__motif" variants={loaderVariants.planes}>
             <motion.svg
               className="cinematic-loader__mark"
@@ -55,14 +77,14 @@ const SiteLoader = ({
                 cy="100"
                 r="80"
                 fill="none"
-                stroke="var(--clr-mist)"
+                stroke="var(--text-light)"
                 strokeWidth="2"
                 variants={loaderVariants.stroke}
               />
               <motion.path
                 d="M100 20 L100 100 L180 100"
                 fill="none"
-                stroke="var(--clr-dezired)"
+                stroke="var(--dezired)"
                 strokeWidth="2"
                 strokeLinecap="round"
                 variants={loaderVariants.stroke}
