@@ -2,23 +2,17 @@
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { loaderVariants } from '../lib/framerVariants';
-
-/* Default loader duration: 10 seconds (10000ms) - cinematic and noticeably long
- * Override via REACT_APP_LOADER_MS environment variable
- * Example: REACT_APP_LOADER_MS=8000 npm start
- * If prefers-reduced-motion is set, reduces to 500ms
- */
-const DEFAULT_LOADER_DURATION = parseInt(process.env.REACT_APP_LOADER_MS || '10000', 10);
+import { LOADER_DURATION_MS } from '../config';
 
 const SiteLoader = ({
   active,
   onComplete,
   prefersReducedMotion,
-  duration = DEFAULT_LOADER_DURATION,
+  duration = LOADER_DURATION_MS,
   skipAnimation = false
 }) => {
   const shouldSkip = prefersReducedMotion || skipAnimation;
-  const finalDuration = prefersReducedMotion ? 500 : duration;
+  const finalDuration = prefersReducedMotion ? 100 : duration;
 
   useEffect(() => {
     if (!active) return undefined;
@@ -91,7 +85,7 @@ const SiteLoader = ({
               />
             </motion.svg>
             <motion.p className="cinematic-loader__label" variants={loaderVariants.wordmark}>
-              Dezitech Engineering {/* Taken from Dezitech homepage: https://dezitechengineering.com/ */}
+              Dezitech Engineering {/* Taken from https://dezitechengineering.com/ */}
             </motion.p>
             <motion.div
               className="cinematic-loader__reveal-mask"

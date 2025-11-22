@@ -17,6 +17,7 @@ const ServiceCard = ({ title, description, sourceUrl, index = 0, cardId }) => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-80px' }}
+      whileHover="hover"
       className="dez-service-card"
       style={{ transitionDelay: `${index * 0.08}s` }}
     >

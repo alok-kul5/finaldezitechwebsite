@@ -11,13 +11,12 @@ import Footer from './components/Footer';
 import SiteLoader from './components/SiteLoader';
 import Section from './components/Section';
 import usePrefersReducedMotion from './hooks/usePrefersReducedMotion';
+import { LOADER_DURATION_MS } from './config';
 
-/* Taken from Dezitech homepage: https://dezitechengineering.com/ */
+/* Taken from https://dezitechengineering.com/ */
 const metaTitle = 'Dezitech Engineering';
 const metaDescription =
   'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!';
-/* Loader duration: configurable via REACT_APP_LOADER_MS (default 10000ms - 10 seconds) */
-const LOADER_DURATION_MS = parseInt(process.env.REACT_APP_LOADER_MS || '10000', 10);
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();

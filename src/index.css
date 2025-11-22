@@ -182,12 +182,72 @@
     text-transform: uppercase;
     font-weight: 500;
     flex-wrap: wrap;
+    position: relative;
   }
 
   @media (max-width: 1024px) {
     .dez-nav__menu {
       display: none;
     }
+  }
+
+  .dez-nav__resources {
+    position: relative;
+  }
+
+  .dez-nav__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.5rem;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    min-width: 200px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    z-index: 1000;
+  }
+
+  .dez-nav__dropdown-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    color: rgba(246, 246, 246, 0.8);
+    transition: color 0.2s ease;
+  }
+
+  .dez-nav__dropdown-link:hover {
+    color: var(--text-light);
+  }
+
+  .dez-nav__mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 1000;
+  }
+
+  .dez-nav__mobile-link {
+    padding: 0.75rem 0;
+    color: rgba(246, 246, 246, 0.8);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .dez-nav__mobile-link:hover {
+    color: var(--text-light);
   }
 
   .dez-nav__link {
@@ -358,14 +418,19 @@
     color: var(--muted-light);
   }
 
-  /* Hero */
+  /* Hero - 64-75vh height range, not full 100vh */
   .dez-hero {
-    min-height: 64vh;
+    min-height: 70vh;
     padding-top: var(--nav-height);
     display: flex;
     align-items: center;
     position: relative;
-    background: var(--bg-white);
+  }
+
+  @media (max-width: 768px) {
+    .dez-hero {
+      min-height: 64vh;
+    }
   }
 
   @media (max-width: 768px) {
@@ -563,6 +628,9 @@
     }
   }
 
+  /* Service cards - static premium cards (no tilt)
+   * Soft hover: translateY(-4px) + box-shadow + transition 280ms ease
+   */
   .dez-service-card {
     position: relative;
     border-radius: 12px;
@@ -570,7 +638,7 @@
     background: var(--bg-white);
     border: 1px solid rgba(0, 0, 0, 0.06);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-    transition: box-shadow 0.4s var(--ease-cinematic);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -584,8 +652,12 @@
     border-color: rgba(255, 255, 255, 0.1);
   }
 
+  .dez-service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  }
+
   .dez-service-card:focus-within {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     outline: 2px solid rgba(225, 6, 0, 0.3);
     outline-offset: 2px;
   }

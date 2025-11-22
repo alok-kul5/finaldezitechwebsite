@@ -14,7 +14,8 @@ module.exports = {
         deziredLight: '#FF1A0D',
         maroon: '#3E0E0B',
         maroonDark: '#150808',
-        darkbg: '#0A0A0A',
+        darkbg: '#0B0B0B',
+        darkbg2: '#111111',
         white: '#FFFFFF',
         black: '#0A0A0A',
         charcoal: '#0A0A0A',
@@ -25,7 +26,8 @@ module.exports = {
         greyLight: '#EDEDED',
         softwhite: '#F6F6F6',
         mist: '#F6F6F6',
-        graphite: '#808080'
+        graphite: '#808080',
+        stroke: 'rgba(0,0,0,0.06)'
       },
       boxShadow: {
         'card-hover': '0 25px 80px rgba(0,0,0,0.15)',
