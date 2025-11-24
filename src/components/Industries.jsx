@@ -5,52 +5,76 @@ import useStaggered from '../hooks/useStaggered';
 import { sectionStagger } from '../lib/framerVariants';
 import ImageWithPlaceholder from './ImageWithPlaceholder';
 
+/* Industries data - all names taken from Dezitech Engineering Design page */
 const industries = [
   {
-    name: 'Automotive', // Source: https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/industry-gearbox.jpg',
+    /* Taken from https://dezitechengineering.com/engineeringdesign.html */
+    name: 'Automotive',
+    image: '/assets/industry-automotive.jpg',
+    /* TODO: Replace with curated Unsplash/Pexels image
+     * Query: "automotive engineering", "car manufacturing", "automotive assembly line"
+     */
     credit: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e'
   },
   {
-    name: 'Industrial Equipment', // Source: https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/hero-industrial.jpg',
+    /* Taken from https://dezitechengineering.com/engineeringdesign.html */
+    name: 'Industrial Equipment',
+    image: '/assets/industry-industrial.jpg',
+    /* TODO: Replace with curated Unsplash/Pexels image
+     * Query: "industrial machinery", "manufacturing equipment", "industrial assembly line"
+     */
     credit: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e'
   },
   {
-    name: 'HVAC & Refrigeration', // Source: https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/industry-refrigeration.jpg',
+    /* Taken from https://dezitechengineering.com/engineeringdesign.html */
+    name: 'HVAC & Refrigeration',
+    image: '/assets/industry-hvac.jpg',
+    /* TODO: Replace with curated Unsplash/Pexels image
+     * Query: "HVAC system", "refrigeration unit", "hvac plant"
+     */
     credit: 'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a'
   },
   {
-    name: 'Oil & Gas', // Source: https://dezitechengineering.com/engineeringdesign.html
-    image: '/assets/industry-control.jpg',
+    /* Taken from https://dezitechengineering.com/engineeringdesign.html */
+    name: 'Oil & Gas',
+    image: '/assets/industry-oilgas.jpg',
+    /* TODO: Replace with curated Unsplash/Pexels image
+     * Query: "oil and gas industry", "petroleum engineering", "industrial gearbox"
+     */
     credit: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773'
   },
   {
-    name: 'Aviation', // Source: https://dezitechengineering.com/engineeringdesign.html
+    /* Taken from https://dezitechengineering.com/engineeringdesign.html */
+    name: 'Aviation',
     image: '/assets/industry-aviation.jpg',
+    /* TODO: Replace with curated Unsplash/Pexels image
+     * Query: "aviation engineering", "aircraft manufacturing", "assembly line"
+     */
     credit: 'https://images.unsplash.com/photo-1502877338535-766e1452684a'
   }
 ];
 
-const IndustrySlide = ({ industry, index }) => (
+/* Industry item component - horizontal snap scroll marquee
+ * Layout inspired by Yardsale (yardsale.day) and Integrated Biosciences (integratedbiosciences.com)
+ */
+const IndustryItem = ({ industry, index }) => (
   <motion.div
-    className="dez-industry-slide"
-    initial={{ opacity: 0, x: 30 }}
-    whileInView={{ opacity: 1, x: 0 }}
+    className="dez-industry-item"
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: '-40px' }}
-    transition={{ duration: 0.7, delay: index * 0.08 }}
+    transition={{ duration: 0.7, delay: index * 0.1 }}
   >
-    <div className="dez-industry-slide__image-wrapper">
+    <div className="dez-industry-item__image-wrapper">
       <ImageWithPlaceholder
         src={industry.image}
         alt={`${industry.name} programs`}
         loading="lazy"
-        imgClassName="dez-industry-slide__image"
+        imgClassName="dez-industry-item__image"
         tone="steel"
       />
     </div>
-    <div className="dez-industry-slide__tag">
+    <div className="dez-industry-item__tag">
       {industry.name}
       <span className="sr-only">Image credit {industry.credit}</span>
     </div>
@@ -61,7 +85,7 @@ const Industries = () => {
   const { ref, controls } = useStaggered({ threshold: 0.15, rootMargin: '-10% 0px' });
 
   return (
-    <Section id="industries" variant="charcoal">
+    <Section id="industries" variant="dark">
       <motion.div
         ref={ref}
         variants={sectionStagger}
@@ -71,20 +95,18 @@ const Industries = () => {
       >
         <div className="dez-section__header">
           <motion.p className="dez-section__eyebrow" variants={sectionStagger}>
-            Industries served {/* Source: https://dezitechengineering.com/engineeringdesign.html */}
+            Industries served {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
           </motion.p>
           <motion.h2 className="dez-section__title" variants={sectionStagger}>
             We provide end to end service or tailored individual needs worldwide to diverse and multidisciplinary
-            industries. {/* Source: https://dezitechengineering.com/engineeringdesign.html */}
+            industries. {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
           </motion.h2>
         </div>
-        <div className="dez-industries__scroll-wrapper">
-          <div className="dez-industries__scroll" aria-label="Industries scroll">
-            <div className="dez-industries__track">
-              {[...industries, ...industries].map((industry, index) => (
-                <IndustrySlide key={`${industry.name}-${index}`} industry={industry} index={index} />
-              ))}
-            </div>
+        <div className="dez-industries__marquee-wrapper">
+          <div className="dez-industries__marquee" aria-label="Industries marquee">
+            {[...industries, ...industries].map((industry, index) => (
+              <IndustryItem key={`${industry.name}-${index}`} industry={industry} index={index} />
+            ))}
           </div>
           <div className="dez-industries__fade-left" aria-hidden="true" />
           <div className="dez-industries__fade-right" aria-hidden="true" />

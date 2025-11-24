@@ -1,14 +1,36 @@
 // tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./public/index.html', './src/**/*.{js,jsx,ts,tsx}'],
+  content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
+    container: {
+      center: true,
+      padding: '1rem',
+      screens: {
+        DEFAULT: '100%',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1200px',
+      },
+    },
     extend: {
       fontFamily: {
         sans: ['Inter', '"Plus Jakarta Sans"', '"Manrope"', 'system-ui', 'sans-serif'],
         display: ['Inter', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
       },
       colors: {
+        dez: {
+          bg: '#07070a',
+          surface: '#0f1724',
+          primary: '#0B3D91',
+          accent: '#26c6da',
+          muted: '#94a3b8',
+        },
         dezired: '#E10600',
         deziredDark: '#B80500',
         deziredLight: '#FF1A0D',
@@ -27,6 +49,10 @@ module.exports = {
         mist: '#F6F6F6',
         graphite: '#808080'
       },
+      spacing: {
+        '96': '24rem',
+        '128': '32rem',
+      },
       boxShadow: {
         'card-hover': '0 25px 80px rgba(0,0,0,0.15)',
         'card-soft': '0 8px 32px rgba(0,0,0,0.08)',
@@ -40,6 +66,8 @@ module.exports = {
         premium: '20px'
       },
       transitionTimingFunction: {
+        'ease-main': 'cubic-bezier(0.2, 0.9, 0.2, 1)',
+        'ease-micro': 'cubic-bezier(0.22, 0.8, 0.3, 1)',
         cinematic: 'cubic-bezier(0.22, 1, 0.36, 1)',
         smooth: 'cubic-bezier(0.16, 1, 0.3, 1)',
         'bounce-soft': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'

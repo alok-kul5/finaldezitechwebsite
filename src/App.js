@@ -12,10 +12,12 @@ import SiteLoader from './components/SiteLoader';
 import Section from './components/Section';
 import usePrefersReducedMotion from './hooks/usePrefersReducedMotion';
 
-const metaTitle = 'Dezitech Engineering'; // Source: https://dezitechengineering.com/
+/* Taken from https://dezitechengineering.com/ */
+const metaTitle = 'Dezitech Engineering';
 const metaDescription =
-  'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!'; // Source: https://dezitechengineering.com/
-const LOADER_DURATION_MS = 5000; // Cinematic loader 4-6s window
+  'Dezitech Engineering Pvt. Ltd., Karad, India. Your Engineering design/ technology partner!';
+/* Loader duration: default 3200ms (3.2s) - configurable via REACT_APP_LOADER_MS */
+const LOADER_DURATION_MS = parseInt(process.env.REACT_APP_LOADER_MS || '3200', 10);
 
 function App() {
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -37,6 +39,9 @@ function App() {
 
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <SiteLoader
         active={showLoader}
         onComplete={handleLoaderComplete}
@@ -46,7 +51,7 @@ function App() {
       />
       <div className="app-shell">
         <Navbar />
-        <main>
+        <main id="main-content">
           <Hero prefersReducedMotion={prefersReducedMotion} />
           <Services />
           <CaseStudies />

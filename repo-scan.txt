@@ -1,0 +1,41 @@
+REPOSITORY SCAN REPORT - Dezitech Engineering Website
+====================================================
+
+PROJECT TYPE: Next.js 14 App Router (already migrated)
+
+TOP-LEVEL STRUCTURE:
+- app/ directory exists with layout.tsx, page.tsx, globals.css
+- components/ directory with new TypeScript components
+- src/ directory still contains old CRA files (duplication)
+- utils/ directory with lerp.ts and useParallax.ts
+- lib/ directory with framerVariants.ts
+
+ISSUES DETECTED (one per line):
+
+1. Missing component: components/sections/ContactCTA.tsx (referenced in requirements)
+2. Tailwind config missing required theme colors: --dez-bg:#07070a, --dez-surface:#0f1724, --dez-primary:#0B3D91, --dez-accent:#26c6da, --dez-muted:#94a3b8
+3. Tailwind config missing spacing tokens: spacing.96 = '24rem', spacing.128 = '32rem'
+4. Missing dependency: @heroicons/react (referenced in requirements)
+5. AnimatedSection.tsx is client component but spec requires server wrapper with useInView (currently has 'use client')
+6. Missing content-line animations: horizontal rules with scaleX 0->1, origin-left, duration 0.42s, stagger 0.06s
+7. globals.css missing grain-overlay styling
+8. globals.css missing condensed font import (closest open-source match needed)
+9. Hero subheadline delay incorrect: should be 0.22s (currently 0.2s in heroVariants.subhead)
+10. Parallax layers missing scale transforms: should be [1.01,1.03,1.06] in addition to multipliers
+11. AnimatedSection missing delayChildren: 0.06 in default variants
+12. Navbar scroll threshold should be >24px (currently >40px)
+13. Old src/ folder contains CRA files that may cause confusion (App.js, index.js, etc.)
+14. Missing content-line component/utility for horizontal rule animations
+15. ProductCard missing pill tag element (spec requires "square image, pill tag, title, summary")
+16. Hero headline animation missing delayChildren in stagger config
+17. All client components correctly have 'use client' directive (no server boundary violations detected)
+18. No broken imports detected in new components/ structure
+19. Missing styles/globals.css path (currently app/globals.css - may need to move or alias)
+20. Verification.json exists but may need update after fixes
+
+CLIENT/SERVER BOUNDARIES:
+- All components using hooks correctly have 'use client' directive
+- No server components incorrectly using client hooks detected
+
+READY FOR PATCHES: Yes (after confirmation)
+

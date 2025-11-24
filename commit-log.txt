@@ -1,0 +1,89 @@
+COMMIT LOG - Dezitech Engineering Next.js Transformation
+========================================================
+
+Commit 1: Update Tailwind config with required theme colors and spacing tokens
+Files modified:
+- tailwind.config.js
+Changes: Added dez theme colors (bg, surface, primary, accent, muted) and spacing tokens (96, 128)
+
+Commit 2: Fix Hero subheadline delay to 0.22s
+Files modified:
+- lib/framerVariants.ts
+Changes: Updated heroVariants.subhead delay from 0.2s to 0.22s
+
+Commit 3: Refactor AnimatedSection to server wrapper with client child
+Files created:
+- components/ui/AnimatedSectionClient.tsx
+Files modified:
+- components/ui/AnimatedSection.tsx
+Changes: Split into server wrapper (AnimatedSection) and client component (AnimatedSectionClient) with delayChildren: 0.06
+
+Commit 4: Fix Navbar scroll threshold to >24px
+Files modified:
+- components/layout/Navbar.tsx
+Changes: Changed scroll threshold from >40px to >24px
+
+Commit 5: Add parallax scales [1.01, 1.03, 1.06] to Hero
+Files modified:
+- components/sections/Hero.tsx
+Changes: Added scale transforms to parallax layers matching multipliers
+
+Commit 6: Create ContentLine component for horizontal rule animations
+Files created:
+- components/ui/ContentLine.tsx
+Changes: Component with scaleX 0->1 animation, duration 0.42s, stagger 0.06s
+
+Commit 7: Update globals.css with grain-overlay and condensed font
+Files modified:
+- app/globals.css
+Changes: Added grain-overlay styling and Barlow Condensed/Space Grotesk font imports
+
+Commit 8: Add pill tag to ProductCard
+Files modified:
+- components/ui/ProductCard.tsx
+Changes: Added optional tag prop and pill tag element with layoutId support
+
+Commit 9: Create ContactCTA section component
+Files created:
+- components/sections/ContactCTA.tsx
+Changes: Contact CTA section with content lines and Dezitech Engineering copy
+
+Commit 10: Update app/page.tsx to include ContactCTA and grain overlay
+Files modified:
+- app/page.tsx
+Changes: Added ContactCTA import and grain-overlay div
+
+Commit 11: Add @heroicons/react dependency
+Files modified:
+- package.json
+Changes: Added @heroicons/react to dependencies
+
+Commit 12: Fix TypeScript type issues in framerVariants
+Files modified:
+- lib/framerVariants.ts
+Changes: Removed explicit Variants type annotations to allow TypeScript inference
+
+Commit 13: Fix useInView API usage in AnimatedSectionClient
+Files modified:
+- components/ui/AnimatedSectionClient.tsx
+Changes: Updated useInView options to use 'amount' and 'margin' instead of 'threshold' and 'rootMargin'
+
+Commit 14: Fix ContentLine useRef import
+Files modified:
+- components/ui/ContentLine.tsx
+Changes: Changed useRef import from framer-motion to react
+
+Commit 15: Add type casts for Framer Motion variants
+Files modified:
+- components/sections/Hero.tsx
+Changes: Added 'as any' type casts for variant props to resolve TypeScript strict mode issues
+
+Commit 16: Install ESLint for build process
+Files modified:
+- package.json
+Changes: Added eslint to devDependencies
+
+Total files created: 4
+Total files modified: 12
+Build status: ✓ Compiled successfully
+

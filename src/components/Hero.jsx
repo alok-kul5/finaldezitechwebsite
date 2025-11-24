@@ -1,5 +1,5 @@
 // src/components/Hero.jsx
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { heroVariants, textRevealVariants } from '../lib/framerVariants';
 import useStaggered from '../hooks/useStaggered';
@@ -8,10 +8,17 @@ import Section from './Section';
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 import ImageWithPlaceholder from './ImageWithPlaceholder';
 
-const heroImage = '/assets/hero-industrial.jpg';
-const heroImageSource = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e'; // Image credit
+/* Hero visual placeholder - Lottie/GLTF scene or layered SVG
+ * TODO: Replace with production hero video (16:9 mp4 loop) or high-res engineering renders
+ * Suggested Unsplash queries: "automotive engineering", "industrial factory interior", "ev thermal module"
+ */
+const heroImage = '/assets/hero.png';
 
 const StaggeredHeadline = ({ text, prefersReducedMotion }) => {
+  /* Chunked word-by-word reveal with mask per word
+   * Stagger: 40-80ms per word (configurable in textRevealVariants.container.staggerChildren)
+   * Use opacity + translateY only (GPU-accelerated)
+   */
   const words = text.split(' ');
   const { ref, controls } = useStaggered({ threshold: 0.2, rootMargin: '-10% 0px' });
 
@@ -21,9 +28,9 @@ const StaggeredHeadline = ({ text, prefersReducedMotion }) => {
 
   return (
     <motion.span ref={ref} variants={textRevealVariants.container} initial="hidden" animate={controls}>
-      {words.map((word, index) => (
+      {words.map((word, wordIndex) => (
         <motion.span
-          key={`${word}-${index}`}
+          key={`word-${wordIndex}`}
           variants={textRevealVariants.word}
           style={{ display: 'inline-block', marginRight: '0.25em', overflow: 'hidden' }}
         >
@@ -35,7 +42,11 @@ const StaggeredHeadline = ({ text, prefersReducedMotion }) => {
 };
 
 const HeroVisual = ({ prefersReducedMotion }) => {
-  const visualRef = useParallax({ strength: 12, scrollStrength: 0.04 });
+  /* Parallax for hero visual only - transform: translate3d() with throttling
+   * Respect prefers-reduced-motion (disable parallax)
+   * Visual layout inspired by Vision Avatr (vision.avatr.com) and Osmo Supply (osmo.supply)
+   */
+  const visualRef = useParallax({ strength: 8, scrollStrength: 0.03 });
   const heroSources = useMemo(
     () => [
       {
@@ -49,62 +60,44 @@ const HeroVisual = ({ prefersReducedMotion }) => {
   return (
     <motion.div ref={visualRef} className="hero-visual" variants={heroVariants.visual}>
       <div className="hero-visual__container" data-reduced={prefersReducedMotion ? 'true' : 'false'}>
+        {/* Placeholder for Lottie/GLTF scene */}
         <ImageWithPlaceholder
           src={heroImage}
-          alt="Precision manufacturing floor"
+          alt="Dezitech Engineering solutions"
           loading="eager"
           decoding="async"
           sources={heroSources}
           imgClassName="hero-visual__image"
           tone="warm"
         />
-        {/* Image source: https://images.unsplash.com/photo-1469474968028-56623f02e42e */}
         <div className="hero-visual__overlay" aria-hidden="true" />
         <svg className="hero-visual__decorative" viewBox="0 0 200 200" aria-hidden="true">
-          <motion.circle
-            cx="100"
-            cy="100"
-            r="60"
+          <motion.polygon
+            points="100,20 180,100 100,180 20,100"
             fill="none"
-            stroke="rgba(225, 6, 0, 0.2)"
+            stroke="rgba(225, 6, 0, 0.15)"
             strokeWidth="1"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 2.2, ease: [0.22, 1, 0.36, 1], delay: 0.6 }}
+            transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1], delay: 0.8 }}
           />
         </svg>
       </div>
-      <span className="hero-visual__credit" aria-label="Image credit">
-        Image credit:{' '}
-        <a href={heroImageSource} target="_blank" rel="noreferrer">
-          Unsplash
-        </a>
-      </span>
     </motion.div>
   );
 };
 
-const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = false }) => {
+const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = true }) => {
   const prefersReducedMotion = usePrefersReducedMotion() || prefersReducedMotionProp;
   const { ref, controls } = useStaggered({ threshold: 0.25 });
-  const [matchesCenterBreakpoint, setMatchesCenterBreakpoint] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return undefined;
-    const mediaQuery = window.matchMedia('(max-width: 900px)');
-    const handleChange = (event) => setMatchesCenterBreakpoint(event.matches);
-    handleChange(mediaQuery);
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  const heroTitle = 'Engineering outsourcing solutions in design and product manufacturing'; // Source: https://dezitechengineering.com/
-  const heroSubhead = 'Dezitech is your solutions provider in engineering design, products and supply chain.'; // Source: https://dezitechengineering.com/about.html
-  const shouldCenter = centered || matchesCenterBreakpoint;
+  /* Taken from https://dezitechengineering.com/ */
+  const heroTitle = 'Engineering outsourcing solutions in design and product manufacturing';
+  /* Taken from https://dezitechengineering.com/about.html */
+  const heroSubhead = 'Dezitech is your solutions provider in engineering design, products and supply chain.';
 
   return (
-    <Section id="home" variant="maroon" padded={false} className={`dez-hero ${shouldCenter ? 'hero--center' : ''}`}>
-      <div className="dez-hero__bg-gradient" aria-hidden="true" />
+    <Section id="home" variant="dark" padded={false} className={`dez-hero ${centered ? 'hero--center' : ''}`}>
       <motion.div
         ref={ref}
         variants={heroVariants.container}
@@ -114,12 +107,11 @@ const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = false
       >
         <div className="dez-hero__content">
           <motion.p className="dez-hero__eyebrow" variants={heroVariants.eyebrow}>
-            Engineering outsourcing solutions {/* Source: https://dezitechengineering.com/ */}
+            Engineering outsourcing solutions {/* Taken from https://dezitechengineering.com/ */}
           </motion.p>
           <motion.h1 className="dez-hero__title">
             <StaggeredHeadline text={heroTitle} prefersReducedMotion={prefersReducedMotion} />
           </motion.h1>
-          {/* Source: https://dezitechengineering.com/about.html */}
           <motion.p className="dez-hero__subhead" variants={heroVariants.subhead}>
             {heroSubhead}
           </motion.p>
@@ -127,8 +119,8 @@ const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = false
             <motion.a
               href="#services"
               className="dez-btn dez-btn--primary"
-              whileHover={{ y: -2, scale: 1.01 }}
-              whileFocus={{ y: -1 }}
+              whileHover={{ scale: 1.02 }}
+              whileFocus={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
             >
               Explore Services
@@ -136,16 +128,15 @@ const Hero = ({ prefersReducedMotion: prefersReducedMotionProp, centered = false
             <motion.a
               href="mailto:info@dezitechengineering.com"
               className="dez-btn dez-btn--secondary"
-              whileHover={{ y: -2, scale: 1.01 }}
-              whileFocus={{ y: -1 }}
-              whileTap={{ scale: 0.99 }}
+              whileHover={{ opacity: 0.8 }}
+              whileFocus={{ opacity: 0.8 }}
             >
-              Contact Us {/* Source: https://dezitechengineering.com/contact.html */}
+              Contact Us {/* Taken from https://dezitechengineering.com/contact.html */}
             </motion.a>
           </motion.div>
           <div className="hero-meta">
-            <p>20+ years delivering global engineering programs {/* Source: https://dezitechengineering.com/about.html */}</p>
-            <p>Karad · Bristol · Global reach {/* Source: https://dezitechengineering.com/contact.html */}</p>
+            <p>20+ years delivering global engineering programs {/* Taken from https://dezitechengineering.com/about.html */}</p>
+            <p>Karad · Bristol · Global reach {/* Taken from https://dezitechengineering.com/contact.html */}</p>
           </div>
         </div>
         <HeroVisual prefersReducedMotion={prefersReducedMotion} />

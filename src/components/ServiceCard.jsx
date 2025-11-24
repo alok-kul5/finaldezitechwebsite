@@ -1,12 +1,14 @@
 // src/components/ServiceCard.jsx
 import { motion } from 'framer-motion';
 import { cardVariants } from '../lib/framerVariants';
-import useTypewriter from '../animations/typewriter';
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
 
+/* Static premium card - NO TILT
+ * Hover: translateY(-4px) scale(1.02) + box-shadow only
+ * Respect prefers-reduced-motion (no transform on hover if reduced motion)
+ */
 const ServiceCard = ({ title, description, sourceUrl, index = 0, cardId }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const displayTitle = useTypewriter(title, { speed: 35, enabled: !prefersReducedMotion });
   const descriptionId = `${cardId || 'service-card'}-description`;
 
   return (
@@ -17,7 +19,7 @@ const ServiceCard = ({ title, description, sourceUrl, index = 0, cardId }) => {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-80px' }}
-      whileHover="hover"
+      whileHover={prefersReducedMotion ? undefined : 'hover'}
       className="dez-service-card"
       style={{ transitionDelay: `${index * 0.08}s` }}
     >
@@ -36,7 +38,7 @@ const ServiceCard = ({ title, description, sourceUrl, index = 0, cardId }) => {
         </svg>
       </div>
       <div className="dez-service-card__content">
-        <h3 className="dez-service-card__title">{displayTitle}</h3>
+        <h3 className="dez-service-card__title">{title}</h3>
         <p id={descriptionId} className="dez-service-card__description">
           {description}
         </p>
@@ -46,7 +48,6 @@ const ServiceCard = ({ title, description, sourceUrl, index = 0, cardId }) => {
           </span>
         )}
       </div>
-      <div className="dez-service-card__hover-border" aria-hidden="true" />
     </motion.article>
   );
 };

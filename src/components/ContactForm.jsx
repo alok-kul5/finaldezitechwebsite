@@ -75,9 +75,9 @@ const ContactForm = () => {
     /**
      * TODO: Hook up to backend transport
      * - Netlify Forms: add data-netlify="true" and hidden input 'form-name' then POST directly.
-     * - Node/Express API: replace console.log with fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) }).
+     * - Node/Express API: replace with fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) }).
      */
-    console.log('Form submitted:', formData);
+    // Form submission handled - ready for backend integration
     setSubmitStatus('success');
     setFormData({ name: '', email: '', tel: '', message: '' });
   };
@@ -194,12 +194,14 @@ const ContactForm = () => {
           </div>
           <div className="dez-contact__status" aria-live="polite" role="status">
             {submitStatus === 'success' && (
-              <div className="dez-contact__success">
+              <div className="dez-contact__success" role="alert">
                 Thank you! Your message has been sent.
               </div>
             )}
             {submitStatus === 'error' && Object.keys(errors).length > 0 && (
-              <div className="dez-contact__error-message">Please correct the errors above.</div>
+              <div className="dez-contact__error-message" role="alert">
+                Please correct the errors above.
+              </div>
             )}
           </div>
           <button type="submit" className="dez-btn dez-btn--primary dez-contact__submit">

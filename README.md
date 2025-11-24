@@ -1,53 +1,125 @@
-# Dezitech Engineering – Premium Homepage
+# Dezitech Engineering – Premium Homepage (Next.js + TypeScript)
 
-Awwwards-grade React homepage for Dezitech Engineering with cinematic motion, alternating dark/white sections, and sourced copy pulled verbatim from Dezitech’s official pages.
+A production-ready Next.js + TypeScript + Tailwind + Framer Motion site with complex animated backgrounds, scroll-driven border/line behaviors, and premium animations matching the Integrated Biosciences reference structure.
 
 ## Quickstart
 
-1. `npm install`
-2. `npm run dev` *(alias for CRA start)*
-3. `npm run build`
+1. **Install dependencies** – `npm install`
+2. **Start development server** – `npm run dev`
+3. **Build for production** – `npm run build`
+4. **Start production server** – `npm start`
 
 > Dev server: http://localhost:3000
 
 ## Scripts
 
-- `npm start` – CRA dev server
-- `npm run dev` – Convenience alias for `npm start`
-- `npm run build` – Production bundle (used for deployments)
-- `npm test` – CRA/Jest smoke tests
-- `npm run eject` – CRA eject (irreversible)
+- `npm run dev` – Start Next.js development server with hot reload
+- `npm run build` – Create production-optimized build
+- `npm start` – Start production server
+- `npm run lint` – Run ESLint
 
 ## Stack & Structure
 
-- **React 18 + CRA**
-- **Tailwind CSS + handcrafted CSS** (Dezitech palette baked into variables)
-- **Framer Motion** for transform + opacity animations only
-- **Custom hooks**: `useStaggered`, `useParallax`, `useTypewriter`, `usePrefersReducedMotion`
-- **Lazy imagery**: `ImageWithPlaceholder` uses IntersectionObserver blur-up
+- **Next.js 14** – React framework with App Router
+- **TypeScript** – Type-safe development
+- **Tailwind CSS** – Utility-first CSS with custom design tokens
+- **Framer Motion** – Premium animations with exact easing curves
+- **Custom Hooks** – `useParallax`, `lerp` utilities for smooth animations
 
 ```
-src/
-├── components/ (Navbar, Hero, Services, Industries, Contact, etc.)
-├── animations/ (typewriter, useParallax)
-├── hooks/ (useStaggered, usePrefersReducedMotion)
-└── lib/framerVariants.js
+├── app/
+│   ├── layout.tsx          # Root layout with metadata
+│   ├── page.tsx            # Homepage
+│   └── globals.css         # Global styles + CSS variables
+├── components/
+│   ├── layout/
+│   │   └── Navbar.tsx      # Navigation with scroll-blur
+│   ├── sections/
+│   │   ├── Hero.tsx        # Hero with 3-layer parallax
+│   │   ├── CapabilitiesSection.tsx
+│   │   ├── IndustriesSection.tsx
+│   │   └── ContactCTA.tsx
+│   └── ui/
+│       ├── AnimatedSection.tsx  # Server wrapper for useInView + stagger
+│       ├── AnimatedSectionClient.tsx  # Client component with animations
+│       ├── ProductCard.tsx      # Card with layoutId morph + pill tag
+│       └── ContentLine.tsx      # Horizontal rule animations
+├── lib/
+│   └── framerVariants.ts   # Animation variants with exact specs
+├── utils/
+│   ├── lerp.ts             # Linear interpolation utility
+│   └── useParallax.ts      # Parallax hook with exact multipliers
+└── tailwind.config.js      # Tailwind config with container 1200px
 ```
 
 ## Design System
 
-- Palette: Dezitech Red `#E10600` (accent only), deep charcoals `#0A0A0A/#111111`, clean whites `#FFFFFF/#F6F6F6`, light divider grey `#EDEDED`
-- Typography: Inter / Plus Jakarta Sans / Manrope via Google Fonts
-- Sections alternate: Hero (maroon gradient) → Services (white) → Industries (charcoal) → About/Solutions (white) → Contact + Footer (charcoal)
-- Buttons: Dark fill with subtle Dezitech-red stroke and glow on hover
+### Colors
+- **Dezitech Red** (accent): `#E10600`
+- **Maroon Gradient**: `#3E0E0B` → `#150808`
+- **Charcoal/Black**: `#0A0A0A`, `#111111`
+- **White**: `#F6F6F6`
+- **Grey Light**: `#EDEDED`
+- **Theme Colors**: `dez-bg: #07070a`, `dez-surface: #0f1724`, `dez-primary: #0B3D91`, `dez-accent: #26c6da`, `dez-muted: #94a3b8`
 
-## Motion
+### Typography
+- **Headlines**: Inter / Plus Jakarta Sans (geometric, softer weights)
+- **Body**: Inter (system fallback)
+- **Font Loading**: Next.js font optimization with Inter
+- **Condensed**: Barlow Condensed / Space Grotesk (via `.font-condensed` class)
 
-- **Cinematic loader**: 5 s sweeps + marquees, skips automatically for `prefers-reduced-motion`
-- **Hero**: Chunked headline reveal (~1.8 s), parallax visual, center-aligned option via `.hero--center`
-- **Cards**: Uniform height grid, translateY hover (no tilt), accent underline
-- **Industries**: Horizontal snap carousel with fade masks
-- **All animations** gated by IntersectionObserver + reduced-motion checks
+### Animation Specs
+
+#### Global Easings
+- `--ease-main`: `cubic-bezier(0.2, 0.9, 0.2, 1)`
+- `--ease-micro`: `cubic-bezier(0.22, 0.8, 0.3, 1)`
+
+#### Hero Headline
+- Initial: `{ y: 24, opacity: 0 }`
+- Animate: `{ y: 0, opacity: 1 }`
+- Transition: `{ duration: 0.95, delay: 0.12, ease: --ease-main }`
+
+#### Parallax
+- Multipliers: `[0.01, 0.03, 0.07]`
+- Scales: `[1.01, 1.03, 1.06]`
+- Lerp factor: `0.12`
+- Spring fallback: `{ stiffness: 80, damping: 18 }`
+
+#### Border Stroke
+- Duration: `0.78s`
+- Delay: `0.06s`
+- Ease: `--ease-micro`
+- Reverse on leave: `0.36s`
+
+#### Content Line
+- Duration: `0.42s`
+- Stagger: `0.06s`
+- ScaleX: `0 → 1`
+- Origin: `left`
+
+#### Card Hover
+- Scale: `1.035`
+- TranslateY: `-6px`
+- Shadow: `0 20px 40px rgba(11, 61, 145, 0.08)`
+- Transition: `0.28s ease --ease-micro`
+
+## Features
+
+- ✅ Scroll-driven SVG border animations
+- ✅ Scroll indicator dot with lerp smoothing
+- ✅ 3-layer parallax background in Hero with scales [1.01, 1.03, 1.06]
+- ✅ Word-by-word headline animation
+- ✅ Card morphing with layoutId
+- ✅ Content-line horizontal rule animations
+- ✅ Pill tags on product cards
+- ✅ Grain overlay texture
+- ✅ Condensed font support (Barlow Condensed / Space Grotesk)
+- ✅ Intersection-driven animations with stagger
+- ✅ Prefers-reduced-motion support
+- ✅ TypeScript throughout
+- ✅ Next.js App Router
+- ✅ Container max-width: 1200px
+- ✅ Theme colors: dez-bg, dez-surface, dez-primary, dez-accent, dez-muted
 
 ## Content & Assets
 
@@ -59,12 +131,24 @@ All visible copy is sourced from official Dezitech pages and annotated inline:
 - https://dezitechengineering.com/refrigeration.html
 - https://dezitechengineering.com/contact.html
 
-High-quality royalty-free imagery (Unsplash) is cached locally under `public/assets/` and cited in code/CHANGES.
+## Font Notes
+
+The heading font uses **Inter** (open-source) as the primary font, with **Plus Jakarta Sans** as a fallback. For condensed display headings, **Barlow Condensed** and **Space Grotesk** are available via the `.font-condensed` class. These are open-source alternatives that provide a similar condensed aesthetic. If the exact proprietary font from the reference site is needed, replace it in `app/layout.tsx` and document the change.
+
+## Image Placeholders
+
+All images are currently placeholders. Replace with production assets:
+- Hero image: `/public/assets/hero-placeholder.png`
+- Industry images: `/public/assets/industry-*.jpg`
 
 ## Accessibility & Performance
 
 - Semantic HTML, ARIA labels, visible focus outlines
 - `prefers-reduced-motion` respected everywhere
 - Transform + opacity-only animations for GPU friendliness
-- `ImageWithPlaceholder` + IntersectionObserver for lazy blur-up loading
-- JSON-LD Organization schema embedded in the contact form
+- Lazy-loaded images with IntersectionObserver
+- JSON-LD Organization schema embedded
+
+## Legal Note
+
+All text content has been replaced with Dezitech Engineering (MEI contracting) content. Image placeholders are noted with their original locations in comments.
