@@ -156,7 +156,7 @@ export default function CapabilitiesSection() {
   return (
     <AnimatedSection
       id="capabilities"
-      className="dez-section dez-section--capabilities relative"
+      className="dez-section dez-section--capabilities dez-section--padded relative"
       staggerDelay={0.08}
     >
       <div ref={sectionRef as React.RefObject<HTMLDivElement>} className="relative">

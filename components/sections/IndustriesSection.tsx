@@ -176,7 +176,7 @@ export default function IndustriesSection() {
   return (
     <AnimatedSection
       id="industries"
-      className="dez-section dez-section--industries relative"
+      className="dez-section dez-section--industries dez-section--padded relative"
       staggerDelay={0.08}
     >
       <div ref={sectionRef} className="relative">
@@ -203,7 +203,7 @@ export default function IndustriesSection() {
         </div>
         <div className="dez-industries__marquee-wrapper">
           <div className="dez-industries__marquee" aria-label="Industries marquee">
-            {[...industries, ...industries].map((industry, index) => (
+            {industries.map((industry, index) => (
               <IndustryItem key={`${industry.name}-${index}`} industry={industry} index={index} />
             ))}
           </div>

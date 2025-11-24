@@ -9,7 +9,7 @@ export default function ContactCTA() {
   return (
     <AnimatedSection
       id="contact"
-      className="dez-section dez-section--contact relative"
+      className="dez-section dez-section--contact dez-section--padded relative"
       staggerDelay={0.08}
       delayChildren={0.06}
     >

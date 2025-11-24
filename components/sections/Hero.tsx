@@ -108,7 +108,6 @@ export default function Hero({ prefersReducedMotion: prefersReducedMotionProp, c
     <section
       id="home"
       className={`dez-hero ${centered ? 'hero--center' : ''}`}
-      style={{ background: 'linear-gradient(135deg, #0A0A0A 0%, #150808 100%)' }}
     >
       <motion.div
         variants={heroVariants.container as any}
