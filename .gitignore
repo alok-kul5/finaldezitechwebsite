@@ -4,6 +4,8 @@ node_modules
 # Production builds
 build
 .dist
+.next
+out
 
 # Logs
 npm-debug.log*
