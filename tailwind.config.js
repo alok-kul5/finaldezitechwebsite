@@ -24,6 +24,13 @@ module.exports = {
         display: ['Inter', '"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
       },
       colors: {
+        dez: {
+          bg: '#07070a',
+          surface: '#0f1724',
+          primary: '#0B3D91',
+          accent: '#26c6da',
+          muted: '#94a3b8',
+        },
         dezired: '#E10600',
         deziredDark: '#B80500',
         deziredLight: '#FF1A0D',
@@ -41,6 +48,10 @@ module.exports = {
         softwhite: '#F6F6F6',
         mist: '#F6F6F6',
         graphite: '#808080'
+      },
+      spacing: {
+        '96': '24rem',
+        '128': '32rem',
       },
       boxShadow: {
         'card-hover': '0 25px 80px rgba(0,0,0,0.15)',

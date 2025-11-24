@@ -12,6 +12,7 @@ interface ProductCardProps {
   index?: number;
   cardId?: string;
   onCardClick?: () => void;
+  tag?: string;
 }
 
 /**
@@ -26,6 +27,7 @@ export default function ProductCard({
   index = 0,
   cardId,
   onCardClick,
+  tag,
 }: ProductCardProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const descriptionId = `${cardId || 'product-card'}-description`;
@@ -63,11 +65,17 @@ export default function ProductCard({
             alt={title}
             className="dez-product-card__image"
             loading="lazy"
+            layoutId={layoutId ? `${layoutId}-image` : undefined}
             initial={{ opacity: 0, scale: 1.05 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: [0.22, 0.8, 0.3, 1] }}
           />
+          {tag && (
+            <span className="dez-product-card__pill-tag" aria-label={`Category: ${tag}`}>
+              {tag}
+            </span>
+          )}
         </div>
       )}
       <div className="dez-product-card__icon" aria-hidden="true">

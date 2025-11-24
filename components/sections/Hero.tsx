@@ -21,11 +21,11 @@ const StaggeredHeadline = ({ text, prefersReducedMotion }: { text: string; prefe
   }
 
   return (
-    <motion.span variants={textRevealVariants.container} initial="hidden" animate="visible">
+    <motion.span variants={textRevealVariants.container as any} initial="hidden" animate="visible">
       {words.map((word, wordIndex) => (
         <motion.span
           key={`word-${wordIndex}`}
-          variants={textRevealVariants.word}
+          variants={textRevealVariants.word as any}
           style={{ display: 'inline-block', marginRight: '0.25em', overflow: 'hidden' }}
         >
           {word}
@@ -36,7 +36,7 @@ const StaggeredHeadline = ({ text, prefersReducedMotion }: { text: string; prefe
 };
 
 const HeroVisual = ({ prefersReducedMotion }: { prefersReducedMotion: boolean }) => {
-  // 3 parallax layers with exact multipliers [0.01, 0.03, 0.07]
+  // 3 parallax layers with exact multipliers [0.01, 0.03, 0.07] and scales [1.01, 1.03, 1.06]
   const { refs, transforms } = useParallax({
     multipliers: [0.01, 0.03, 0.07],
     lerpFactor: 0.12,
@@ -44,32 +44,34 @@ const HeroVisual = ({ prefersReducedMotion }: { prefersReducedMotion: boolean })
     prefersReducedMotion,
   });
 
+  const scales = [1.01, 1.03, 1.06];
+
   return (
-    <motion.div className="hero-visual" variants={heroVariants.visual}>
+    <motion.div className="hero-visual" variants={heroVariants.visual as any}>
       <div className="hero-visual__container" data-reduced={prefersReducedMotion ? 'true' : 'false'}>
-        {/* Layer 1 - Background (multiplier 0.01) */}
+        {/* Layer 1 - Background (multiplier 0.01, scale 1.01) */}
         <motion.div
           ref={refs[0] as React.RefObject<HTMLDivElement>}
           className="hero-visual__layer hero-visual__layer--bg"
-          style={{ y: transforms[0] }}
+          style={{ y: transforms[0], scale: scales[0] }}
         >
           <div className="hero-visual__gradient" />
         </motion.div>
 
-        {/* Layer 2 - Mid (multiplier 0.03) */}
+        {/* Layer 2 - Mid (multiplier 0.03, scale 1.03) */}
         <motion.div
           ref={refs[1] as React.RefObject<HTMLDivElement>}
           className="hero-visual__layer hero-visual__layer--mid"
-          style={{ y: transforms[1] }}
+          style={{ y: transforms[1], scale: scales[1] }}
         >
           <div className="hero-visual__pattern" />
         </motion.div>
 
-        {/* Layer 3 - Foreground (multiplier 0.07) */}
+        {/* Layer 3 - Foreground (multiplier 0.07, scale 1.06) */}
         <motion.div
           ref={refs[2] as React.RefObject<HTMLDivElement>}
           className="hero-visual__layer hero-visual__layer--fg"
-          style={{ y: transforms[2] }}
+          style={{ y: transforms[2], scale: scales[2] }}
         >
           <img
             src={heroImage}
@@ -109,22 +111,22 @@ export default function Hero({ prefersReducedMotion: prefersReducedMotionProp, c
       style={{ background: 'linear-gradient(135deg, #0A0A0A 0%, #150808 100%)' }}
     >
       <motion.div
-        variants={heroVariants.container}
+        variants={heroVariants.container as any}
         initial="hidden"
         animate="visible"
         className="dez-hero__container"
       >
         <div className="dez-hero__content">
-          <motion.p className="dez-hero__eyebrow" variants={heroVariants.eyebrow}>
+          <motion.p className="dez-hero__eyebrow" variants={heroVariants.eyebrow as any}>
             Engineering outsourcing solutions
           </motion.p>
-          <motion.h1 className="dez-hero__title" variants={heroHeadlineVariants}>
+          <motion.h1 className="dez-hero__title" variants={heroHeadlineVariants as any}>
             <StaggeredHeadline text={heroTitle} prefersReducedMotion={prefersReducedMotion} />
           </motion.h1>
-          <motion.p className="dez-hero__subhead" variants={heroVariants.subhead}>
+          <motion.p className="dez-hero__subhead" variants={heroVariants.subhead as any}>
             {heroSubhead}
           </motion.p>
-          <motion.div className="dez-hero__ctas" variants={heroVariants.cta}>
+          <motion.div className="dez-hero__ctas" variants={heroVariants.cta as any}>
             <motion.a
               href="#services"
               className="dez-btn dez-btn--primary"

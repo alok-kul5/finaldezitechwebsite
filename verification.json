@@ -1,8 +1,9 @@
 {
   "project": "Dezitech Engineering - Next.js + TypeScript",
   "version": "1.0.0",
-  "framework": "Next.js 14",
+  "framework": "Next.js 14 App Router",
   "language": "TypeScript",
+  "buildStatus": "✓ Compiled successfully",
   "animationSpecs": {
     "globalEasings": {
       "easeMain": "cubic-bezier(0.2, 0.9, 0.2, 1)",
@@ -23,8 +24,24 @@
         "ease": "cubic-bezier(0.2, 0.9, 0.2, 1)"
       }
     },
+    "heroSubheadline": {
+      "initial": {
+        "opacity": 0,
+        "y": 28
+      },
+      "animate": {
+        "opacity": 1,
+        "y": 0
+      },
+      "transition": {
+        "duration": 1.1,
+        "delay": 0.22,
+        "ease": "cubic-bezier(0.22, 1, 0.36, 1)"
+      }
+    },
     "parallax": {
       "multipliers": [0.01, 0.03, 0.07],
+      "scales": [1.01, 1.03, 1.06],
       "lerpFactor": 0.12,
       "springFallback": {
         "stiffness": 80,
@@ -40,6 +57,12 @@
         "ease": "cubic-bezier(0.22, 0.8, 0.3, 1)"
       }
     },
+    "contentLine": {
+      "duration": 0.42,
+      "stagger": 0.06,
+      "ease": "cubic-bezier(0.22, 0.8, 0.3, 1)",
+      "originX": 0
+    },
     "cardHover": {
       "scale": 1.035,
       "translateY": -6,
@@ -48,6 +71,10 @@
         "duration": 0.28,
         "ease": "cubic-bezier(0.22, 0.8, 0.3, 1)"
       }
+    },
+    "staggeredReveals": {
+      "staggerChildren": 0.08,
+      "delayChildren": 0.06
     }
   },
   "components": {
@@ -57,7 +84,10 @@
       "components/ui/ProductCard.tsx",
       "components/sections/CapabilitiesSection.tsx",
       "components/sections/IndustriesSection.tsx",
-      "components/ui/AnimatedSection.tsx"
+      "components/sections/ContactCTA.tsx",
+      "components/ui/AnimatedSection.tsx",
+      "components/ui/AnimatedSectionClient.tsx",
+      "components/ui/ContentLine.tsx"
     ],
     "utilities": [
       "utils/lerp.ts",
@@ -66,7 +96,7 @@
     "config": [
       "next.config.js",
       "tsconfig.json",
-      "tailwind.config.js (updated)",
+      "tailwind.config.js",
       "app/layout.tsx",
       "app/page.tsx",
       "app/globals.css",
@@ -75,19 +105,43 @@
   },
   "features": {
     "scrollBlurNavbar": true,
+    "scrollThreshold": ">24px",
     "threeLayerParallax": true,
+    "parallaxScales": [1.01, 1.03, 1.06],
     "scrollDrivenBorders": true,
     "scrollIndicatorDot": true,
     "cardMorphing": true,
+    "pillTag": true,
+    "contentLineAnimations": true,
     "prefersReducedMotion": true,
+    "grainOverlay": true,
+    "condensedFont": "Barlow Condensed / Space Grotesk",
     "exactAnimationSpecs": true
   },
   "tailwindConfig": {
     "containerMaxWidth": 1200,
+    "themeColors": {
+      "dezBg": "#07070a",
+      "dezSurface": "#0f1724",
+      "dezPrimary": "#0B3D91",
+      "dezAccent": "#26c6da",
+      "dezMuted": "#94a3b8"
+    },
+    "spacingTokens": {
+      "96": "24rem",
+      "128": "32rem"
+    },
     "easingTokens": {
       "easeMain": "cubic-bezier(0.2, 0.9, 0.2, 1)",
       "easeMicro": "cubic-bezier(0.22, 0.8, 0.3, 1)"
     }
+  },
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.1",
+    "framer-motion": "^11.3.8",
+    "@heroicons/react": "^2.1.1",
+    "typescript": "^5.3.3",
+    "tailwindcss": "^3.4.15"
   }
 }
-

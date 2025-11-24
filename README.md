@@ -37,10 +37,13 @@ A production-ready Next.js + TypeScript + Tailwind + Framer Motion site with com
 │   ├── sections/
 │   │   ├── Hero.tsx        # Hero with 3-layer parallax
 │   │   ├── CapabilitiesSection.tsx
-│   │   └── IndustriesSection.tsx
+│   │   ├── IndustriesSection.tsx
+│   │   └── ContactCTA.tsx
 │   └── ui/
-│       ├── AnimatedSection.tsx  # useInView + stagger
-│       └── ProductCard.tsx      # Card with layoutId morph
+│       ├── AnimatedSection.tsx  # Server wrapper for useInView + stagger
+│       ├── AnimatedSectionClient.tsx  # Client component with animations
+│       ├── ProductCard.tsx      # Card with layoutId morph + pill tag
+│       └── ContentLine.tsx      # Horizontal rule animations
 ├── lib/
 │   └── framerVariants.ts   # Animation variants with exact specs
 ├── utils/
@@ -76,6 +79,7 @@ A production-ready Next.js + TypeScript + Tailwind + Framer Motion site with com
 
 #### Parallax
 - Multipliers: `[0.01, 0.03, 0.07]`
+- Scales: `[1.01, 1.03, 1.06]`
 - Lerp factor: `0.12`
 - Spring fallback: `{ stiffness: 80, damping: 18 }`
 
@@ -84,6 +88,12 @@ A production-ready Next.js + TypeScript + Tailwind + Framer Motion site with com
 - Delay: `0.06s`
 - Ease: `--ease-micro`
 - Reverse on leave: `0.36s`
+
+#### Content Line
+- Duration: `0.42s`
+- Stagger: `0.06s`
+- ScaleX: `0 → 1`
+- Origin: `left`
 
 #### Card Hover
 - Scale: `1.035`
@@ -95,18 +105,23 @@ A production-ready Next.js + TypeScript + Tailwind + Framer Motion site with com
 
 - ✅ Scroll-driven SVG border animations
 - ✅ Scroll indicator dot with lerp smoothing
-- ✅ 3-layer parallax background in Hero
+- ✅ 3-layer parallax background in Hero with scales [1.01, 1.03, 1.06]
 - ✅ Word-by-word headline animation
 - ✅ Card morphing with layoutId
-- ✅ Intersection-driven animations
+- ✅ Content-line horizontal rule animations
+- ✅ Pill tags on product cards
+- ✅ Grain overlay texture
+- ✅ Condensed font support (Barlow Condensed / Space Grotesk)
+- ✅ Intersection-driven animations with stagger
 - ✅ Prefers-reduced-motion support
 - ✅ TypeScript throughout
 - ✅ Next.js App Router
 - ✅ Container max-width: 1200px
+- ✅ Theme colors: dez-bg, dez-surface, dez-primary, dez-accent, dez-muted
 
 ## Font Notes
 
-The heading font uses **Inter** (open-source) as the primary font, with **Plus Jakarta Sans** as a fallback. If the exact proprietary font from the reference site is needed, replace it in `app/layout.tsx` and document the change.
+The heading font uses **Inter** (open-source) as the primary font, with **Plus Jakarta Sans** as a fallback. For condensed display headings, **Barlow Condensed** and **Space Grotesk** are available via the `.font-condensed` class. These are open-source alternatives that provide a similar condensed aesthetic. If the exact proprietary font from the reference site is needed, replace it in `app/layout.tsx` and document the change.
 
 ## Image Placeholders
 

@@ -6,7 +6,7 @@ const easeMicro = [0.22, 0.8, 0.3, 1] as const; // cubic-bezier(.22,.8,.3,1)
 const cinematicEase = [0.22, 1, 0.36, 1] as const;
 
 /* Text reveal variants */
-export const textRevealVariants: Variants = {
+export const textRevealVariants = {
   container: {
     hidden: { opacity: 0 },
     visible: {
@@ -52,7 +52,7 @@ export const textRevealVariants: Variants = {
 };
 
 /* Hero headline animation - exact specs */
-export const heroHeadlineVariants: Variants = {
+export const heroHeadlineVariants = {
   hidden: {
     y: 24,
     opacity: 0,
@@ -69,7 +69,7 @@ export const heroHeadlineVariants: Variants = {
 };
 
 /* Nav variants */
-export const navShellVariants: Variants = {
+export const navShellVariants = {
   hidden: { opacity: 0, y: -24 },
   visible: {
     opacity: 1,
@@ -78,7 +78,7 @@ export const navShellVariants: Variants = {
   },
 };
 
-export const navLinkVariants: Variants = {
+export const navLinkVariants = {
   rest: { y: 0, scale: 1 },
   hover: {
     y: -2,
@@ -93,7 +93,7 @@ export const navLinkVariants: Variants = {
 };
 
 /* Hero variants */
-export const heroVariants: Variants = {
+export const heroVariants = {
   container: {
     hidden: { opacity: 0, y: 36 },
     visible: {
@@ -108,7 +108,7 @@ export const heroVariants: Variants = {
   },
   subhead: {
     hidden: { opacity: 0, y: 28 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.1, ease: cinematicEase, delay: 0.2 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 1.1, ease: cinematicEase, delay: 0.22 } },
   },
   cta: {
     hidden: { opacity: 0, y: 30, scale: 0.98 },
@@ -126,7 +126,7 @@ export const heroVariants: Variants = {
 };
 
 /* Section stagger */
-export const sectionStagger: Variants = {
+export const sectionStagger = {
   hidden: { opacity: 0, y: 36 },
   visible: {
     opacity: 1,
@@ -136,7 +136,7 @@ export const sectionStagger: Variants = {
 };
 
 /* Card variants - exact hover specs */
-export const cardVariants: Variants = {
+export const cardVariants = {
   hidden: {
     opacity: 0,
     y: 28,
@@ -160,7 +160,7 @@ export const cardVariants: Variants = {
 };
 
 /* Border stroke animation variants */
-export const borderStrokeVariants: Variants = {
+export const borderStrokeVariants = {
   hidden: {
     strokeDashoffset: 1000,
     opacity: 0,
@@ -185,13 +185,13 @@ export const borderStrokeVariants: Variants = {
 };
 
 /* Fade in up */
-export const fadeInUp: Variants = {
+export const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.85, ease: cinematicEase } },
 };
 
 /* Image reveal */
-export const imageReveal: Variants = {
+export const imageReveal = {
   hidden: {
     opacity: 0,
     scale: 1.035,
