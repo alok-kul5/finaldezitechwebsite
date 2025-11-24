@@ -1,58 +1,35 @@
-// src/components/Footer.jsx
-import { motion } from 'framer-motion';
-import { fadeInUp } from '../lib/framerVariants';
+import React from "react";
 
-const Footer = () => {
+export default function Footer() {
   return (
-    <motion.footer
-      className="dez-footer"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-100px' }}
-      variants={fadeInUp}
-    >
-      <div className="dez-footer__container">
-        <div className="dez-footer__grid">
-          <div className="dez-footer__column">
-            <h3 className="dez-footer__title">Dezitech Engineering</h3>
-            {/* Taken from https://dezitechengineering.com/ */}
-            <p>Karad, India & Bristol, UK</p>
-            {/* Taken from https://dezitechengineering.com/contact.html */}
-            <a href="mailto:info@dezitechengineering.com">info@dezitechengineering.com</a>
-            {/* Taken from https://dezitechengineering.com/contact.html */}
+    <footer className="relative bg-transparent text-white py-24 mt-24">
+      <div className="container mx-auto relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          <div>
+            <h2 className="text-3xl font-bold">We are Dezitech Engineering</h2>
+            <p className="mt-4 text-dez-muted">Partner with Dezitech Engineering for world-class MEI contracting, industrial maintenance, and EPC solutions.</p>
           </div>
-          <div className="dez-footer__column">
-            <h4 className="dez-footer__subtitle">Quick Links</h4>
-            {/* Taken from https://dezitechengineering.com/contact.html */}
-            <ul className="dez-footer__links">
-              <li>
-                <a href="#home">Home</a>
-                {/* Taken from https://dezitechengineering.com/ */}
-              </li>
-              <li>
-                <a href="#services">Engineering/Design Services</a>
-                {/* Taken from https://dezitechengineering.com/engineeringdesign.html */}
-              </li>
-              <li>
-                <a href="#services">Refrigeration Design</a>
-                {/* Taken from https://dezitechengineering.com/refrigeration.html */}
-              </li>
-              <li>
-                <a href="#contact">Contact Us</a>
-                {/* Taken from https://dezitechengineering.com/contact.html */}
-              </li>
+          <div>
+            <h6 className="text-sm uppercase">Navigate</h6>
+            <ul className="mt-4 space-y-2">
+              <li><a href="#platform">Platform</a></li>
+              <li><a href="#company">Company</a></li>
             </ul>
           </div>
-          <div className="dez-footer__column dez-footer__column--small">
-            <p className="dez-footer__copyright">
-              Copyright © {new Date().getFullYear()} - All Rights Reserved
-              {/* Taken from https://dezitechengineering.com/contact.html */}
-            </p>
+          <div>
+            <h6 className="text-sm uppercase">Connect</h6>
+            <ul className="mt-4 space-y-2">
+              <li><a href="#">LinkedIn</a></li>
+            </ul>
           </div>
         </div>
       </div>
-    </motion.footer>
-  );
-};
 
-export default Footer;
+      <div className="footer-giant">Dezitech</div>
+
+      <div className="container mx-auto mt-12 text-sm text-dez-muted">
+        © {new Date().getFullYear()} Dezitech Engineering. All rights reserved.
+      </div>
+    </footer>
+  );
+}

@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* tokens */
+:root {
+  --dez-bg: #07070a;
+  --dez-surface: #0f1724;
+  --dez-primary: #0B3D91;
+  --dez-accent: #26c6da;
+  --dez-muted: #94a3b8;
+  --ease-main: cubic-bezier(.2,.9,.2,1);
+  --ease-micro: cubic-bezier(.22,.8,.3,1);
+}
+
+/* import a condensed display fallback */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@300;400;600&display=swap');
+
+html,body,#root {
+  height:100%;
+  background: var(--dez-bg);
+  color: #fff;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.display {
+  font-family: "Space Grotesk", Inter, system-ui;
+  letter-spacing: -0.02em;
+  line-height: 1.03;
+}
+
+/* hero utilities */
+.hero-container { position: relative; overflow: hidden; }
+.hero-layer { position: absolute; inset: 0; background-position: center; background-size: cover; will-change: transform; }
+
+/* section border container */
+.section-with-border { position: relative; padding-left: 64px; } /* leave space for vertical bar */
+
+/* horizontal content rule */
+.content-line { display: inline-block; height: 1px; background: rgba(255,255,255,0.12); transform-origin: left; transform: scaleX(0); }
+
+.section-padding { padding: 6rem 0; }
+
+/* header top white rounded bar */
+.header-rounded {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  transition: background 240ms ease, backdrop-filter 240ms ease, border-radius 240ms ease;
+  border-radius: 18px;
+  margin: 12px;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.9);
+  color: #0f1724;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+.header-scrolled {
+  background: rgba(0,0,0,0.4) !important;
+  color: white !important;
+  backdrop-filter: blur(6px);
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+/* big footer word */
+.footer-giant { position: absolute; right: 6%; bottom: -6%; font-size: 18rem; opacity: 0.06; pointer-events: none; }
+
+/* focus */
+button:focus, a:focus { outline: 3px solid rgba(38,198,218,0.14); outline-offset: 2px; }
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
