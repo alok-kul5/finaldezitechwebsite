@@ -1,8 +1,23 @@
 // tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./public/index.html', './src/**/*.{js,jsx,ts,tsx}'],
+  content: [
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
+    container: {
+      center: true,
+      padding: '1rem',
+      screens: {
+        DEFAULT: '100%',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1200px',
+      },
+    },
     extend: {
       fontFamily: {
         sans: ['Inter', '"Plus Jakarta Sans"', '"Manrope"', 'system-ui', 'sans-serif'],
@@ -40,6 +55,8 @@ module.exports = {
         premium: '20px'
       },
       transitionTimingFunction: {
+        'ease-main': 'cubic-bezier(0.2, 0.9, 0.2, 1)',
+        'ease-micro': 'cubic-bezier(0.22, 0.8, 0.3, 1)',
         cinematic: 'cubic-bezier(0.22, 1, 0.36, 1)',
         smooth: 'cubic-bezier(0.16, 1, 0.3, 1)',
         'bounce-soft': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)'

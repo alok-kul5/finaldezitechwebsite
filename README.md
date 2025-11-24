@@ -1,59 +1,58 @@
-# Dezitech Engineering – Premium Homepage
+# Dezitech Engineering – Premium Homepage (Next.js + TypeScript)
 
-Awwwards-grade React homepage for Dezitech Engineering with premium animations, restrained Dezitech red accents, and alternating section backgrounds.
+A production-ready Next.js + TypeScript + Tailwind + Framer Motion site with complex animated backgrounds, scroll-driven border/line behaviors, and premium animations matching the Integrated Biosciences reference structure.
 
 ## Quickstart
 
 1. **Install dependencies** – `npm install`
-2. **Start development server** – `npm start`
+2. **Start development server** – `npm run dev`
 3. **Build for production** – `npm run build`
-4. **Preview production build** – `npm run build && npm run preview`
+4. **Start production server** – `npm start`
 
 > The dev server runs on http://localhost:3000
 
 ## Scripts
 
-- `npm start` – Start CRA development server with hot reload
-- `npm run build` – Create production-optimized bundle
-- `npm run preview` – Serve the `build` folder locally
-- `npm test` – Run Jest test suite
-- `npm run eject` – Eject from CRA (irreversible)
+- `npm run dev` – Start Next.js development server with hot reload
+- `npm run build` – Create production-optimized build
+- `npm start` – Start production server
+- `npm run lint` – Run ESLint
 
 ## Stack & Structure
 
-- **React 18 + CRA** – Zero-config development experience
-- **Tailwind CSS + Custom CSS** – Dezitech brand palette with restrained red accents
-- **Framer Motion** – Premium, slow animations (transform + opacity only)
-- **Custom Hooks** – `useStaggered`, `useParallax`, `useTypewriter` for reusable animations
+- **Next.js 14** – React framework with App Router
+- **TypeScript** – Type-safe development
+- **Tailwind CSS** – Utility-first CSS with custom design tokens
+- **Framer Motion** – Premium animations with exact easing curves
+- **Custom Hooks** – `useParallax`, `lerp` utilities for smooth animations
 
 ```
-src/
-├── App.js
-├── index.css
+├── app/
+│   ├── layout.tsx          # Root layout with metadata
+│   ├── page.tsx            # Homepage
+│   └── globals.css         # Global styles + CSS variables
 ├── components/
-│   ├── Navbar.jsx
-│   ├── Hero.jsx
-│   ├── Services.jsx
-│   ├── ServiceCard.jsx
-│   ├── Industries.jsx
-│   ├── CaseStudies.jsx
-│   ├── ContactForm.jsx
-│   ├── Footer.jsx
-│   └── Section.jsx
-├── animations/
-│   ├── typewriter.js
-│   └── useParallax.js
-├── hooks/
-│   ├── useStaggered.js
-│   └── usePrefersReducedMotion.js
-└── lib/
-    └── framerVariants.js
+│   ├── layout/
+│   │   └── Navbar.tsx      # Navigation with scroll-blur
+│   ├── sections/
+│   │   ├── Hero.tsx        # Hero with 3-layer parallax
+│   │   ├── CapabilitiesSection.tsx
+│   │   └── IndustriesSection.tsx
+│   └── ui/
+│       ├── AnimatedSection.tsx  # useInView + stagger
+│       └── ProductCard.tsx      # Card with layoutId morph
+├── lib/
+│   └── framerVariants.ts   # Animation variants with exact specs
+├── utils/
+│   ├── lerp.ts             # Linear interpolation utility
+│   └── useParallax.ts      # Parallax hook with exact multipliers
+└── tailwind.config.js      # Tailwind config with container 1200px
 ```
 
 ## Design System
 
 ### Colors
-- **Dezitech Red** (accent only): `#E10600`
+- **Dezitech Red** (accent): `#E10600`
 - **Maroon Gradient**: `#3E0E0B` → `#150808`
 - **Charcoal/Black**: `#0A0A0A`, `#111111`
 - **White**: `#F6F6F6`
@@ -61,50 +60,60 @@ src/
 
 ### Typography
 - **Headlines**: Inter / Plus Jakarta Sans (geometric, softer weights)
-- **Body**: Inter / Manrope (readable, medium weight)
+- **Body**: Inter (system fallback)
+- **Font Loading**: Next.js font optimization with Inter
 
-### Section Alternation
-1. Hero: Dark maroon gradient
-2. Services: Clean white
-3. Case Studies: Charcoal
-4. Industries: Charcoal
-5. Contact/Footer: Charcoal
+### Animation Specs
 
-## Motion & Animations
+#### Global Easings
+- `--ease-main`: `cubic-bezier(0.2, 0.9, 0.2, 1)`
+- `--ease-micro`: `cubic-bezier(0.22, 0.8, 0.3, 1)`
 
-- **Global loader**: 1.4–1.8s cinematic sweep
-- **Hero**: Staggered headline lines, typewriter effect
-- **Cards**: Uniform heights, hover lift with subtle red border glow
-- **Marquee**: Slow, fluid industries strip
-- **IntersectionObserver**: Heavy animations only trigger in-view
-- **prefers-reduced-motion**: All animations respect user preference
+#### Hero Headline
+- Initial: `{ y: 24, opacity: 0 }`
+- Animate: `{ y: 0, opacity: 1 }`
+- Transition: `{ duration: 0.95, delay: 0.12, ease: --ease-main }`
 
-## Content Sources
+#### Parallax
+- Multipliers: `[0.01, 0.03, 0.07]`
+- Lerp factor: `0.12`
+- Spring fallback: `{ stiffness: 80, damping: 18 }`
 
-All text content is sourced from official Dezitech pages with inline URL comments:
-- https://dezitechengineering.com/
-- https://dezitechengineering.com/about.html
-- https://dezitechengineering.com/engineeringdesign.html
-- https://dezitechengineering.com/refrigeration.html
-- https://dezitechengineering.com/contact.html
+#### Border Stroke
+- Duration: `0.78s`
+- Delay: `0.06s`
+- Ease: `--ease-micro`
+- Reverse on leave: `0.36s`
 
-## Assets
+#### Card Hover
+- Scale: `1.035`
+- TranslateY: `-6px`
+- Shadow: `0 20px 40px rgba(11, 61, 145, 0.08)`
+- Transition: `0.28s ease --ease-micro`
 
-- Hero placeholder: `/public/assets/hero-placeholder.png`
-  - Replace with production hero video (16:9 mp4 loop) or high-res engineering renders
-  - TODO comments mark where to swap real photos/videos
+## Features
 
-## Accessibility
+- ✅ Scroll-driven SVG border animations
+- ✅ Scroll indicator dot with lerp smoothing
+- ✅ 3-layer parallax background in Hero
+- ✅ Word-by-word headline animation
+- ✅ Card morphing with layoutId
+- ✅ Intersection-driven animations
+- ✅ Prefers-reduced-motion support
+- ✅ TypeScript throughout
+- ✅ Next.js App Router
+- ✅ Container max-width: 1200px
 
-- Semantic HTML with proper ARIA labels
-- Keyboard navigation support
-- Focus states with Dezitech red outline
-- Color contrast compliance
-- `prefers-reduced-motion` support throughout
+## Font Notes
 
-## Performance
+The heading font uses **Inter** (open-source) as the primary font, with **Plus Jakarta Sans** as a fallback. If the exact proprietary font from the reference site is needed, replace it in `app/layout.tsx` and document the change.
 
-- Transform + opacity animations only (GPU-accelerated)
-- Lazy loading for images
-- IntersectionObserver for scroll-triggered animations
-- Optimized bundle size
+## Image Placeholders
+
+All images are currently placeholders. Replace with production assets:
+- Hero image: `/public/assets/hero-placeholder.png`
+- Industry images: `/public/assets/industry-*.jpg`
+
+## Legal Note
+
+All text content has been replaced with Dezitech Engineering (MEI contracting) content. Image placeholders are noted with their original locations in comments.
